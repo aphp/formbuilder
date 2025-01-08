@@ -1,0 +1,44 @@
+#fixedTop {
+  top:0;
+  left:0;
+  height:84px;
+  right:0;
+  overflow:hidden;
+}
+
+#fixedBottom {
+  bottom:0;
+  height:65px;
+  left:0;
+  right:0;
+  overflow:hidden;
+}
+
+#resizableMiddle {
+  top:84px;
+  bottom:65px;
+  left:0;
+  right:0;
+  overflow:auto;
+}
+
+.radio-group {
+  border: lightgray 1px solid;
+  vertical-align: center;
+  margin: 5px 0 5px 0;
+}
+.radio-button {
+  margin: 5px;
+}
+
+.fix-pre {
+  margin-top: revert;
+}
+
+.menuButton{
+  padding: 2px;
+}
+
+.menuIcon{
+  vertical-align: middle;
+}

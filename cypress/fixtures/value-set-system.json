@@ -1,0 +1,52 @@
+{
+  "resourceType": "ValueSet",
+  "id": "aphp-eds-domain-usage-context-vs",
+  "meta": {
+    "extension": [ {
+      "url": "http://hapifhir.io/fhir/StructureDefinition/valueset-expansion-message",
+      "valueString": "ValueSet \"ValueSet.url[https://aphp.fr/ig/fhir/eds/ValueSet/aphp-eds-domain-usage-context-vs]\" has not yet been pre-expanded. Performing in-memory expansion without parameters. Current status: NOT_EXPANDED | The ValueSet is waiting to be picked up and pre-expanded by a scheduled task."
+    } ],
+    "versionId": "3"
+  },
+  "url": "https://aphp.fr/ig/fhir/eds/ValueSet/aphp-eds-domain-usage-context-vs",
+  "status": "active",
+  "compose": {
+    "include": [ {
+      "system": "https://aphp.fr/ig/fhir/eds/CodeSystem/aphp-eds-domain-usage-context-cs"
+    } ]
+  },
+  "expansion": {
+    "identifier": "f63efb40-f62d-4dd7-aaf1-4c69e5bdb978",
+    "timestamp": "2024-05-03T09:05:43+00:00",
+    "total": 4,
+    "offset": 0,
+    "parameter": [ {
+      "name": "offset",
+      "valueInteger": 0
+    }, {
+      "name": "count",
+      "valueInteger": 1000
+    } ],
+    "contains": [ {
+      "system": "https://aphp.fr/ig/fhir/eds/CodeSystem/aphp-eds-domain-usage-context-cs",
+      "version": "0.1.0",
+      "code": "maternity",
+      "display": "Maternité"
+    }, {
+      "system": "https://aphp.fr/ig/fhir/eds/CodeSystem/aphp-eds-domain-usage-context-cs",
+      "version": "0.1.0",
+      "code": "pediatric",
+      "display": "Pédiatrie"
+    }, {
+      "system": "https://aphp.fr/ig/fhir/eds/CodeSystem/aphp-eds-domain-usage-context-cs",
+      "version": "0.1.0",
+      "code": "pediatric-growth",
+      "display": "Croissance pédiatrique"
+    }, {
+      "system": "https://aphp.fr/ig/fhir/eds/CodeSystem/aphp-eds-domain-usage-context-cs",
+      "version": "0.1.0",
+      "code": "shared",
+      "display": "Commun"
+    } ]
+  }
+}

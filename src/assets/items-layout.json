@@ -1,0 +1,78 @@
+{
+  "formLayout": {
+    "basic": [
+      {
+        "showFields": [
+          { "field": "text", "col": 12 },
+          { "field": "prefix", "col": 12},
+          { "field": "linkId", "col": 12 },
+          { "field": "__$codeYesNo", "col": 12 },
+          { "field": "code", "col": 12 },
+          { "field": "__$questionnaireItemSource", "col": 12 },
+          { "field": "__$helpText", "col": 12},
+          { "field": "type", "col": 12 },
+          { "field": "__$referenceResource", "title": "referenceResource", "col": 12 },
+          { "field": "__$referenceAnswerExpression", "title": "Answer expression", "col": 12 },
+          { "field": "__$answerOptionMethods", "col": 12 },
+          { "field": "__$answerExpression", "col": 12 },
+          { "field": "answerValueSet", "col": 12 },
+          { "field": "answerOption", "title": "Answer choices", "col": 12 },
+          { "field": "__$initialExpressionYesNo", "title": "Initial Expression", "col": 12 },
+          { "field": "__$initialExpression", "title": "Initial Expression", "col": 12 },
+          { "field": "initial", "title": "Default value", "col": 12 },
+          { "field": "__$itemControl", "col": 12 },
+          { "field": "__$units", "col": 12 }
+        ]
+      },
+      {
+        "showFields": [
+          { "field": "repeats", "col": 12 },
+          { "field": "required", "col": 12 },
+          { "field": "readOnly", "col": 12 },
+          { "field": "maxLength", "col": 12 },
+          { "field": "__$restrictions", "col": 12 }
+        ]
+      },
+      {
+        "showFields": [
+        ]
+      },
+      {
+        "showFields": [
+        ]
+      }
+    ],
+    "extractionData": [
+      {
+        "showFields": [
+          { "field": "__$itemExtractionContextMethods", "col": 12 },
+          { "field": "__$itemExtractionContext", "col": 12 },
+          { "field": "__$answerCode", "col": 12 },
+          { "field": "__$definition", "col": 12 },
+          { "field": "__$subjectItemYesNo", "title": "Subject item", "col": 12 },
+          { "field":  "__$valueExpression", "col":  12 }
+        ]
+      }
+    ],
+    "advanced": [
+      {
+        "showFields": [
+          { "field": "enableWhen", "col": 12 },
+          { "field": "enableBehavior", "col": 12 },
+          { "field": "__$hiddenItemYesNo", "title": "Hidden item", "col": 12 },
+          { "field": "__$calculatedExpressionYesNo", "title": "Calculated", "col": 12 },
+          { "field": "__$calculatedExpression", "title": "Expression", "col": 12 },
+          { "field": "__$observationLinkPeriod", "col": 12},
+          { "field": "__$observationExtract", "col": 12}
+        ]
+      }
+    ],
+    "targetPage": "itemLevel"
+  },
+  "propertyLabels": {
+    "text": "Question text",
+    "type": "Item type",
+    "initial": "Initial value (default)",
+    "enableWhen": "Conditional display"
+  }
+}

@@ -1,0 +1,9 @@
+@import '../../styles/colors';
+.alert {
+  margin-bottom: 10px;
+}
+.alert-primary{
+  background-color: $purple;
+  color: white;
+}
+

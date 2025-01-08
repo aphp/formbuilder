@@ -1,0 +1,42 @@
+<lfb-spinner [show]="spinner$ | async"></lfb-spinner>
+<div *ngIf="allowedOptions$ | async as allowedOptions">
+  <select class="form-select form-select-sm {{selectProperty?.schema.readOnly?' disabled-view':'' }}" *ngIf="!hasSortedType && !showOnlyDisplay && allowedOptions && allowedOptions.expansion && allowedOptions.expansion.contains"
+          name="select" (change)="onSelect($event.target.value, selectProperty)">
+    <option [ngValue]="" [defaultSelected]="selectProperty.value === ''"></option>
+    <option *ngFor="let option of allowedOptions.expansion?.contains | orderByCode"
+            [value]="option.code" [defaultSelected]="compareURLs(option.code, selectProperty.value)">{{option.display ? option.code + ' - ' + option.display : option.code}}</option>
+
+  </select>
+
+  <select class="form-select form-select-sm {{selectProperty?.schema.readOnly?' disabled-view':'' }}" *ngIf="!hasSortedType && showOnlyDisplay && allowedOptions && allowedOptions.expansion && allowedOptions.expansion.contains"
+          name="select" (change)="onSelect($event.target.value, selectProperty)">
+    <option [ngValue]="" [defaultSelected]="selectProperty.value === ''"></option>
+    <option *ngFor="let option of allowedOptions.expansion?.contains | orderByDisplay"
+            [value]="option.code" [defaultSelected]="compareURLs(option.code, selectProperty.value)">{{option.display ? option.display : option.code}}</option>
+
+  </select>
+
+  <select class="form-select form-select-sm {{selectProperty?.schema.readOnly?' disabled-view':'' }}" *ngIf="hasSortedType && allowedOptions && allowedOptions.expansion && allowedOptions.expansion.contains"
+          name="select" (change)="onSelect($event.target.value, selectProperty)">
+    <option [ngValue]="" [defaultSelected]="selectProperty.value === ''"></option>
+    <option *ngFor="let option of allowedOptions.expansion?.contains | sortedByType"
+            [value]="option.code" [defaultSelected]="compareURLs(option.code, selectProperty.value)">{{option.display ? option.display : option.code}}</option>
+
+  </select>
+
+  <ng-container *ngFor="let error of errors">
+    <small *ngIf="error"
+           class="text-danger form-text" role="alert"
+    >{{error.message}}</small>
+  </ng-container>
+</div>
+
+<select class="form-select form-select-sm {{selectProperty?.schema.readOnly?' disabled-view':'' }}" *ngIf="items"
+        name="select" (change)="onSelect($event.target.value, selectProperty)">
+  <option [ngValue]="" [defaultSelected]="selectProperty.value === ''"></option>
+  <option *ngFor="let option of items | orderByCode"
+          [ngValue]="option" [defaultSelected]="compareURLs(option.code, selectProperty.value)">{{option.display ? option.code + ' - ' + option.display : option.code}}</option>
+</select>
+
+
+

@@ -1,0 +1,263 @@
+{
+  "item": [
+    {
+      "type": "display",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+          "valueBoolean": true
+        }
+      ],
+      "linkId": "3378693935631",
+      "text": "Admission",
+      "required": false,
+      "repeats": false,
+      "readOnly": false
+    },
+    {
+      "item": [
+        {
+          "linkId": "5019145436155",
+          "text": "Accouchement et naissance",
+          "type": "group",
+          "repeats": true,
+          "item": [
+            {
+              "linkId": "3167477620116",
+              "text": "Accouchement",
+              "type": "display",
+              "repeats": false
+            },
+            {
+              "linkId": "8516132310525",
+              "text": "Naissance",
+              "type": "group",
+              "repeats": false,
+              "item": [
+                {
+                  "item": [
+                    {
+                      "type": "string",
+                      "linkId": "837389698929",
+                      "text": "Prénom",
+                      "required": false,
+                      "repeats": false,
+                      "readOnly": false
+                    },
+                    {
+                      "type": "choice",
+                      "linkId": "4959457768960",
+                      "text": "Sexe",
+                      "required": true,
+                      "repeats": false,
+                      "readOnly": false,
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "display": "M"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "display": "F"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "dateTime",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                          "valueExpression": {
+                            "expression": "now()"
+                          }
+                        }
+                      ],
+                      "linkId": "5519949257129",
+                      "text": "Date de naissance",
+                      "required": true,
+                      "repeats": false,
+                      "readOnly": false
+                    }
+                  ],
+                  "type": "group",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    }
+                  ],
+                  "linkId": "4826180736485",
+                  "text": "Identité",
+                  "repeats": false
+                },
+                {
+                  "type": "boolean",
+                  "linkId": "5890846149952",
+                  "text": "Né(e) sans vie",
+                  "repeats": false,
+                  "readOnly": false
+                },
+                {
+                  "linkId": "8007499465186",
+                  "text": "Mensurations",
+                  "type": "group",
+                  "required": false,
+                  "repeats": false,
+                  "item": [
+                    {
+                      "type": "integer",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+                          "valueCoding": {
+                            "code": "gram",
+                            "display": "gram"
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                          "valueBoolean": true
+                        }
+                      ],
+                      "linkId": "8858947523570",
+                      "text": "Poids",
+                      "required": false,
+                      "repeats": false,
+                      "readOnly": false
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+                          "valueCoding": {
+                            "code": "centimeter",
+                            "display": "centimeter"
+                          }
+                        }
+                      ],
+                      "linkId": "86238938154",
+                      "text": "Taille",
+                      "type": "integer",
+                      "required": false,
+                      "repeats": false,
+                      "readOnly": false
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+                          "valueCoding": {
+                            "code": "centimeter",
+                            "display": "centimeter"
+                          }
+                        }
+                      ],
+                      "linkId": "569353840949",
+                      "text": "Périmètre cranien",
+                      "type": "integer",
+                      "required": false,
+                      "repeats": false,
+                      "readOnly": false
+                    },
+                    {
+                      "linkId": "9634298594895",
+                      "text": "Précision sur l'état néonatal immédiat",
+                      "type": "text",
+                      "required": false,
+                      "repeats": false,
+                      "readOnly": false
+                    }
+                  ]
+                },
+                {
+                  "linkId": "3525102754801",
+                  "text": "Apgar",
+                  "type": "group",
+                  "repeats": true,
+                  "readOnly": false,
+                  "item": [
+                    {
+                      "linkId": "645451887234",
+                      "text": "Temps",
+                      "type": "open-choice",
+                      "required": false,
+                      "repeats": false,
+                      "readOnly": false,
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "display": "1 min"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "display": "3 min"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "display": "5 min"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "display": "10 min"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                          "valueInteger": 1
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                          "valueInteger": 10
+                        }
+                      ],
+                      "linkId": "8096552494580",
+                      "text": "Score Apgar",
+                      "type": "integer",
+                      "required": false,
+                      "repeats": false,
+                      "readOnly": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "group",
+      "linkId": "4718913202990",
+      "text": "Travail et accouchement",
+      "repeats": false
+    },
+    {
+      "linkId": "770781577456",
+      "text": "Suites de couches",
+      "type": "display",
+      "repeats": false
+    }
+  ],
+  "resourceType": "Questionnaire",
+  "id": "54",
+  "meta": {
+    "versionId": "5",
+    "lastUpdated": "2023-12-05T14:48:59.488+00:00",
+    "source": "#43638d41547bdf32",
+    "profile": [
+      "https://aphp.fr/ig/fhir/eds/StructureDefinition/aphp-eds-questionnaire"
+    ]
+  },
+  "url": "https://aphp.fr/ig/fhir/sdc/Questionnaire/aphp-sdc-fiche-hospit",
+  "title": "Hospitalisation obstétrique",
+  "status": "draft",
+  "date": "2023-12-06",
+  "publisher": "AP-HP"
+}

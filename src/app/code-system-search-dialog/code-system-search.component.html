@@ -1,0 +1,106 @@
+<div class="modal-header">
+  <ng-container *ngTemplateOutlet="search"></ng-container>
+</div>
+<ng-container *ngTemplateOutlet="results"></ng-container>
+
+<ng-template #search>
+  <form class="container" role="search">
+    <div class="row align-items-center mb-2">
+
+      <div class="align-items-center d-inline-flex">
+
+        <div class="input-group input-group-sm searchFieldContainer">
+          <input type="text" class="form-control p12"
+                 [(ngModel)]="inputTerm"
+                 [ngModelOptions]="{standalone: true}"
+                 placeholder="Seach title"
+                 aria-label="Search term"
+                 aria-describedby="filterHelp">
+          <button
+            class="align-self-baseline btn btn-sm btn-primary input-group-append p12"
+            type="button"
+            id="button-addon2"
+            (click)="searchInput()"
+            [disabled]="loading$ | async">
+            <span *ngIf="loading$ | async" class="spinner-border spinner-border-sm me-2" aria-hidden="true"
+                  role="status"></span>
+            <span *ngIf="loading$ | async">Loading...</span>
+            <span *ngIf="(loading$ | async) === false">Search</span>
+          </button>
+        </div>
+        <div class="ms-2" #tooltip="ngbTooltip" (click)="tooltip.toggle()" [autoClose]="true" triggers="manual"
+             ngbTooltip="Search all value sets by their title. Search string is case insensitive, accent-insensitive. Allow partial matches.">
+          <mat-icon role="button"
+                    class="menuIcon">info
+          </mat-icon>
+        </div>
+
+      </div>
+
+      <div class="align-items-center d-inline-flex mt-2">
+        <div class="m-0 mb-2 col align-items-center">
+          <label for="searchField1" class="p-0 me-2  col-auto col-form-label text-nowrap">Status: </label>
+          <ngx-bootstrap-multiselect class="col w-auto" id="searchField1"
+                                     [options]="statusList" [(ngModel)]="status"
+                                     [ngModelOptions]="{standalone: true}"></ngx-bootstrap-multiselect>
+        </div>
+        <div class="m-0 mb-2 col align-items-center" *ngIf="$allowedUseContextOptions | async as options">
+          <label for="searchField2" class="p-0 me-2  col-auto col-form-label text-nowrap">Use context: </label>
+
+          <ngx-bootstrap-multiselect class="col w-auto" id="searchField2"
+                                     [options]="getOptions(options.expansion?.contains)"
+                                     [(ngModel)]="useContext" [ngModelOptions]="{standalone: true}">
+          </ngx-bootstrap-multiselect>
+
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="bundle$ | async" class="row infoMessages">
+      <div class="col-auto float-start btn-group btn-group-sm btn-sm p-0 m-0" role="group" aria-label="Navigation">
+        <button type="button" class="btn btn-outline-primary" [disabled]="!prevUrl" (click)="prevPage()">Previous
+        </button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="!nextUrl" (click)="nextPage()">Next</button>
+      </div>
+      <div class="col-auto float-end m-auto p-0 primary-color">
+        <h4 class="m-0" *ngIf="total === 1" role="tab">{{ total }} CodeSystem resource was found.</h4>
+        <h4 class="m-0" *ngIf="total > 1" role="tab">CodeSystem {{ resultsOffset + 1 }} to {{ getLastVisibleResultOffset() }} from
+          the {{ total - 1 }} found.</h4>
+        <h4 class="m-0" *ngIf="total === 0" role="tab">No CodeSystem resources were found.</h4>
+        <h4 class="m-0" *ngIf="total === undefined" role="tab">The following CodeSystem resources were found.</h4>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #results>
+  <ng-container *ngIf="codeSystems">
+    <div class="modal-body bg-light " aria-live="polite">
+      <div class="list-group list-group-flush">
+        <a href="#"
+           class="list-group-item list-group-item-action result-item {{selectedCodeSystem?.id === cs?.id?'selected-item':''}}"
+           *ngFor="let cs of codeSystems"
+           (click)="select(cs)">
+          <div class="row">
+            <div class="col-11">
+              <div *ngIf="cs.title"><span>Title: </span> {{ cs.title }}</div>
+              <div *ngIf="!cs.title">(No title assigned)</div>
+              <div>Status: {{ cs.status }}</div>
+              <div>Url: {{ cs.url }}</div>
+              <div *ngIf="cs.version">Version: {{ cs.version }}</div>
+              <div *ngIf="cs.meta && cs.meta.lastUpdated">Last updated: {{ cs.meta.lastUpdated | date: 'medium' }}</div>
+              <div *ngIf="cs.useContext && cs.useContext.length > 0" style="display: flex">
+                <span class="useContextLabel">Use context: </span>
+                <mat-chip-listbox aria-label="User context">
+                  <mat-chip-option *ngFor="let usageContext of cs.useContext">
+                    {{ this.getUsageContextLabel(usageContext) }}
+                  </mat-chip-option>
+                </mat-chip-listbox>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,75 @@
+@import "../../styles/colors.scss";
+#header {
+  position: relative;
+  font-family: 'Droid Sans', Arial, Helvetica, sans-serif;
+  color: $dark-blue;
+  border-top: 2px solid $blue;
+  border-bottom: 7px solid $blue;
+  height: 84px;
+  background: transparent;
+  align-items: center;
+}
+
+#header a {
+  color: $dark-blue;
+  text-decoration: none;
+}
+
+#logo {
+  float: left;
+  width: 100px;
+  height: 72px;
+  margin: 8px;
+  display: block;
+}
+
+#logo .site-name-slogan {
+  font-size: 14px;
+  position: relative;
+  top: 10px;
+  left: -2px;
+}
+
+#logo .site-name-slogan span {
+  display: block;
+  font-size: 24px;
+  position: relative;
+  left: -2px;
+}
+
+#logo .site-name-slogan .slogan {
+  color: $dark-blue;
+  font-size: 12px;
+  position: relative;
+  left: 1px;
+}
+
+#siteNameBox {
+  flex: 1 1 auto;
+  padding: 18px 0;
+}
+
+#siteName {
+  font-size: 125%;
+}
+
+.version-info {
+  font-size: 60%;
+  color: $dark-blue;
+  cursor: pointer;
+}
+
+.version-info a:hover {
+  text-decoration: underline !important;
+}
+.menuButton{
+  padding: 2px;
+  align-items: center;
+}
+
+.menuIcon{
+  vertical-align: middle;
+}
+.role{
+  text-align: center;
+}

@@ -1,0 +1,38 @@
+{
+  "item": [
+    {
+      "type": "choice",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
+          "valueExpression": {
+            "description": "test_description",
+            "expression": "test_expression",
+            "language": "text/fhirpath"
+          }
+        }
+      ],
+      "linkId": "752807113433",
+      "text": "choice item",
+      "repeats": false,
+      "readOnly": true
+    }
+  ],
+  "resourceType": "Questionnaire",
+  "meta": {
+    "profile": [
+      "https://aphp.fr/ig/fhir/eds/StructureDefinition/aphp-eds-questionnaire"
+    ]
+  },
+  "url": "https://test.fr/Questionnaire/Orthopedie",
+  "version": "1.03",
+  "title": "effective period and answer expression sample",
+  "status": "draft",
+  "date": "2023-01-04",
+  "description": "effective period and answer expression sample",
+  "lastReviewDate": "2023-01-04",
+  "effectivePeriod": {
+    "start": "2021-06-30T03:02:01",
+    "end": "2024-01-17T07:03:02"
+  }
+}

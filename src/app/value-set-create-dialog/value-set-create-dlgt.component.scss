@@ -1,0 +1,25 @@
+
+.container-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 3px;
+  flex-grow: 1;
+}
+
+.actions-panel {
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+.error-message {
+  margin: 4px 45px 0px;
+  display: list-item;
+  list-style-type: disc;
+}

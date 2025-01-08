@@ -1,0 +1,23 @@
+@import '../../../styles/colors';
+table {
+  width: 100%;
+  border-spacing: 0 8px !important;
+}
+
+th[mat-header-cell] {
+  padding: 16px 0 16px 0;
+  color: $dark-blue;
+  background-color: $grey;
+  text-align: center;
+}
+
+td[mat-cell] {
+  text-align: center;
+}
+
+.clear-btn {
+  margin-right: 18px
+}
+mat-card-header{
+  background-color: $light-blue;
+}

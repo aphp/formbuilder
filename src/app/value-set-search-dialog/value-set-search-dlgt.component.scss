@@ -1,0 +1,27 @@
+.infoMessages {
+  padding: 18px 10px !important;
+}
+
+.result-item:hover {
+  background-color: lightgrey;
+}
+
+.useContextLabel {
+  align-content: center;
+  padding-right: 12px;
+}
+
+.userContextContainer {
+  display: grid;
+}
+
+.searchFieldContainer {
+  padding: 8px 0;
+}
+
+.p12 {
+  padding: 12px;
+}
+::ng-deep ngx-bootstrap-multiselect .dropdown-menu {
+  display: flex ! important;
+}

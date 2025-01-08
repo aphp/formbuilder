@@ -1,0 +1,57 @@
+{
+  "item": [
+    {
+      "type": "string",
+      "linkId": "8574291813711",
+      "text": "Item 0",
+      "extension": [
+        {
+          "url": "item-level/1",
+          "extension": [
+            {
+              "url": "level/1/1",
+              "extension": [{
+                "url": "level/1/1/1",
+                "valueDecimal": 1.1
+              }]
+            },
+            {
+              "url": "level/1/2",
+              "extension": [
+                {
+                  "url": "level/1/2/1",
+                  "valueString": "Nested item: 1/2/1"
+                },
+                {
+                  "url": "level/1/2/2",
+                  "valueString": "Nested item: 1/2/2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "resourceType": "Questionnaire",
+  "meta": { "source": "https://aphp.fr/ig/fhir/eds/Endpoint/form-builder","profile": [ "https://aphp.fr/ig/fhir/eds/StructureDefinition/aphp-eds-questionnaire" ] },
+  "title": "Form with nested extensions",
+  "name": "FormWithNestedExtensions",
+  "status": "draft",
+  "extension": [
+    {
+      "url": "form-level/1",
+      "extension": [
+        {
+          "url": "form-level/1/1",
+          "extension": [
+            {
+              "url": "form-level/1/1/1",
+              "valueString": "Form level extension: 1/1/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

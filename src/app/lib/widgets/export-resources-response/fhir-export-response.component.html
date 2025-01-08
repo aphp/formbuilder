@@ -1,0 +1,100 @@
+<mat-tab-group *ngIf="errorCodeSystem || serverResponseCodeSystem || serverResponseValueSet">
+
+  <mat-tab label="View Reply Message">
+
+    <div *ngIf="hasNoChangeCodeSystem" class="export-response-title text-info">
+      - The CodeSystem resource hasn't change since last update and was therefor not modified on the server.
+    </div>
+    <div *ngIf="isSuccessfulUpdateCodeSystem" class="export-response-title text-info">
+      - The CodeSystem resource is successfully updated on the server.
+    </div>
+    <div *ngIf="isSuccessfulCreateCodeSystem" class="export-response-title text-info">
+      - The CodeSystem resource is successfully created  on the server.
+    </div>
+
+
+    <div *ngIf="!errorValueSet && serverResponseValueSet && nbCodeSystemConcepts"
+         class="export-response-title text-info">- From
+      the {{ nbCodeSystemConcepts }} root concepts in the codesystem :
+    </div>
+
+    <ul *ngIf="!errorValueSet && serverResponseValueSet">
+      <li *ngIf="hasNoChangeDetectedValueSet" class="export-response-title text-info">No ValueSet changes detected.</li>
+      <li *ngIf="countSuccessfulValueSetCreate"
+          class="export-response-title text-info"> {{ countSuccessfulValueSetCreate == 1 ? 'One valueSet was ' : (countSuccessfulValueSetCreate + ' ValueSets were ') }}
+        successfully created on the server.
+      </li>
+      <li *ngIf="countSuccessfulValueSetUpdate"
+          class="export-response-title text-info"> {{ countSuccessfulValueSetUpdate == 1 ? 'One valueSet was ' : (countSuccessfulValueSetUpdate + ' ValueSets were ') }}
+        successfully updated on the server.
+      </li>
+      <li *ngIf="countSuccessfulValueSetPatch"
+          class="export-response-title text-info"> {{ countSuccessfulValueSetPatch == 1 ? 'One valueSet was ' : (countSuccessfulValueSetPatch + ' ValueSets were ') }}
+        successfully retired on the server.
+      </li>
+      <li *ngIf="countSuccessfulNoChangeValueSetUpdate"
+          class="export-response-title text-info"> No
+        changes
+        detected for {{ countSuccessfulNoChangeValueSetUpdate == 1 ? 'One ValueSet' : (countSuccessfulNoChangeValueSetUpdate + ' ValueSets') }}, so no
+        action was taken.
+      </li>
+
+    </ul>
+    <div class="modal-body bg-light" *ngIf="errorCodeSystem">
+      <div class="text-danger" role="alert">Unable to {{ exportType === 'UPDATE' ? 'update' : 'create' }}CodeSystem.
+      </div>
+      <pre class="text-danger" role="alert">{{ errorCodeSystem.message }}</pre>
+    </div>
+
+    <div class="modal-body bg-light" *ngIf="errorValueSet">
+      <div class="text-danger" role="alert">Unable to {{ exportType === 'UPDATE' ? 'update' : 'create' }} ValueSet
+        (s).
+      </div>
+      <pre class="text-danger" role="alert">{{ errorValueSet.message }}</pre>
+    </div>
+
+
+  </mat-tab>
+
+  <mat-tab *ngIf="serverResponseCodeSystem && codeSystem" label="View CodeSystem">
+    <ng-template matTabContent>
+      <div class="export-container serverResponse">
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input type="text" matInput readonly [value]="getValue(codeSystem.title)">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput readonly [value]="getValue(codeSystem.name)">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Id</mat-label>
+          <input type="text" matInput readonly [value]="getValue(codeSystem.id)">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Url</mat-label>
+          <input type="text" matInput readonly [value]="getValue(codeSystem.url)">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <input type="text" matInput readonly [value]="getValue(codeSystem.status)">
+        </mat-form-field>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="View Server Reply CodeSystem JSON" *ngIf="serverResponseCodeSystem">
+    <ng-template matTabContent>
+      <div class="modal-body bg-light serverResponse" aria-live="polite">
+        <pre class="fhir-response">{{ errorCodeSystem ? errorCodeSystem : serverResponseCodeSystem | json }}</pre>
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="View Server Reply ValueSet JSON" *ngIf="serverResponseValueSet">
+    <ng-template matTabContent>
+      <div class="modal-body bg-light serverResponse" aria-live="polite">
+        <pre class="fhir-response">{{ errorValueSet ? errorValueSet : serverResponseValueSet | json }}</pre>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

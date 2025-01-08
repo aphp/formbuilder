@@ -1,0 +1,48 @@
+<ng-template #baseSelect>
+  <div [ngClass]="{'row': labelPosition === 'left', 'm-0': true}">
+    <lfb-label  *ngIf="!nolabel"
+                [for]="id"
+                [title]="schema.title"
+                [helpMessage]="schema.description"
+                [ngClass]="labelClasses"
+    ></lfb-label>
+    <div [ngClass]="controlClasses">
+    <select *ngIf="schema.type!='array'"
+            [formControl]="control"
+            name="{{name}}"
+            [attr.id]="id"
+            [attr.disabled]="schema.readOnly ? '' : null"
+            class="form-select form-select-sm">
+      <ng-container *ngIf="schema.oneOf; else use_enum">
+        <option *ngFor="let option of schema.oneOf"
+                [ngValue]="option.enum[0]" >{{option.description}}</option>
+      </ng-container>
+      <ng-template #use_enum>
+        <option *ngFor="let option of allowedOptions"
+                [ngValue]="option.value" >{{option.label}}</option>
+      </ng-template>
+    </select>
+
+    <select *ngIf="schema.type==='array'" multiple
+            [formControl]="control"
+            name="{{name}}"
+            [attr.id]="id"
+            [attr.disabled]="schema.readOnly ? '' : null">
+      <option *ngFor="let option of schema.items.oneOf"
+              [ngValue]="option.enum[0]"
+              [attr.disabled]="option.readOnly ? '' : null">{{option.description}}</option>
+    </select>
+
+      <ng-container *ngIf="errors && errors.length > 0">
+        <small class="text-danger form-text" role="alert"
+        >{{dataTypeErrorMessage}}</small>
+      </ng-container>
+    </div>
+    <input *ngIf="schema.readOnly" name="{{name}}" type="hidden" [formControl]="control">
+  </div>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="baseSelect">
+
+</ng-container>
+

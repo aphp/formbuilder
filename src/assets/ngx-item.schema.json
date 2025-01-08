@@ -1,0 +1,2391 @@
+{
+  "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+  "type": "object",
+  "properties": {
+    "__$itemExtractionContextMethods": {
+      "description": "Define predefined answers for theitem extraction context to choose.",
+      "title": "Value for item extraction context",
+      "default": "no",
+      "type": "string",
+      "widget": {
+        "id": "initial-choices",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm m-auto p-0"
+      }
+    },
+    "__$itemExtractionContext": {
+      "description": "Expression choice for item extraction context",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "title": "Id",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {"id": "hidden"}
+          },
+          "description": {
+            "description": "description",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "language": {
+            "description": "language",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "expression": {
+            "description": "expression",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Expression",
+      "visibleIf": {
+        "/__$itemExtractionContextMethods": ["expression"]
+      },
+      "widget": {
+        "id": "expression",
+        "extensionUrl": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": true,
+        "hideDefaultColumn": true,
+        "singleItem": true,
+        "showFields": [
+          {"field": "description", "title": "description", "nolabel": true},
+          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
+          {"field": "expression", "title": "expression", "nolabel": true}
+        ]
+      }
+    },
+    "__$answerCode": {
+      "description": "code choice for item extraction context",
+      "title": "Code",
+      "pattern": "^\\S*$",
+      "type": "string",
+      "visibleIf": {
+        "/__$itemExtractionContextMethods": ["value"]
+      },
+      "widget": {
+        "id": "select-value-set",
+        "valueSetUrl": "http://hl7.org/fhir/ValueSet/resource-types",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col textline-widget form-control form-control-sm"
+      }
+    },
+    "definition": {
+      "description": "definition",
+      "title": "definition",
+      "type": "string"
+    },
+    "__$definition": {
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "title": "Id",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {"id": "hidden"}
+          },
+          "part1": {
+            "description": "url",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "part2": {
+            "description": "fhirpath",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "description": "definition",
+      "title": "Definition",
+      "type": "array",
+      "widget": {
+        "id": "definition",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": true,
+        "hideDefaultColumn": true,
+        "singleItem": true,
+        "showFields": [
+          {"field": "part1", "title": "Url structure de definition", "nolabel": true},
+          {"field": "part2", "title": "Fhirpath", "nolabel": true}
+        ]
+      },
+      "visibleIf": {
+        "/type": ["$EXP$ target.value != 'group' && target.value != 'display'"]
+      }
+    },
+    "__$valueExpression": {
+      "description": "Value Expression",
+      "items": {
+        "description": "Value Expression",
+        "properties": {
+          "name": {
+            "description": "Name",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "language": {
+            "description": "Language",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "expression": {
+            "description": "expression",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Variables",
+      "widget": {
+        "id": "expression",
+        "extensionUrl": "http://hl7.org/fhir/StructureDefinition/variable",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": true,
+        "hideDefaultColumn": true,
+        "singleItem": false,
+        "showFields": [
+          {"field": "name", "title": "Name", "nolabel": true},
+          {"field": "language", "title": "Language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
+          {"field": "expression", "title": "Expression", "nolabel": true}
+        ]
+      }
+    },
+    "__$answerExpression": {
+      "description": "Expression choice for sdc-questionnaire-answerExpression extension",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "title": "Id",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {"id": "hidden"}
+          },
+          "description": {
+            "description": "description",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "language": {
+            "description": "language",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "expression": {
+            "description": "expression",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Answer expression",
+      "visibleIf": {
+            "/__$answerOptionMethods": ["answer-expression"]
+      },
+      "widget": {
+        "id": "expression",
+        "extensionUrl": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": true,
+        "hideDefaultColumn": true,
+        "singleItem": true,
+        "showFields": [
+          {"field": "description", "title": "description", "nolabel": true},
+          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
+          {"field": "expression", "title": "expression", "nolabel": true}
+        ]
+      }
+    },
+    "__$questionnaireItemSource": {
+      "description": "Where the information corresponding to the item is available in the information system",
+      "title": "Source",
+      "type": "array",
+      "items": {
+        "description": "list of source",
+        "properties": {
+          "source": {
+            "description": "Hospital information system application containing the information. If there is multiple instance, the item SHALL be duplicated",
+            "type": "string"
+          },
+          "comment": {
+            "description": "Any comment on the location of the information in the information system, e.g. the table in the application",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "widget": {
+        "id": "questionnaire-item-source",
+        "innerExtensionUrls": ["source", "comment"],
+        "parentExtensionUrl": "https://aphp.fr/ig/fhir/formbuilder/StructureDefinition/QuestionnaireItemSource",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": false,
+        "hideDefaultColumn": true,
+        "singleItem": true,
+        "showFields": [
+          {
+            "field": "source",
+            "valueSetUrl": "https://aphp.fr/ig/fhir/eds/ValueSet/aphp-eds-source-code-vs",
+            "showOnlyDisplay": true,
+            "title": "Source application",
+            "nolabel": true
+          },
+          {
+            "field": "comment",
+            "title": "Comment",
+            "nolabel": true
+          }
+        ]
+      }
+    },
+    "__$start": {
+      "description": "An internal field to indicate start of loading item. User should not see this.",
+      "title": "Start - Should be invisible.",
+      "type": "boolean",
+      "widget": {
+        "id": "hidden"
+      }
+    },
+    "id": {
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+      "title": "Id",
+      "pattern": "^[ \\r\\n\\t\\S]+$",
+      "type": "string",
+      "widget": {
+        "id": "hidden"
+      }
+    },
+    "type": {
+      "description": "The type of questionnaire item this is - whether text for display, a grouping of other items or a particular type of data to be captured (string, integer, coded choice, etc.). Header implies group if it has children. No children implies display type",
+      "enum": [
+        "boolean",
+        "decimal",
+        "integer",
+        "date",
+        "dateTime",
+        "time",
+        "string",
+        "text",
+        "url",
+        "choice",
+        "open-choice",
+        "attachment",
+        "reference",
+        "quantity",
+        "group",
+        "display"
+      ],
+      "type": "string",
+      "title": "Data type",
+      "widget": {
+        "id": "select",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 p-0",
+        "addEmptyOption": true,
+        "selectOptionsMap": {
+          "remove": ["display"],
+          "map": {
+            "group": "header (group/display)"
+          }
+        }
+      }
+    },
+    "__$restrictions": {
+      "description": "Choose to add value restrictions to the input.",
+      "title": "Restrictions",
+      "type": "array",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "operator": {
+            "description": "Comparing operator to restrict the input value",
+            "type": "string",
+            "enum": [
+              "maxLength",
+              "minLength",
+              "regex",
+              "minValue",
+              "maxValue",
+              "mazSize",
+              "mimeType",
+              "maxDecimalPlaces"
+            ],
+            "title": "Restriction",
+            "widget": {"id": "restrictions-operator"}
+          },
+          "value": {
+            "description": "Value to restrict the input",
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "visibleIf": {
+        "type": ["$EXP$ target.value == 'decimal' || target.value == 'integer' || target.value == 'string' || target.value == 'text' || target.value == 'url' || target.value == 'reference' || target.value == 'quantity' || target.value == 'open-choice'" ]
+      },
+      "widget": {
+        "id": "restrictions",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 mt-1",
+        "noTableLabel": true,
+        "noCollapseButton": true,
+        "addButtonLabel": "Add new restriction",
+        "booleanControlled": true,
+        "booleanLabel": "Use restrictions?",
+        "booleanControlledInitial": false,
+        "showFields": [
+          {"field": "operator", "col": 7, "nolabel": true},
+          {"field": "value", "col": 4, "nolabel": true}
+        ]
+
+      }
+    },
+    "maxLength": {
+      "description": "The maximum number of characters that are permitted in the answer to be considered a \"valid\" QuestionnaireResponse.",
+      "title": "Maximum number of char.",
+      "pattern": "^-?([0]|([1-9][0-9]*))$",
+      "type": "number",
+      "visibleIf": {
+        "type": ["$EXP$ target.value == 'boolean' || target.value == 'decimal' || target.value == 'integer' || target.value == 'string' || target.value == 'text' || target.value == 'url' || target.value == 'open-choice'"]
+      },
+      "widget": {
+        "id": "hidden",
+        "labelPosition": "left",
+        "labelWidthClass": "col-sm-2",
+        "controlWidthClass": "col-sm-1"
+      }
+    },
+    "extension": {
+      "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+      "items": {
+        "$ref": "#/definitions/Extension"
+      },
+      "type": "array",
+      "title": "Extension",
+      "widget": {
+        "id": "hidden"
+      }
+    },
+    "modifierExtension": {
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+      "items": {
+        "$ref": "#/definitions/Extension"
+      },
+      "type": "array",
+      "title": "Modifier extension",
+      "widget": {
+        "id": "hidden"
+      }
+    },
+    "linkId": {
+      "description": "An identifier that is unique within the Questionnaire allowing linkage to the equivalent item in a QuestionnaireResponse resource.",
+      "title": "Link id",
+      "pattern": "^\\S*$",
+      "type": "string",
+      "readOnly": true,
+      "widget": {
+        "id": "string",
+        "labelPosition": "left",
+        "labelClasses": "col-sm-2 p-0 pe-1",
+        "controlClasses": "col-sm form-control form-control-sm p-1"
+      }
+    },
+    "definition_hidden": {
+      "description": "This element is a URI that refers to an [[[ElementDefinition]]] that provides information about this item, including information that might otherwise be included in the instance of the Questionnaire resource. A detailed description of the construction of the URI is shown in Comments, below. If this element is present then the following element values MAY be derived from the Element Definition if the corresponding elements of this Questionnaire resource instance have no value:\n\n* code (ElementDefinition.code) \n* type (ElementDefinition.type) \n* required (ElementDefinition.min) \n* repeats (ElementDefinition.max) \n* maxLength (ElementDefinition.maxLength) \n* answerValueSet (ElementDefinition.binding)\n* options (ElementDefinition.binding).",
+      "title": "Definition",
+      "pattern": "^\\S*$",
+      "type": "string",
+      "widget": {
+        "id": "hidden"
+      }
+    },
+    "__$codeYesNo": {
+      "description": "A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions and answers).",
+      "default": false,
+      "type": "boolean",
+      "title": "Question code",
+      "widget": {
+        "id": "boolean-radio",
+        "optionLabels": [[false, "No code"], [true, "Include code"]],
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm ps-0"
+      }
+    },
+    "code": {
+      "description": "A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions and answers).",
+      "items": {
+        "description": "A reference to a code defined by a terminology system.",
+        "properties": {
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "widget": {
+              "id": "hidden"
+            },
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "extension": {
+            "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+            "items": {
+              "$ref": "#/definitions/Extension"
+            },
+            "type": "array",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "system": {
+            "description": "The identification of the code system that defines the meaning of the symbol in the code.",
+            "pattern": "^\\S*$",
+            "type": "string"
+          },
+          "version": {
+            "description": "The version of the code system which was used when choosing this code. Note that a well-maintained code system does not need the version reported, because the meaning of codes is consistent across versions. However this cannot consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.",
+            "widget": {
+              "id": "hidden"
+            },
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "code": {
+            "description": "A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination).",
+            "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+            "type": "string"
+          },
+          "display": {
+            "description": "A representation of the meaning of the code in the system, following the rules of the system.",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "userSelected": {
+            "description": "Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).",
+            "pattern": "^true|false$",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Code",
+      "visibleIf": {
+        "__$codeYesNo": [true]
+      },
+      "widget": {
+        "id": "table",
+        "noTableLabel": true,
+        "labelPosition": "left",
+        "labelClasses": "col-sm-2",
+        "controlClasses": "col-sm-10",
+        "addButtonLabel": "Add new code",
+        "showFields": [
+          {"field": "code", "col": 3, "nolabel": true},
+          {"field": "system", "col": 4, "nolabel": true},
+          {"field": "display", "col": 4, "nolabel": true}
+        ]
+      }
+    },
+    "prefix": {
+      "description": "A short label for a particular group, question or set of display text within the questionnaire used for reference by the individual completing the questionnaire.",
+      "title": "Prefix",
+      "pattern": "^[ \\r\\n\\t\\S]+$",
+      "type": "string",
+      "widget": {
+        "id": "hidden",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-3 p-0"
+      }
+    },
+    "_prefix": {
+      "description": "Extensions for prefix",
+      "title": "Questionnaire prefix extensions",
+      "properties": {
+        "id": {
+          "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+          "pattern": "^[ \\r\\n\\t\\S]+$",
+          "type": "string"
+        },
+        "extension": {
+          "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+          "title": "Extensions for prefix",
+          "items": {
+            "$ref": "#/definitions/Extension"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "widget": {
+        "id": "hidden"
+      }
+    },
+    "text": {
+      "description": "The name of a section, the text of a question or text content for a display item.",
+      "title": "Question text",
+      "pattern": "^[ \\r\\n\\t\\S]+$",
+      "type": "string",
+      "widget": {
+        "id": "string",
+        "labelPosition": "left",
+        "labelClasses": "col-sm-2 p-0 pe-1",
+        "controlClasses": "col-sm form-control form-control-sm p-1"
+      }
+    },
+    "_text": {
+      "description": "Extensions for text",
+      "title": "Questionnaire text extensions",
+      "properties": {
+        "id": {
+          "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+          "pattern": "^[ \\r\\n\\t\\S]+$",
+          "type": "string"
+        },
+        "extension": {
+          "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+          "title": "Extensions for text",
+          "items": {
+            "$ref": "#/definitions/Extension"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "widget": {
+        "id": "hidden"
+      }
+    },
+    "enableWhen": {
+      "description": "A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the specified condition is true.",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "__$answerType": {
+            "title": "Source question type",
+            "type": "string",
+            "widget": {"id": "hidden"}
+          },
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "title": "Id",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {"id": "hidden"}
+          },
+          "extension": {
+            "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+            "items": {
+              "$ref": "#/definitions/Extension"
+            },
+            "type": "array",
+            "title": "Extension",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "modifierExtension": {
+            "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+            "items": {
+              "$ref": "#/definitions/Extension"
+            },
+            "type": "array",
+            "title": "Modifier extension",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "question": {
+            "description": "The linkId for the question whose answer (or lack of answer) governs whether this item is enabled.",
+            "title": "Question",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {
+              "id": "enable-when-source"
+            }
+          },
+          "operator": {
+            "description": "Specifies the criteria by which the question is enabled.",
+            "enum": [
+              "exists",
+              "=",
+              "!=",
+              ">",
+              "<",
+              ">=",
+              "<="
+            ],
+            "type": "string",
+            "title": "Operator",
+            "widget": {"id": "enable-operator"}
+          },
+          "answerBoolean": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "pattern": "^true|false$",
+            "type": "boolean",
+            "visibleIf": {
+              "oneOf": [
+                {
+                  "__$answerType": ["boolean"]
+                },
+                {
+                  "operator": ["$EXP$ target.value == 'exists'"]
+                }
+              ]
+            }
+          },
+          "answerDecimal": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?$",
+            "type": "number",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["decimal"]
+                },
+                {
+                  "operator": ["$EXP$ target.value != 'exists'"]
+                }
+              ]
+            }
+          },
+          "answerInteger": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "pattern": "^-?([0]|([1-9][0-9]*))$",
+            "type": "integer",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["integer"]
+                },
+                {
+                  "operator": ["$EXP$ target.value != 'exists'"]
+                }
+              ]
+            }
+          },
+          "answerDate": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4})$",
+            "type": "string",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["date"]
+                },
+                {
+                  "operator": ["$EXP$ target.value != 'exists'"]
+                }
+              ]
+            }
+          },
+          "answerDateTime": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4})\\s([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$",
+            "type": "string",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["dateTime"]
+                },
+                {
+                  "operator": ["$EXP$ target.value != 'exists'"]
+                }
+              ]
+            }
+          },
+          "answerTime": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?$",
+            "type": "string",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["time"]
+                },
+                {
+                  "operator": ["$EXP$ target.value != 'exists'"]
+                }
+              ]
+            }
+          },
+          "answerString": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["$EXP$ target.value == 'string' || target.value == 'text' || target.value == 'url'"]
+                },
+                {
+                  "operator": ["$EXP$ target.value != 'exists'"]
+                }
+              ]
+            }
+          },
+          "answerCoding": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "widget": {
+                  "id": "hidden"
+                },
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "system": {
+                "description": "The identification of the code system that defines the meaning of the symbol in the code.",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "version": {
+                "description": "The version of the code system which was used when choosing this code. Note that a well-maintained code system does not need the version reported, because the meaning of codes is consistent across versions. However this cannot consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.",
+                "widget": {
+                  "id": "hidden"
+                },
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "code": {
+                "description": "A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination).",
+                "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+                "type": "string"
+              },
+              "display": {
+                "description": "A representation of the meaning of the code in the system, following the rules of the system.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "userSelected": {
+                "description": "Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).",
+                "pattern": "^true|false$",
+                "type": "boolean"
+              },
+              "__$score": {
+                "description": "If desired, enter a number to assign a numerical value to this answer for scoring purposes.",
+                "type": "number",
+                "title": "Score"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["$EXP$ target.value == 'choice' || target.value == 'open-choice'"]
+                },
+                {
+                  "operator": ["$EXP$ target.value == '=' || target.value == '!='"]
+                }
+              ]
+            },
+            "widget": {
+              "id": "enable-when-answer-choice"
+            }
+          },
+          "answerQuantity": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "value": {
+                "description": "The value of the measured amount. The value includes an implicit precision in the presentation of the value.",
+                "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?$",
+                "type": "number"
+              },
+              "comparator": {
+                "description": "How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues; e.g. if the comparator is \"<\" , then the real value is < stated value.",
+                "enum": [
+                  "<",
+                  "<=",
+                  ">=",
+                  ">"
+                ],
+                "type": "string"
+              },
+              "unit": {
+                "description": "A human-readable form of the unit.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "system": {
+                "description": "The identification of the system that provides the coded form of the unit.",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "code": {
+                "description": "A computer processable form of the unit in some unit representation system.",
+                "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["quantity"]
+                },
+                {
+                  "operator": ["$EXP$ target.value != 'exists'"]
+                }
+              ]
+            },
+            "widget": {
+              "id": "left-label-form-group",
+              "labelWidth": 4,
+              "controlWidth": 8,
+              "label": true,
+              "showFields": [
+                { "field": "value", "col": 3 }
+              ]
+            }
+          },
+          "answerReference": {
+            "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "reference": {
+                "description": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "type": {
+                "description": "The expected type of the target of the reference. If both Reference.type and Reference.reference are populated and Reference.reference is a FHIR URL, both SHALL be consistent.\n\nThe type is the Canonical URL of Resource Definition that is the type this reference refers to. References are URLs that are relative to http://hl7.org/fhir/StructureDefinition/ e.g. \"Patient\" is a reference to http://hl7.org/fhir/StructureDefinition/Patient. Absolute URLs are only allowed for logical models (and can only be used in references in logical models, not resources).",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "display": {
+                "description": "Plain text narrative that identifies the resource in addition to the resource reference.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "allOf": [
+                {
+                  "__$answerType": ["reference"]
+                },
+                {
+                  "operator": ["$EXP$ target.value == 'exists' || target.value == '='"]
+                }
+              ]
+            },
+            "widget": {
+              "id": "left-label-form-group",
+              "labelWidth": 4,
+              "controlWidth": 8,
+              "label": true,
+              "showFields": [
+                { "field": "reference", "col": 4 },
+                { "field": "type", "col": 4 },
+                { "field": "display", "col": 4 }
+              ]
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Conditional display",
+      "widget": {
+        "noCollapseButton": true,
+        "labelPosition": "left",
+        "labelWidthClass": "col-sm-2 pe-1",
+        "controlWidthClass": "col-sm-10",
+        "addButtonLabel": "Add another condition",
+        "id": "enable-when",
+        "showFields": [
+          {"field": "question",       "nolabel": true, "col": 5, "title": "Question"},
+          {"field": "operator",       "nolabel": true, "col": 2, "title": "Operator"},
+          {"field": "answerBoolean",  "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerDecimal",  "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerInteger",  "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerDate",     "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerDateTime", "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerTime",     "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerString",   "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerCoding",   "nolabel": true, "col": 4, "title": "Answer"},
+          {"field": "answerQuantity", "nolabel": true, "col": 4, "title": "Answer"}
+        ]
+      }
+    },
+    "enableBehavior": {
+      "description": "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
+      "enum": [
+        "all",
+        "any"
+      ],
+      "type": "string",
+      "title": "Show this item when",
+      "widget": {
+        "id": "enable-behavior",
+        "layout": "row",
+        "labelWidthClass": "col-sm-2",
+        "controlWidthClass": "col-sm-7"
+      }
+    },
+    "required": {
+      "description": "An indication, if true, that the item must be present in a \"completed\" QuestionnaireResponse.  If false, the item may be skipped when answering the questionnaire.",
+      "title": "Answer required",
+      "pattern": "^true|false$",
+      "type": "boolean",
+      "visibleIf": {
+        "type": [
+          "$EXP$ target.value != 'display'"
+        ]
+      },
+      "widget": {
+        "id": "boolean-radio",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm ps-0"
+      }
+    },
+    "repeats": {
+      "description": "An indication, if true, that the item may occur multiple times in the response, collecting multiple answers for questions or multiple sets of answers for groups.",
+      "title": "Allow repeating question?",
+      "pattern": "^true|false$",
+      "type": "boolean",
+      "visibleIf": {
+        "type": [
+          "$EXP$ target.value != 'display'"
+        ]
+      },
+      "widget": {
+        "id": "boolean-radio",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm ps-0"
+      }
+    },
+    "readOnly": {
+      "description": "An indication, when true, that the value cannot be changed by a human respondent to the Questionnaire.",
+      "title": "Read only",
+      "pattern": "^true|false$",
+      "type": "boolean",
+      "visibleIf": {
+        "type": [
+          "$EXP$ target.value != 'display'"
+        ]
+      },
+      "widget": {
+        "id": "boolean-radio",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm ps-0"
+      }
+    },
+    "__$answerOptionMethods": {
+      "description": "Define predefined answers for the user to choose.",
+      "title": "Answer list source",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["answer-option"],
+          "title": "Answer options"
+        },
+        {
+          "type": "string",
+          "enum": ["snomed-value-set"],
+          "title": "SNOMED answer value set"
+        },
+        {
+          "type": "string",
+          "enum": ["value-set"],
+          "title": "Answer value set URI"
+        },
+        {
+          "type": "string",
+          "enum": ["answer-expression"],
+          "title": "Answer expression"
+        }
+      ],
+      "default": "answer-option",
+      "type": "string",
+      "visibleIf": {
+        "type": ["$EXP$ target.value == 'open-choice' || target.value == 'choice'"]
+      },
+      "widget": {
+        "id": "answer-option-methods",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm m-auto p-0"
+      }
+    },
+    "answerValueSet": {
+      "description": "A reference to a value set containing a list of codes representing permitted answers for a \"choice\" or \"open-choice\" question.",
+      "title": "Answer value set",
+      "pattern": "^\\S*$",
+      "type": "string",
+      "visibleIf": {
+        "/__$answerOptionMethods": ["value-set", "snomed-value-set"]
+      },
+      "widget": {
+        "id": "answer-value-set",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col textline-widget form-control form-control-sm"
+      }
+    },
+    "answerOption": {
+      "description": "One of the permitted answers for a \"choice\" or \"open-choice\" question.",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "title": "Id",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {"id": "hidden"}
+          },
+          "extension": {
+            "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+            "items": {
+              "$ref": "#/definitions/Extension"
+            },
+            "type": "array",
+            "title": "Extension",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "modifierExtension": {
+            "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+            "items": {
+              "$ref": "#/definitions/Extension"
+            },
+            "type": "array",
+            "title": "Modifier extension",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "valueInteger": {
+            "description": "A potential answer that's allowed as the answer to this question.",
+            "pattern": "^-?([0]|([1-9][0-9]*))$",
+            "type": "integer",
+            "title": "Value integer",
+            "visibleIf": {
+              "/type": ["integer"]
+            }
+          },
+          "valueDate": {
+            "description": "A potential answer that's allowed as the answer to this question.",
+            "type": "string",
+            "title": "Value date",
+            "visibleIf": {
+              "/type": ["date"]
+            }
+          },
+          "valueTime": {
+            "description": "A potential answer that's allowed as the answer to this question.",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?$",
+            "type": "string",
+            "title": "Value time",
+            "visibleIf": {
+              "/type": ["time"]
+            }
+          },
+          "valueString": {
+            "description": "A potential answer that's allowed as the answer to this question.",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "title": "Value string",
+            "visibleIf": {
+              "/type": ["$EXP$ target.value == 'string' || target.value == 'text'"]
+            }
+          },
+          "valueCoding": {
+            "description": "A potential answer that's allowed as the answer to this question.",
+            "title": "Value coding",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "widget": {
+                  "id": "hidden"
+                },
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "system": {
+                "description": "The identification of the code system that defines the meaning of the symbol in the code.",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "version": {
+                "description": "The version of the code system which was used when choosing this code. Note that a well-maintained code system does not need the version reported, because the meaning of codes is consistent across versions. However this cannot consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.",
+                "widget": {
+                  "id": "hidden"
+                },
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "code": {
+                "description": "A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination).",
+                "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+                "type": "string"
+              },
+              "display": {
+                "description": "A representation of the meaning of the code in the system, following the rules of the system.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "__$score": {
+                "description": "If desired, enter a number to assign a numerical value to this answer for scoring purposes.",
+                "type": "number",
+                "title": "Score"
+              },
+              "userSelected": {
+                "description": "Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).",
+                "pattern": "^true|false$",
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "/type": ["$EXP$ target.value == 'choice' || target.value == 'open-choice'"]
+            }
+          },
+          "valueReference": {
+            "description": "A potential answer that's allowed as the answer to this question.",
+            "title": "Value reference",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "reference": {
+                "description": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "type": {
+                "description": "The expected type of the target of the reference. If both Reference.type and Reference.reference are populated and Reference.reference is a FHIR URL, both SHALL be consistent.\n\nThe type is the Canonical URL of Resource Definition that is the type this reference refers to. References are URLs that are relative to http://hl7.org/fhir/StructureDefinition/ e.g. \"Patient\" is a reference to http://hl7.org/fhir/StructureDefinition/Patient. Absolute URLs are only allowed for logical models (and can only be used in references in logical models, not resources).",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "display": {
+                "description": "Plain text narrative that identifies the resource in addition to the resource reference.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "/type": ["reference"]
+            }
+          },
+          "initialSelected": {
+            "description": "Indicates whether the answer value is selected when the list of possible answers is initially shown.",
+            "title": "Initial selected",
+            "pattern": "^true|false$",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Answer choices",
+      "visibleIf": {
+            "/__$answerOptionMethods": ["answer-option"]
+      },
+      "widget": {
+        "id": "answer-option",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "addButtonLabel": "Add another answer",
+        "createValueSetButtonLabel" : "Generate the corresponding ValueSet",
+        "rowSelection": true,
+        "multipleSelectionEnableSource": "repeats",
+        "tableCss": "with-scroll",
+        "showFields": [
+          {"field": "valueInteger", "col": 9, "nolabel": true},
+          {"field": "valueDate", "col": 9, "nolabel": true},
+          {"field": "valueTime", "col": 9, "nolabel": true},
+          {"field": "valueString", "col": 9, "nolabel": true},
+          {"field": "valueReference", "col": 9, "nolabel": true},
+          {"field": "valueCoding.display", "title": "Display", "col": 3, "nolabel": true},
+          {"field": "valueCoding.code", "title": "Code", "col": 2, "nolabel": true},
+          {"field": "valueCoding.system", "title": "System", "col": 2, "nolabel": true},
+          {"field": "valueCoding.__$score", "title": "Score", "col": 2, "nolabel": true}
+        ]
+      }
+    },
+    "__$itemControl": {
+      "description": "Choose the type of control for the answer list. The default is a drop-down list, which works well for lists that aren't too large. For large lists, you can make it an autocomplete list, in which matching items will show up when the user starts typing, though some FHIR servers (e.g., the SNOMED server) might not return results until the user types a few characters.",
+      "title": "Choice type",
+      "type": "string",
+      "visibleIf": {
+        "type": ["$EXP$ target.value == 'open-choice' || target.value == 'choice'"],
+        "allOf": [
+          {
+            "type": ["$EXP$ target.value == 'open-choice' || target.value == 'choice'"]
+          },
+          {
+            "__$answerOptionMethods": ["$EXP$ target.value != 'answer-option' && target.value != 'answer-expression'"]
+          }
+        ]
+      },
+      "widget": {
+        "id": "item-control",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col p-0 m-0"
+      }
+    },
+    "__$terminologyServer": {
+      "description": "Enter url for preferred terminology server.",
+      "title": "Terminology server",
+      "type": "string",
+      "widget": {
+        "id": "terminology-server",
+        "placeholder": "Enter url for preferred terminology server",
+        "note": "You may wish to set this if you are providing an answer value set for either this item or its children.",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col p-0"
+      }
+    },
+    "__$hiddenItemYesNo": {
+      "description": "Hidden item",
+      "default": false,
+      "type": "boolean",
+      "title": "Hidden item",
+      "widget": {
+        "id": "radio-hidden",
+        "optionLabels": [[false, "No"], [true, "Yes"]],
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm ps-0"
+      }
+    },
+    "__$subjectItemYesNo": {
+      "description": "Subject item",
+      "default": false,
+      "type": "boolean",
+      "title": "Subject item",
+      "widget": {
+        "id": "radio-subject",
+        "optionLabels": [[false, "No"], [true, "Yes"]],
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm ps-0"
+      },
+      "visibleIf": {
+        "/type": ["reference"]
+      }
+    },
+    "__$initialExpressionYesNo": {
+      "description": "Initial",
+      "title": "Initial",
+      "visibleIf": {
+        "/type": [
+          "$EXP$ target.value != 'group' && target.value != 'display'"
+        ]
+      },
+      "default": "no",
+      "type": "string",
+      "widget": {
+        "id": "initial-choices",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm m-auto p-0"
+      }
+    },
+      "__$initialExpression": {
+      "description": "Initial Expression choice for item extraction context",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "description": {
+            "description": "description",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "language": {
+            "description": "language",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "expression": {
+            "description": "expression",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Expression",
+      "visibleIf": {
+        "/__$initialExpressionYesNo": [
+          "expression"
+        ]
+      },
+      "widget": {
+        "id": "expression",
+        "extensionUrl": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": false,
+        "hideDefaultColumn": true,
+        "singleItem": true,
+        "showFields": [
+          {"field": "description", "title": "description", "nolabel": true},
+          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
+          {"field": "expression", "title": "expression", "nolabel": true}
+        ]
+      }
+    },
+    "__$calculatedExpressionYesNo": {
+      "description": "Calculated",
+      "title": "Calculated",
+      "visibleIf": {
+        "/type": [
+          "$EXP$ target.value != 'group' && target.value != 'display'"
+        ]
+      },
+      "default": false,
+      "type": "boolean",
+      "widget": {
+        "id": "initial-choices",
+        "optionLabels": [[true, "Expression"], [false, "No"]],
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-auto btn-group btn-group-sm m-auto p-0"
+      }
+    },
+    "__$calculatedExpression": {
+      "description": "Calculated Expression choice",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "description": {
+            "description": "description",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "language": {
+            "description": "language",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "expression": {
+            "description": "expression",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Expression",
+      "visibleIf": {
+        "/__$calculatedExpressionYesNo": [
+          true
+        ]
+      },
+      "widget": {
+        "id": "expression",
+        "extensionUrl": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": false,
+        "hideDefaultColumn": true,
+        "singleItem": true,
+        "showFields": [
+          {"field": "description", "title": "description", "nolabel": true},
+          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
+          {"field": "expression", "title": "expression", "nolabel": true}
+        ]
+      }
+    },
+    "initial": {
+      "description": "One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user input.",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "title": "Id",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {"id": "hidden"}
+          },
+          "extension": {
+            "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+            "items": {
+              "$ref": "#/definitions/Extension"
+            },
+            "type": "array",
+            "title": "Extension",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "modifierExtension": {
+            "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+            "items": {
+              "$ref": "#/definitions/Extension"
+            },
+            "type": "array",
+            "title": "Modifier extension",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "valueBoolean": {
+            "description": "The actual value to for an initial answer.",
+            "pattern": "^true|false$",
+            "type": "boolean",
+            "title": "Value boolean",
+            "visibleIf": {
+              "/type": ["boolean"]
+            },
+            "widget": {
+              "id": "boolean-radio",
+              "nolabel": true,
+              "controlClasses": "btn-group btn-group-sm col-auto p-0"
+            }
+          },
+          "valueDecimal": {
+            "description": "The actual value to for an initial answer.",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?$",
+            "type": "number",
+            "title": "Value decimal",
+            "visibleIf": {
+              "/type": ["decimal"]
+            }
+          },
+          "valueInteger": {
+            "description": "The actual value to for an initial answer.",
+            "pattern": "^-?([0]|([1-9][0-9]*))$",
+            "type": "integer",
+            "title": "Value integer",
+            "visibleIf": {
+              "/type": ["integer"]
+            }
+          },
+          "valueDate": {
+            "description": "The actual value to for an initial answer.",
+            "type": "string",
+            "title": "Value date",
+            "visibleIf": {
+              "/type": ["date"]
+            },
+            "widget": {
+              "id": "date-picker",
+              "labelPosition": "left",
+              "labelClasses": "col-2 ps-0 pe-1",
+              "controlClasses": "col textline-widget form-control form-control-sm"
+            }
+          },
+          "valueDateTime": {
+            "description": "The actual value to for an initial answer.",
+            "type": "string",
+            "title": "Value date time",
+            "visibleIf": {
+              "/type": ["dateTime"]
+            },
+            "widget": {
+              "id": "date-time-picker",
+              "labelPosition": "left",
+              "labelClasses": "col-2 ps-0 pe-1",
+              "controlClasses": "col textline-widget form-control form-control-sm"
+            }
+          },
+          "valueTime": {
+            "description": "The actual value to for an initial answer.",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?$",
+            "type": "string",
+            "title": "Value time",
+            "visibleIf": {
+              "/type": ["time"]
+            },
+            "widget": {
+              "id": "time-picker",
+              "labelPosition": "left",
+              "labelClasses": "col-2 ps-0 pe-1",
+              "controlClasses": "col textline-widget form-control form-control-sm"
+            }
+          },
+          "valueString": {
+            "description": "The actual value to for an initial answer.",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "title": "Value string",
+            "visibleIf": {
+              "/type": ["$EXP$ target.value == 'string' || target.value == 'text'"]
+            }
+          },
+          "valueUri": {
+            "description": "The actual value to for an initial answer.",
+            "pattern": "^\\S*$",
+            "type": "string",
+            "title": "Value uri",
+            "visibleIf": {
+              "/type": ["$EXP$ target.value == 'uri' || target.value == 'url'"]
+            }
+          },
+          "valueAttachment": {
+            "description": "The actual value to for an initial answer.",
+            "title": "Value attachment",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "contentType": {
+                "description": "Identifies the type of the data in the attachment and allows a method to be chosen to interpret or render the data. Includes mime type parameters such as charset where appropriate.",
+                "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+                "type": "string"
+              },
+              "language": {
+                "description": "The human language of the content. The value can be any valid value according to BCP 47.",
+                "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+                "type": "string"
+              },
+              "data": {
+                "description": "The actual data of the attachment - a sequence of bytes, base64 encoded.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "url": {
+                "description": "A location where the data can be accessed.",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "size": {
+                "description": "The number of bytes of data that make up this attachment (before base64 encoding, if that is done).",
+                "pattern": "^[0]|([1-9][0-9]*)$",
+                "type": "number"
+              },
+              "hash": {
+                "description": "The calculated hash of the data using SHA-1. Represented using base64.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "title": {
+                "description": "A label or set of text to display in place of the data.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "creation": {
+                "description": "The date that the attachment was first created.",
+                "pattern": "^([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?$",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "/type": ["attachment"]
+            }
+          },
+          "valueCoding": {
+            "description": "The actual value to for an initial answer.",
+            "title": "Value coding",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "widget": {
+                  "id": "hidden"
+                },
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "system": {
+                "description": "The identification of the code system that defines the meaning of the symbol in the code.",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "version": {
+                "description": "The version of the code system which was used when choosing this code. Note that a well-maintained code system does not need the version reported, because the meaning of codes is consistent across versions. However this cannot consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.",
+                "widget": {
+                  "id": "hidden"
+                },
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "code": {
+                "description": "A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination).",
+                "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+                "type": "string"
+              },
+              "display": {
+                "description": "A representation of the meaning of the code in the system, following the rules of the system.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "userSelected": {
+                "description": "Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).",
+                "pattern": "^true|false$",
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "/type": [
+                "choice",
+                "open-choice"
+              ]
+            }
+          },
+          "valueQuantity": {
+            "description": "The actual value to for an initial answer.",
+            "title": "Value quantity",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "value": {
+                "description": "The value of the measured amount. The value includes an implicit precision in the presentation of the value.",
+                "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?$",
+                "type": "number"
+              },
+              "comparator": {
+                "description": "How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues; e.g. if the comparator is \"<\" , then the real value is < stated value.",
+                "enum": [
+                  "<",
+                  "<=",
+                  ">=",
+                  ">"
+                ],
+                "type": "string",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "unit": {
+                "description": "A human-readable form of the unit.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string",
+                "widget": {
+                  "id": "quantity-unit"
+                }
+              },
+              "system": {
+                "description": "The identification of the system that provides the coded form of the unit.",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "code": {
+                "description": "A computer processable form of the unit in some unit representation system.",
+                "pattern": "^[^\\s]+(\\s[^\\s]+)*$",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "/type": ["quantity"]
+            }
+
+          },
+          "valueReference": {
+            "description": "The actual value to for an initial answer.",
+            "title": "Value reference",
+            "properties": {
+              "id": {
+                "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "extension": {
+                "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "items": {
+                  "$ref": "#/definitions/Extension"
+                },
+                "type": "array",
+                "widget": {
+                  "id": "hidden"
+                }
+              },
+              "reference": {
+                "description": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              },
+              "type": {
+                "description": "The expected type of the target of the reference. If both Reference.type and Reference.reference are populated and Reference.reference is a FHIR URL, both SHALL be consistent.\n\nThe type is the Canonical URL of Resource Definition that is the type this reference refers to. References are URLs that are relative to http://hl7.org/fhir/StructureDefinition/ e.g. \"Patient\" is a reference to http://hl7.org/fhir/StructureDefinition/Patient. Absolute URLs are only allowed for logical models (and can only be used in references in logical models, not resources).",
+                "pattern": "^\\S*$",
+                "type": "string"
+              },
+              "display": {
+                "description": "Plain text narrative that identifies the resource in addition to the resource reference.",
+                "pattern": "^[ \\r\\n\\t\\S]+$",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "visibleIf": {
+              "/type": ["reference"]
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Initial value",
+      "visibleIf": {
+        "allOf": [
+          {
+            "/__$initialExpressionYesNo": ["value"]
+          },
+          {
+            "oneOf": [
+              {
+                "allOf": [
+                  {
+                    "__$answerOptionMethods": ["$EXP$ target.value == 'value-set'"]
+                  },
+                  {
+                    "answerValueSet": ["$EXP$ target.value != ''"]
+                  }
+                ]
+              },
+              {
+                "/type": ["$EXP$ target.value != 'choice' && target.value != 'open-choice'"]
+              }
+            ]
+          }
+        ]
+      },
+      "widget": {
+        "id": "initial",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col p-0",
+        "addButtonLabel": "Add another value",
+        "singleItemEnableSource": "repeats",
+        "showFields": [
+          {"field": "valueAttachment", "noHeader": true, "title": "", "nolabel": true},
+          {"field": "valueBoolean", "noHeader": true, "title": "", "nolabel": true},
+          {"field": "valueDecimal", "noHeader": true, "title": "", "nolabel": true},
+          {"field": "valueInteger", "noHeader": true, "nolabel": true},
+          {"field": "valueDate", "noHeader": true, "nolabel": true},
+          {"field": "valueDateTime", "noHeader": true, "nolabel": true},
+          {"field": "valueTime", "noHeader": true, "nolabel": true},
+          {"field": "valueString", "noHeader": true, "title": "", "nolabel": true},
+          {"field": "valueUri", "noHeader": true, "nolabel": true},
+          {"field": "valueCoding.code", "noHeader": true, "nolabel": true, "valueSetUrl":  null},
+          {"field": "valueQuantity.value","title": "Value", "col": 4, "nolabel": true},
+          {"field": "valueQuantity.unit", "title": "Unit", "col": 7, "nolabel": true},
+          {"field": "valueReference", "noHeader": true, "nolabel": true}
+        ]
+      }
+    },
+    "__$referenceResource": {
+      "description": "referenceResource",
+      "type": "string",
+      "title": "Reference resource",
+      "visibleIf": {
+        "/type": ["reference"]
+      },
+      "widget": {
+        "id": "reference-select-field",
+        "valueSetUrl": "http://hl7.org/fhir/ValueSet/resource-types",
+        "labelPosition": "left",
+        "labelClasses": "col-sm-2 p-0 pe-1",
+        "controlClasses": "col-sm form-control form-control-sm p-1"
+      }
+    },
+    "__$referenceAnswerExpression": {
+      "description": "Expression choice for sdc-questionnaire-answerExpression extension",
+      "items": {
+        "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
+        "properties": {
+          "id": {
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+            "title": "Id",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string",
+            "widget": {
+              "id": "hidden"
+            }
+          },
+          "description": {
+            "description": "description",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "language": {
+            "description": "language",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          },
+          "expression": {
+            "description": "expression",
+            "pattern": "^[ \\r\\n\\t\\S]+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "type": "array",
+      "title": "Answer expression",
+      "visibleIf": {
+        "type": [
+          "$EXP$ target.value == 'reference'"
+        ]
+      },
+      "widget": {
+        "id": "expression",
+        "extensionUrl": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col-10 ",
+        "rowSelection": true,
+        "hideDefaultColumn": true,
+        "singleItem": true,
+        "showFields": [
+          {
+            "field": "description",
+            "title": "description",
+            "nolabel": true
+          },
+          {
+            "field": "language",
+            "title": "language",
+            "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language",
+            "nolabel": true
+          },
+          {
+            "field": "expression",
+            "title": "expression",
+            "nolabel": true
+          }
+        ]
+      }
+    },
+    "__$observationLinkPeriod": {
+      "description": "Sets a time window within which to look for an Observation with a matching code, for pre-population. Requires that a code be assigned to this item.",
+      "title": "Add link to pre-populate FHIR Observation?",
+      "pattern": "^[ \\r\\n\\t\\S]+$",
+      "type": "string",
+      "widget": {
+        "id": "hidden",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col p-0 m-auto ms-0"
+      },
+      "visibleIf": {
+        "type": ["$EXP$ target.value != 'display'"]
+      }
+    },
+    "__$observationExtract": {
+      "description": "If true, indicates that the observation-based approach should be used to extract the particular item.",
+      "title": "Use FHIR Observation extraction?",
+      "pattern": "^true|false$",
+      "type": "boolean",
+      "widget": {
+        "id": "hidden",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col p-0 m-auto ms-0"
+      },
+      "visibleIf": {
+        "type": ["$EXP$ target.value != 'display'"]
+      }
+    },
+    "__$units": {
+      "description": "The units for answers. They are applicable for integer, decimal, and quantity types.",
+      "title": "Units",
+      "pattern": "^[ \\r\\n\\t\\S]+$",
+      "type": "string",
+      "widget": {
+        "id": "units",
+        "labelPosition": "left",
+        "labelWidthClass": "col-sm-2 pe-1",
+        "controlWidthClass": "col-sm-10"
+      },
+      "visibleIf": {
+        "type": ["$EXP$ target.value == 'integer' || target.value == 'decimal' || target.value == 'quantity'"]
+      }
+    },
+    "__$helpText": {
+      "description": "Text is displayed in a dialog box or similar control if invoked by pushing a button or some other UI-appropriate action to request 'help' for a question, group or the questionnaire as a whole (depending what the text is nested within)",
+      "title": "Help text",
+      "type": "object",
+      "properties": {
+        "linkId": {
+          "description": "Help text for question.",
+          "title": "Help text",
+          "pattern": "^[^\\s]+( [^\\s]+)*$",
+          "type": "string",
+          "widget": {
+            "id": "hidden"
+          }
+        },
+        "type": {
+          "enum": [
+            "display"
+          ],
+          "type": "string",
+          "widget": {
+            "id": "hidden"
+          }
+        },
+        "text": {
+          "description": "The wording of information is often insufficient for unambiguous interpretation. This field allow form conceptor to clarify the meaning of the item.",
+          "title": "Intention",
+          "pattern": "^[ \\r\\n\\t\\S]+$",
+          "type": "string",
+          "widget": {
+            "id": "string",
+            "labelPosition": "left",
+            "labelClasses": "col-sm-2 p-0 pe-1",
+            "controlClasses": "col-sm form-control form-control-sm p-1"
+          }
+        },
+        "_text": {
+          "type": "string",
+          "widget": {
+            "id": "hidden"
+          }
+        },
+        "extension": {
+          "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+          "title": "Extensions for text",
+          "items": {
+            "$ref": "#/definitions/Extension"
+          },
+          "type": "array",
+          "widget": {
+            "id": "hidden"
+          }
+        }
+      },
+      "additionalProperties": true,
+      "widget": {
+        "id": "help-text",
+        "labelPosition": "left",
+        "labelClasses": "col-sm-2 p-0 pe-1",
+        "controlClasses": "col p-0"
+      }
+    },
+    "__$end": {
+      "description": "An internal field to indicate end of loading an item. User should not see this.",
+      "title": "End - Should be invisible",
+      "type": "boolean",
+      "widget": {
+        "id": "hidden"
+      }
+    }
+  },
+  "required": ["text", "type", "linkId"],
+  "additionalProperties": false,
+  "definitions": {
+  },
+  "fieldsets": [
+    {
+      "fields": ["type", "linkId", "maxLength", "__$start", "__$end"],
+      "showFields": [
+        { "field": "linkId", "col": 3 },
+        { "field": "type", "col": 3 },
+        { "field": "maxLength", "col": 2 }
+      ]
+    },
+    {
+      "fields": ["prefix", "text", "_text", "_prefix"],
+      "showFields": [
+        { "field": "prefix", "col": 1},
+        { "field": "text", "col": 11 }
+      ]
+    },
+    {
+      "fields": ["required", "readOnly", "repeats"],
+      "showFields": [
+        { "field": "repeats", "col": 4 },
+        { "field": "readOnly", "col": 4 },
+        { "field": "required", "col": 4 }
+      ]
+    },
+    {
+      "fields": ["code", "__$codeYesNo"],
+      "showFields": [
+        { "field": "__$codeYesNo", "col": 12 },
+        { "field": "code", "col": 12 }
+      ]
+    },
+    {
+      "fields": [
+        "__$helpText"
+      ],
+      "showFields": [
+        {
+          "field": "__$helpText",
+          "col": 12
+        }
+      ]
+    },
+    {
+      "fields": ["__$answerOptionMethods"],
+      "showFields": [
+        { "field": "__$answerOptionMethods", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["answerValueSet"],
+      "showFields": [
+        { "field": "answerValueSet", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["answerOption"],
+      "showFields": [
+        { "field": "answerOption", "col": 12 }
+      ]
+    },
+    {
+      "fields": [
+        "__$terminologyServer"
+      ],
+      "showFields": [
+        {
+          "field": "__$terminologyServer",
+          "col": 12
+        }
+      ]
+    },
+    {
+      "fields": ["__$itemControl"],
+      "showFields": [
+        { "field": "__$itemControl", "col": 12 }
+      ]
+    },
+
+    {
+      "fields": [
+        "__$itemExtractionContextMethods",
+        "__$itemExtractionContext",
+        "__$answerCode",
+        "definition",
+        "__$definition",
+        "__$valueExpression",
+        "__$questionnaireItemSource"
+      ],
+      "showFields": [
+        {
+          "field": "__$itemExtractionContextMethods",
+          "col": 8
+        },
+        {
+          "field": "__$itemExtractionContext",
+          "col": 8
+        },
+        {
+          "field": "__$answerCode",
+          "col": 8
+        },
+        {
+          "field": "definition",
+          "col": 8
+        },
+        {
+          "field": "__$definition",
+          "col": 8
+        },
+        {
+          "field": "__$valueExpression",
+          "col": 8
+        },
+        {
+          "field": "__$questionnaireItemSource",
+          "col": 8
+        }
+      ]
+    },
+    {
+      "fields": ["__$units"],
+      "showFields": [
+        { "field": "__$units", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["initial"],
+      "showFields": [
+        { "field": "initial", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$hiddenItemYesNo"],
+      "showFields": [
+        { "field": "__$hiddenItemYesNo", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$subjectItemYesNo"],
+      "showFields": [
+        { "field": "__$subjectItemYesNo", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$initialExpressionYesNo"],
+      "showFields": [
+        { "field": "__$initialExpressionYesNo", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$initialExpression"],
+      "showFields": [
+        { "field": "__$initialExpression", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$calculatedExpressionYesNo"],
+      "showFields": [
+        { "field": "__$calculatedExpressionYesNo", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$calculatedExpression"],
+      "showFields": [
+        { "field": "__$calculatedExpression", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$referenceResource"],
+      "showFields": [
+        { "field": "__$referenceResource", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$referenceAnswerExpression"],
+      "showFields": [
+        { "field": "__$referenceAnswerExpression", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$answerExpression"],
+      "showFields": [
+        { "field": "__$answerExpression", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["__$restrictions"],
+      "showFields": [
+        { "field": "__$restrictions", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["enableWhen"],
+      "showFields": [
+        { "field": "enableWhen", "col": 12 }
+      ]
+    },
+    {
+      "fields": ["enableBehavior"],
+      "showFields": [{"field": "enableBehavior", "col": 3}]
+    },
+    {
+      "fields": ["__$observationLinkPeriod"],
+      "showFields": [{"field": "__$observationLinkPeriod", "col": 10}]
+    },
+    {
+      "fields": ["__$observationExtract"],
+      "showFields": [{"field": "__$observationExtract", "col": 10}]
+    },
+    {
+      "fields": ["id", "extension", "modifierExtension", "definition_hidden"]
+    }
+  ],
+  "steps": [
+    {
+      "title": "Specify basic properties",
+      "optional": false,
+      "rows": [
+        {
+          "showFields": [
+            { "field": "type", "col": 12 },
+            { "field": "linkId", "col": 12 }
+          ]
+        },
+        {
+          "showFields": [
+            { "field": "text", "col": 12 },
+            { "field": "__$codeYesNo", "col": 12 },
+            { "field": "code", "col": 12 },
+            { "field": "prefix", "col": 12}
+          ]
+        },
+        {
+          "showFields": [
+            { "field": "repeats", "col": 12 },
+            { "field": "required", "col": 12 },
+            { "field": "readOnly", "col": 12 },
+            { "field": "maxLength", "col": 12 },
+            { "field": "answerValueSet", "col": 12 },
+            { "field": "answerOption", "title": "Answer choices", "col": 12 },
+            { "field": "__$answerExpression", "title": "Answer expression", "col": 12 },
+            { "field": "initial", "title": "Default value", "col": 12 },
+            { "field": "__$referenceResource", "title": "Reference resource", "col": 12 }
+
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Conditions to display",
+      "description": "A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the specified condition is true.",
+      "optional": false,
+      "rows": [
+        {
+          "showFields": [
+            { "field": "enableWhen", "col": 12 }
+          ]
+        },
+        {
+          "showFields": [{"field": "enableBehavior", "col": 3}]
+        }
+      ]
+    }
+  ],
+  "widget": {
+    "keyField": "type",
+    "id": "row-layout"
+  }
+}

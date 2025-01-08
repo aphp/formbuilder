@@ -1,0 +1,236 @@
+<nav class="navbar navbar-light bg-light ps-2" aria-label="Menu bar">
+  <nav class="navbar navbar-light bg-light ps-2" aria-label="Menu bar">
+    <button class="btn btn-secondary me-2 menuButton" (click)="setStep('item-editor')"
+            matTooltip="Exit. You are about to lose all the data you have entered in the form.">
+      <mat-icon class="menuIcon">keyboard_backspace</mat-icon>
+    </button>
+  </nav>
+</nav>
+<div class="container">
+  <mat-horizontal-stepper linear #stepper (selectionChange)="selectionChange($event)">
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+
+
+        <ng-template matStepLabel>Resource and action selection</ng-template>
+        <div class="stepper-container mt-4 mb-4">
+          <div class="stepper-form-fields">
+            <mat-label>Resource type<sup>*</sup></mat-label>
+            <mat-radio-group id="onlyCodeSystem" formControlName="onlyCodeSystem">
+              <mat-radio-button color="primary" value="true">Only CodeSystem</mat-radio-button>
+              <mat-radio-button color="primary" value="false">CodeSystem & ValueSet(s)</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="option-text" *ngIf="firstFormGroup?.value?.onlyCodeSystem === 'false'">
+            <div class="help-msg">Each codesystem root concept will lead to the creation of a value set that contains
+              all the descendent of the corresponding root concept.
+              The canonical url (unique id) of generated valueSets is constructed as follow:
+            </div>
+            <div class="help-msg generated-valueset-msg">[FHIR IG]/ValueSet/[root concept code]
+            </div>
+            <div class="help-msg">FHIR IG is the base url, as selected at step "CodeSystem attributes definition and
+              content"
+            </div>
+            <div class="help-msg">The root concept codes contain only letters (a to z, A to Z) and digit (0 to 9), start
+              with an upper-case letter and is limited to 64 characters.
+            </div>
+          </div>
+          <div class="stepper-form-fields">
+            <mat-label>Server action<sup>*</sup>&nbsp;&nbsp;</mat-label>
+            <mat-radio-group id="exportType" formControlName="exportType">
+              <mat-radio-button color="primary" value="CREATE">Create</mat-radio-button>
+              <mat-radio-button color="primary" value="UPDATE">Update</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div>
+          <button matStepperNext class="btn btn-primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="selectCodeSystemFormGroup"
+      *ngIf="firstFormGroup?.value?.exportType === 'UPDATE'">
+      <ng-template matStepLabel>CodeSystem selection</ng-template>
+      <lfb-code-system-search (codeSystemEventEmitter)="onCodeSystemSelected($event)" [selectedCodeSystem]="selectCodeSystemFormGroup.value?.selectedCodeSystem"></lfb-code-system-search>
+      <div class="mt-4">
+        <button class="btn btn-secondary me-2" matStepperPrevious>Back</button>
+        <button class="btn btn-primary" [disabled]="!selectCodeSystemFormGroup.valid" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="resourceFormGroup">
+      <ng-template matStepLabel>CodeSystem attributes definition and content</ng-template>
+      <ng-container *ngTemplateOutlet="importFormTemplate"></ng-container>
+      <div class="mt-4">
+        <button class="btn btn-secondary me-2" matStepperPrevious>Back</button>
+        <button [disabled]="!resourceFormGroup.valid || errorMessages?.length > 0" class="btn btn-secondary me-2"
+                (click)="exportToFiles()">
+          Download terminological JSON file(s)
+        </button>
+        <button [disabled]="!resourceFormGroup.valid || errorMessages?.length > 0" class="btn btn-primary me-2"
+                matStepperNext>
+          Validate
+        </button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="validationFormGroup">
+      <ng-template matStepLabel>Validation
+        &{{ firstFormGroup?.value?.exportType === 'CREATE' ? ' Creation' : ' Updating' }}
+      </ng-template>
+
+      <span *ngIf="loading$ | async" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+      <span *ngIf="loading$ | async">Loading...</span>
+      <lfb-validation-content *ngIf="validation$ | async as validation" [message]="validation?.message"
+                              [data]="validation?.data"></lfb-validation-content>
+
+      <div class="mt-4">
+        <button class="btn btn-secondary me-2" matStepperPrevious>Back</button>
+        <button class="btn btn-primary" (click)="exportToServer()"
+                *ngIf="!errorMessages ||errorMessages?.length===0">{{ createUpdateButtonName }}
+        </button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="updateFormGroup" [editable]="false">
+      <ng-template matStepLabel>Server acknowledgment</ng-template>
+      <span *ngIf="loading$ | async" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+      <span *ngIf="loading$ | async">Loading...</span>
+      <div class="text-danger error-message" *ngFor="let errorMessage of getErrorMessages() ">
+        {{ errorMessage }}
+      </div>
+
+      <fhir-export-response *ngIf="!errorMessages || errorMessages.length === 0"
+                            [serverResponseCodeSystem]="updateFormGroup.value?.codeSystemServerResponse"
+                            [codeSystem]="updateFormGroup.value?.codeSystem"
+                            [serverResponseValueSet]="updateFormGroup.value?.valueSetServerResponse"
+                            [nbCodeSystemConcepts]="updateFormGroup.value?.nbCodeSystemConcepts"
+                            [errorCodeSystem]="updateFormGroup.value?.errorCodeSystem"
+                            [errorValueSet]="updateFormGroup.value?.errorValueSet"
+                            [exportType]="firstFormGroup.value?.exportType"
+      ></fhir-export-response>
+
+      <div class="mt-4">
+        <button class="btn btn-secondary me-2" (click)="reset();stepper.reset()">Manage another terminological resources
+        </button>
+      </div>
+    </mat-step>
+
+
+  </mat-horizontal-stepper>
+
+  <ng-template #importFormTemplate>
+    <h2 class="heading header-title">Generate terminological resources from csv files</h2>
+    <form [formGroup]="resourceFormGroup">
+      <mat-card>
+        <div class="text-info m-2" *ngFor="let infoMessage of infoMessages ">
+          {{ infoMessage }}
+        </div>
+
+        <div class="text-danger error-message" *ngFor="let errorMessage of getErrorMessages() ">
+          {{ errorMessage }}
+        </div>
+        <div class="container-card">
+          <mat-card class="resource-card">
+
+            <mat-form-field>
+              <mat-label>Title</mat-label>
+              <input matInput id="title" formControlName="title" (input)="onTitleInput()" maxlength="64">
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Id</mat-label>
+              <input matInput id="id" formControlName="id" readonly>
+              <mat-error *ngIf="id?.invalid">
+                <span *ngIf="id?.errors?.alphanumericNotNumeric">id should contain only letters (a to z, A to Z) and digit (0 to 9), start with an upper-case letter</span>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>FHIR IG</mat-label>
+              <mat-select id="fhirIg" formControlName="fhirIg" (valueChange)="onChangeFhirIg($event)"
+                          [disabled]="firstFormGroup.value?.exportType === 'UPDATE'">
+                <mat-option *ngFor="let url of _baseUrls" [value]="url">{{ url }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Url</mat-label>
+              <input matInput id="url" formControlName="url" readonly>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Status</mat-label>
+              <mat-select id="status" formControlName="status">
+                <mat-option value="draft">Draft</mat-option>
+                <mat-option value="active">Active</mat-option>
+                <mat-option value="retired">Retired</mat-option>
+                <mat-option value="unknown">Unknown</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="date" datePickerFormat="DD/MM/YYYY">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Description</mat-label>
+              <textarea matInput id="description" formControlName="description"></textarea>
+            </mat-form-field>
+          </mat-card>
+          <mat-card class="card">
+
+            <mat-form-field *ngIf="$allowedUseContextOptions | async as options">
+              <mat-label>Use context value</mat-label>
+              <mat-select id="useContextValue" formControlName="useContextValue" (selectionChange)="onUseContextSelectionChanged(options.expansion?.contains)">
+                <mat-option *ngFor="let option of options.expansion?.contains | orderByCode"
+                            value="{{option.code}}">{{ option.display }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Hierarchy Meaning</mat-label>
+              <mat-select id="hierarchyMeaning" formControlName="hierarchyMeaning">
+                <mat-option value="grouped-by">Grouped-By</mat-option>
+                <mat-option value="is-a">Is-A</mat-option>
+                <mat-option value="part-of">Part Of</mat-option>
+                <mat-option value="classified-with">Classified With</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-label>Case Sensitive<sup>*</sup></mat-label>
+            <mat-radio-group id="caseSensitive" formControlName="caseSensitive" (change)="verifyFormat()">
+              <mat-radio-button color="primary" value="true">Yes</mat-radio-button>
+              <mat-radio-button color="primary" value="false">No</mat-radio-button>
+            </mat-radio-group>
+            <mat-label>Experimental<sup>*</sup></mat-label>
+            <mat-radio-group id="experimental" formControlName="experimental">
+              <mat-radio-button color="primary" value="true">Yes</mat-radio-button>
+              <mat-radio-button color="primary" value="false">No</mat-radio-button>
+            </mat-radio-group>
+            <file-upload #conceptsUploadComponent fileName="concepts.csv"
+                         (downloadEvent)="onDownloadFile('concepts', $event)">Fichier de données
+              (concepts.csv)
+            </file-upload>
+            <file-upload #hierarchyUploadComponent fileName="hierarchy.csv" [isRequired]="false"
+                         (downloadEvent)="onDownloadFile('hierarchy', $event)">Fichier de données
+              (hierarchy.csv)
+            </file-upload>
+            <file-upload #propertiesUploadComponent fileName="properties.csv" [isRequired]="false"
+                         (downloadEvent)="onDownloadFile('properties', $event)">Fichier de
+              données
+              (properties.csv)
+            </file-upload>
+          </mat-card>
+
+        </div>
+
+      </mat-card>
+    </form>
+  </ng-template>
+</div>

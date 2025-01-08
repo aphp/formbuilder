@@ -1,0 +1,11 @@
+.fhir-response {
+  white-space: pre-wrap;
+}
+.export-container {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+.export-response-title{
+  margin: 32px 16px;
+}

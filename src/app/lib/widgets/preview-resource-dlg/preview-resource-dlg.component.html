@@ -1,0 +1,18 @@
+ <h2 mat-dialog-title class="bg-primary text-white rounded ps-3 pt-3 pe-3 pb-3">Preview of FHIR Resource
+   <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+     <mat-icon class="close-icon">close</mat-icon>
+   </button>
+ </h2>
+ <mat-dialog-content class="lfb-mat-tab-content">
+   <mat-tab-group [mat-stretch-tabs]="true">
+     <mat-tab label="View FHIR Resource">
+       <ng-template matTabContent>
+         <pre class="fix-pre">{{ data?.resource | json }}</pre>
+       </ng-template>
+     </mat-tab>
+   </mat-tab-group>
+ </mat-dialog-content>
+ <mat-dialog-actions class="border-top pe-3 pt-3" align="end">
+   <button class="btn btn-sm btn-primary" (click)="close()">Close</button>
+ </mat-dialog-actions>
+

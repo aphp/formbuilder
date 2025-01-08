@@ -1,0 +1,5 @@
+code,key,value,type
+CHEM,prop1,G31.0,string
+CHEM,prop2,15,integer
+MICRO,prop3,03/04/2024,dateTime
+nestedchild,prop,A1,code

@@ -1,0 +1,50 @@
+<div *ngIf="message" class="mat-mdc-form-field-error p-4 m-4">
+  {{ message }}
+</div>
+<mat-tab-group>
+
+  <mat-tab label="List of issues">
+    {{dataSource }}
+    <ng-template matTabContent>
+
+      <table aria-describedby="validate-dlg-table" mat-table [dataSource]="dataSource" matSort
+             class="mat-elevation-z8">
+        <ng-container matColumnDef="severity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by severity">
+            Severity
+          </th>
+          <td mat-cell *matCellDef="let element"
+              [class]="element.severity === 'error'?'text-danger':''"> {{ element.severity }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by code">
+            Code
+          </th>
+          <td mat-cell *matCellDef="let element" [class]="element.severity === 'error'?'text-danger':''"> {{ element.code }}</td>
+        </ng-container>
+        <ng-container matColumnDef="diagnostics">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by diagnostics">
+            Diagnostics
+          </th>
+          <td mat-cell *matCellDef="let element" [class]="element.severity === 'error'?'text-danger':''"> {{ element.diagnostics }}</td>
+        </ng-container>
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by location">
+            Location
+          </th>
+          <td mat-cell *matCellDef="let element" [class]="element.severity === 'error'?'text-danger':''"> {{ element.location }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Response JSON">
+    <ng-template matTabContent>
+      <pre class="fix-pre">{{ data | json }}</pre>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

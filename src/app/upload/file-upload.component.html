@@ -1,0 +1,16 @@
+<form [formGroup]="uploadForm">
+  <mat-form-field class="file-upload-container">
+    <mat-label>File {{ fileName }}</mat-label>
+    <button mat-icon-button matPrefix id="btn_{{fileName}}" (click)="chooseFile(fileInput)">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+    <input type="text" readonly matInput formControlName="display"/>
+    <input id="input_{{fileName}}"
+      type="file"
+      hidden
+      #fileInput
+      accept=".csv" (change)="handleFileInputChange(fileInput.files)"
+    />
+    <button  mat-icon-button matIconSuffix (click)="reset()"><mat-icon>clear</mat-icon></button>
+  </mat-form-field>
+</form>

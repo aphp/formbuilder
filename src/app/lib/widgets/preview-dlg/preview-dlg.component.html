@@ -1,0 +1,34 @@
+ <h2 mat-dialog-title class="bg-primary text-white rounded ps-3 pt-3 pe-3 pb-3">Preview of Questionnaire
+   <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+     <mat-icon class="close-icon">close</mat-icon>
+   </button>
+ </h2>
+ <mat-dialog-content class="lfb-mat-tab-content">
+   <mat-tab-group [mat-stretch-tabs]="true">
+     <mat-tab label="View Rendered Form">
+       <ng-template matTabContent>
+         <div>
+           <div class="pt-1">This preview is being handled by
+             <a href="https://lhncbc.github.io/lforms/" class="link-primary" target="_blank" rel="noopener">LHC-Forms</a>,
+             which you can also use via the
+             <a href="https://lhncbc.github.io/questionnaire-viewer/" class="link-primary" target="_blank" rel="noopener">Questionnaire Viewer</a>,
+             or in your own applications.
+           </div>
+           <small class="float-sm-end fw-bold">LForms version: {{lformsVersion}}</small>
+           <div>&nbsp;</div> <!-- Needed to float the above div -->
+         </div>
+         <div *ngIf="lformsErrors" class="card bg-danger-subtle text-center">{{lformsErrors}}</div>
+         <wc-lhc-form #lhcForm [questionnaire]="data?.questionnaire" [options]="data.lfData.options" (onError)="handleLFormsError($event)"></wc-lhc-form>
+       </ng-template>
+     </mat-tab>
+     <mat-tab label="View Questionnaire JSON">
+       <ng-template matTabContent>
+         <pre class="fix-pre">{{ data?.questionnaire | json }}</pre>
+       </ng-template>
+     </mat-tab>
+   </mat-tab-group>
+ </mat-dialog-content>
+ <mat-dialog-actions class="border-top pe-3 pt-3" align="end">
+   <button class="btn btn-sm btn-primary" (click)="close()">Close</button>
+ </mat-dialog-actions>
+

@@ -1,0 +1,27 @@
+{
+  "item": [
+    {
+      "type": "string",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
+          "valueExpression": {
+            "description": "test_description",
+            "language": "text/fhirpath",
+            "expression": "test_expression"
+          }
+        }
+      ],
+      "linkId": "5416949367018",
+      "text": "Item 0"
+    }
+  ],
+  "resourceType": "Questionnaire",
+  "meta": {
+    "profile": [
+      "https://aphp.fr/ig/fhir/eds/StructureDefinition/aphp-eds-questionnaire"
+    ]
+  },
+  "title": "calculated expression sample",
+  "status": "draft"
+}

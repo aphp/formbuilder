@@ -1,0 +1,122 @@
+@import '../../styles/colors';
+
+
+h2 {
+  background-color: $dark-blue;
+}
+
+.container-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 3px;
+  flex-grow: 1;
+}
+
+.stepper-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.stepper-container mat-form-field {
+  width: 220px;
+}
+
+.stepper-container form {
+  margin-bottom: 20px;
+}
+
+.stepper-container form > * {
+  margin: 12px 0;
+}
+
+.stepper-container .mat-radio-button {
+  margin: 0 12px;
+}
+
+.stepper-form-fields {
+  display: flex;
+  align-items: flex-start;
+
+}
+
+.stepper-container .stepper-form-fields mat-label {
+  margin-top: 8px;
+}
+
+.title {
+  background-color: $light-blue;
+}
+
+mat-card-header {
+  justify-content: center;
+  padding: 0px !important;
+}
+
+.mat-button-toggle-checked {
+  background-color: $blue;
+  color: $dark-blue;
+}
+
+.error-message {
+  margin: 4px 45px 0px;
+  display: list-item;
+  list-style-type: disc;
+}
+
+.option-text {
+  align-content: center;
+  padding-left: 18px;
+}
+
+.terminology-btn {
+  padding: 12px 0;
+  margin: 12px 0px;
+}
+
+.header-title {
+  text-align: center;
+  padding: 12px 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 3px;
+  flex-grow: 1;
+}
+
+.actions-panel {
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+#resizableMiddle {
+  top: 84px;
+  bottom: 65px;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+
+.menuButton {
+  padding: 2px;
+}
+
+.menuIcon {
+  vertical-align: middle;
+}
+
+.generated-valueset-msg {
+  margin-bottom: 12px;
+  margin-top: 6px;
+}
+.help-msg{
+  font-size: 14px;
+}

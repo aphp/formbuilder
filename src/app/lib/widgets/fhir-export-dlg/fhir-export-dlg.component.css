@@ -1,0 +1,15 @@
+.fhir-response {
+  white-space: pre-wrap;
+}
+.export-container {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+.export-response-title{
+  margin: 38px 16px;
+}
+.serverResponse{
+  overflow-y: auto;
+  height: 500px;
+}

@@ -1,0 +1,30 @@
+@import '../../styles/colors';
+
+.infoMessages {
+  padding: 18px 10px !important;
+}
+
+.result-item:hover {
+  background-color: $light-blue;
+}
+
+.selected-item {
+  background-color: $light-blue;
+}
+
+.searchFieldContainer {
+  padding: 8px 0;
+}
+
+.p12 {
+  padding: 12px;
+}
+
+.useContextLabel {
+  align-content: center;
+  padding-right: 12px;
+}
+
+.primary-color {
+  color: $dark-blue;
+}

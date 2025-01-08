@@ -1,0 +1,26 @@
+<div [ngClass]="{'row': labelPosition === 'left', 'm-0': true}" *ngIf="$allowedOptions | async as options">
+  <lfb-label *ngIf="!nolabel"
+             [for]="id"
+             [title]="schema.title"
+             [helpMessage]="schema.description"
+             [ngClass]="labelClasses"
+  ></lfb-label>
+
+  <select
+  [formControl]="control"
+  name="{{name}}"
+  [attr.id]="id"
+  [attr.disabled]="schema.readOnly ? '' : null"
+  class="form-select form-select-sm {{controlClasses}} {{schema.readOnly?' disabled-view':'' }}">
+  <option [ngValue]=""></option>
+  <option *ngFor="let option of options.expansion.contains | sortedByReferenceType"
+          [ngValue]="option.code">{{option.display ? option.code + ' - ' + option.display : option.code}}</option>
+
+  </select>
+
+  <ng-container *ngFor="let error of errors">
+    <small *ngIf="error"
+           class="text-danger form-text" role="alert"
+    >{{error.message}}</small>
+  </ng-container>
+</div>

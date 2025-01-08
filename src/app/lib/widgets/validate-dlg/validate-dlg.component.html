@@ -1,0 +1,10 @@
+<h2 mat-dialog-title class="bg-primary text-white rounded ps-3 pt-3 pe-3 pb-3">Validate Response
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+<lfb-validation-content [data]="data.data" [message]="data.message"></lfb-validation-content>
+</mat-dialog-content>
+
+

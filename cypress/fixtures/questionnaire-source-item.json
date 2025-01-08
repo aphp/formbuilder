@@ -1,0 +1,45 @@
+{
+  "item": [
+    {
+      "type": "string",
+      "extension": [
+        {
+          "url": "https://aphp.fr/ig/fhir/formbuilder/StructureDefinition/QuestionnaireItemSource",
+          "extension": [
+            {
+              "valueUri": "https://aphp.fr/ig/fhir/eds/Endpoint/form-builder",
+              "url": "source"
+            },
+            {
+              "valueString": "comment 1",
+              "url": "comment"
+            }
+          ]
+        },
+        {
+          "url": "https://aphp.fr/ig/fhir/formbuilder/StructureDefinition/QuestionnaireItemSource",
+          "extension": [
+            {
+              "valueUri": "https://aphp.fr/ig/fhir/eds/Endpoint/sirius",
+              "url": "source"
+            },
+            {
+              "valueString": "comment 2",
+              "url": "comment"
+            }
+          ]
+        }
+      ],
+      "linkId": "5416949367018",
+      "text": "Item 0"
+    }
+  ],
+  "resourceType": "Questionnaire",
+  "meta": {
+    "profile": [
+      "https://aphp.fr/ig/fhir/eds/StructureDefinition/aphp-eds-questionnaire"
+    ]
+  },
+  "title": "questionnaire source item extensions sample",
+  "status": "draft"
+}

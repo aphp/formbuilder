@@ -1,0 +1,101 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+@import 'styles/colors';
+
+$theme-colors: (
+  "primary": $dark-blue,
+  "secondary": $blue,
+  "light": $grey,
+  "success": $purple,
+);
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.form-control > p {
+  display: none !important;
+}
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(~src/assets/fonts/material-font.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.add-scrolling {
+  max-height: 200px;
+  max-width: 240%;
+  overflow: auto;
+}
+
+.lfb-spinner .modal-content {
+  background: transparent;
+  border: none;
+}
+
+.lfb-spinner.modal-dialog {
+  transform: unset !important;
+}
+
+.lfb-mat-tooltip {
+  font-size: 12px;
+}
+
+.lfb-ngb-tooltip-link {
+  color: whitesmoke;
+}
+
+.lfb-ngb-tooltip-link:hover {
+  color: lightblue;
+}
+
+/**
+ * z-index of #searchResults in autocomplete-lhc and NgbDialog clash with 1000.
+ * Override it in #searchResults to make sure it is visible when autocomplete-lhc
+ * is used in dialog boxes.
+*/
+#searchResults {
+  z-index: 1010 !important;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", "Open Sans", sans-serif;
+}
+
+.highlight {
+  background-color: rgba(255, 255, 0, 0.5);
+  font-weight: bold;
+}
+.with-scroll {
+  overflow-x: scroll;
+  display: block;
+}
+.mat-datepicker-toggle{
+  color: $purple;
+}
+.disabled-view {
+  pointer-events: none !important;
+  opacity: 0.7 !important;
+}

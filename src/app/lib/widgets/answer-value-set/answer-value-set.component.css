@@ -1,0 +1,9 @@
+.edit-icon {
+  pointer-events: auto;
+  padding-left: 12px;
+  margin-top: 3px;
+}
+
+.value-set-field {
+  display: flex;
+}

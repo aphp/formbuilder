@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "formbuilder.fullname" . }}
+  labels:
+    {{- include "formbuilder.labels" . | nindent 4 }}
+data:
+  config.json: {{ .Values.configMapEnvConstant.data.environmentJson | mustToPrettyJson | quote }}

@@ -1,0 +1,118 @@
+@import '../../styles/colors.scss';
+
+.node-content-wrapper {
+  width: 100%;
+  background-color: $grey;
+}
+
+/*
+  For some reason, display truncation pushes the width beyond its borders.
+  Providing some random fixed width somehow fixes the problem.
+ */
+.node-display-field {
+  width: 0;
+}
+
+.node-content-wrapper-active,
+.node-content-wrapper.node-content-wrapper-active:hover,
+.node-content-wrapper-active.node-content-wrapper-focused {
+  background-color: $grey;
+}
+.node-content-wrapper-focused {
+  background-color: $yellow;
+}
+.node-content-wrapper:hover {
+  background-color: $yellow;
+}
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  top: 40%;
+  left: 0;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+.sidenav-header {
+  background-color: $blue;
+  color: white;
+}
+.node-display-prefix {
+  font-weight: bold;
+  margin-right: 1ch;
+}
+.mat-sidenav {
+  width: 500px;
+  padding: 10px;
+}
+
+:host ::ng-deep .mat-drawer-inner-container {
+  overflow: hidden !important;
+  height: fit-content;
+}
+
+.mat-sidenav-content {
+  padding: 5px;
+}
+
+.mat-tab-body {
+  background-color: white;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.json-radio-group {
+  display: flex;
+  margin: 5px 0;
+}
+
+.json-radio-button {
+  margin: 5px;
+}
+
+.search-box {
+  font-size: small;
+  width: 100%;
+  align-items: end;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle:hover {
+  background-color: white;
+}
+
+#filter {
+  margin: 14px 3px;
+  width: 98% !important;
+}
+
+.disabled-node {
+  opacity: 0.7 !important;
+}
+.node-content-wrapper-active {
+  background-color: $light-blue !important;
+}
+.warningIcon{
+  margin: 0 5px;
+  padding-top: 2px;
+}
+
+.toggle-container {
+  float: right;
+  pointer-events: auto;
+
+  .toggle-icon {
+    pointer-events: auto;
+  }
+}
+

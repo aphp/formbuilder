@@ -1,0 +1,4 @@
+<div *ngFor="let alert of alerts" class="alert alert-{{ alert.type }}" role="alert">
+  <span>{{ alert.message }}</span>
+  <button type="button" class="btn-close float-end" (click)="closeAlert(alert.id!)" aria-label="Close"></button>
+</div>

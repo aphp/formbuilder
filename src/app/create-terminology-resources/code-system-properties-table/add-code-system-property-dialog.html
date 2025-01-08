@@ -1,0 +1,42 @@
+<mat-card >
+  <mat-card-header>Add new property</mat-card-header>
+  <form [formGroup]="addForm" (ngSubmit)="submitForm()">
+
+    <mat-dialog-content style="display: flex; flex-direction: column; flex-wrap: wrap; margin: 3px;flex-grow: 1;">
+      <mat-form-field>
+        <mat-label>Code</mat-label>
+        <mat-select id="code" formControlName="code">
+          <mat-option *ngFor="let conceptCode of conceptCodes" value="{{conceptCode}}">{{conceptCode}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Key</mat-label>
+        <input matInput id="key" formControlName="key">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Value</mat-label>
+        <input matInput id="value" formControlName="value">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select id="type" formControlName="type">
+          <mat-option value="code">code (internal reference)</mat-option>
+          <mat-option value="coding">Coding (external reference)</mat-option>
+          <mat-option value="string">string</mat-option>
+          <mat-option value="integer">integer</mat-option>
+          <mat-option value="boolean">boolean</mat-option>
+          <mat-option value="dateTime">dateTime</mat-option>
+          <mat-option value="decimal">decimal</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button type="submit" class="btn btn-primary"
+              [disabled]="!addForm.valid">Add
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-card>
+
+

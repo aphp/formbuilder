@@ -1,0 +1,60 @@
+<div class="modal-header bg-primary" role="dialog">
+  <h4 class="modal-title text-white">Create ValueSet</h4>
+  <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="closeDialog()">
+  </button>
+</div>
+<div class="container">
+  <span *ngIf="loading$ | async" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+  <span *ngIf="loading$ | async">Loading...</span>
+  <ng-container *ngTemplateOutlet="formTemplate"></ng-container>
+  <ng-container *ngTemplateOutlet="serverResponseTemplate"></ng-container>
+</div>
+<ng-template #formTemplate>
+  <form [formGroup]="formGroup"
+        *ngIf="!updateFormGroup.value?.valueSetServerResponse && !updateFormGroup.value?.codeSystemServerResponse">
+
+    <div class="mt-4 mb-4">
+      <div class="text-danger error-message" *ngFor="let errorMessage of errorMessages ">
+        {{ errorMessage }}
+      </div>
+    </div>
+
+    <div class="container-card m-4">
+      <mat-form-field class="card">
+        <mat-label>Title</mat-label>
+        <input matInput id="title" formControlName="title" (input)="onTitleInput()" maxlength="64">
+        <mat-error *ngIf="title?.invalid">
+          <span *ngIf="title?.errors?.noLetter">title should contain at least one letters (a to z, A to Z)</span>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+    <div class="m-4 float-end">
+
+      <button [disabled]="!formGroup.valid || errorMessages?.length > 0" class="btn btn-primary me-2" type="submit"
+              (click)="create()">
+        Create
+      </button>
+      <button class="btn btn-secondary me-2" (click)="dismiss('close')">Close</button>
+    </div>
+
+  </form>
+
+</ng-template>
+
+<ng-template #serverResponseTemplate>
+  <fhir-export-response *ngIf="!errorMessages || errorMessages.length === 0"
+                        [serverResponseCodeSystem]="updateFormGroup.value?.codeSystemServerResponse"
+                        [codeSystem]="updateFormGroup.value?.codeSystem"
+                        [serverResponseValueSet]="updateFormGroup.value?.valueSetServerResponse"
+                        [nbCodeSystemConcepts]="updateFormGroup.value?.nbCodeSystemConcepts"
+                        [errorCodeSystem]="updateFormGroup.value?.errorCodeSystem"
+                        [errorValueSet]="updateFormGroup.value?.errorValueSet"
+                        [exportType]="'UPDATE'"
+  ></fhir-export-response>
+
+  <div class="m-4" style="display: flex"
+       *ngIf="updateFormGroup.value?.codeSystemServerResponse && updateFormGroup.value?.valueSetServerResponse">
+    <button class="btn btn-secondary me-2" (click)="applyValueSet()">Close</button>
+  </div>
+</ng-template>

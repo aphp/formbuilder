@@ -1,0 +1,46 @@
+{
+  "formLayout": {
+    "basic": [
+      {
+        "showFields": [
+          { "field": "title", "col": 12 },
+          { "field": "name", "col": 12 },
+          { "field": "__$useContext", "col": 12 },
+          { "field": "__$codeYesNo", "col": 12 },
+          { "field": "code", "col": 12 },
+          { "field": "status", "col": 12},
+          { "field": "version", "col": 12},
+          { "field": "description", "col": 12},
+          { "field": "purpose", "col": 12},
+          { "field": "publisher", "col": 12},
+          { "field": "date", "col": 12},
+          { "field": "lastReviewDate", "col": 12},
+          { "field": "identifier", "col": 12},
+          { "field": "effectivePeriod", "col": 12}
+        ]
+      }
+    ],
+    "advanced": [
+      {
+        "showFields": [
+          { "field": "__$launchContext", "col": 12},
+          { "field":  "__$valueExpressionQuestionnaire", "col": 12}
+        ]
+      }
+    ],
+    "targetPage": "formLevel"
+  },
+  "propertyLabels": {
+    "title": "Title",
+    "code": "Code",
+    "Status": "Status",
+    "description": "Description",
+    "purpose": "Purpose",
+    "version": "Version",
+    "publisher": "Publisher",
+    "date": "Date",
+    "lastReviewDate": "Last Review Date",
+    "effectivePeriod": "Effective Period",
+    "identifier": "Identifier"
+  }
+}
