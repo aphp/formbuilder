@@ -18,7 +18,7 @@ By default, it is set to the public HAPI FHIR server: https://hapi.fhir.org/base
 
 #### Running the application
 
-##### 1. With docker
+##### With docker
 
 + Prerequisites:
 
@@ -37,9 +37,9 @@ By default, it is set to the public HAPI FHIR server: https://hapi.fhir.org/base
       docker run -p 8080:8080 formbuilder
 ```
 3. Access the application:
-  - Open your web browser and navigate to http://localhost:8080 (or replace with the correct port if changed) to access the application.
+- Open your web browser and navigate to http://localhost:8080 (or replace with the correct port if changed) to access the application.
 
-##### 2. Start formbuilder server for local development (Alternative way to run the application)
+##### Start formbuilder server locally (Alternative way to run the application)
 
 For local development, run the server as follows:
 
