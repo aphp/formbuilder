@@ -24,9 +24,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    outputs:
-      publish_dir: ${{ steps.build.outputs.publish_dir }}  # Define the job output
-
     steps:
       # Step 1: Check out the code
       - name: Checkout repository
@@ -47,7 +44,8 @@ jobs:
         id: build  # Assign an ID to reference its outputs
         run: |
           npm run build -- --configuration production --base-href /formbuilder/
-
+        env:
+          PUBLISH_DIR: ./dist/aphp-formbuilder  # Set environment variable with the build directory
 
   # Job 2: Deploy the application to GitHub Pages
   deploy:
@@ -63,4 +61,4 @@ jobs:
         uses: actions/deploy-pages@v2
         with:
           branch: ${{ github.ref_name }}  # Deploy to the current branch
-          folder: ${{ needs.build.outputs.publish_dir }}  # Use the build output folder
+          folder: ${{ env.PUBLISH_DIR }}  # Use the environment variable for the build output folder
