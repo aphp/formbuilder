@@ -4,6 +4,20 @@ on:
   push:
     branches:
       - '**'  # Run the workflow on pushes to all branches
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   # Job 1: Build the Angular application
@@ -11,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      publish_dir: ${{ steps.build.outputs.publish_dir }}
+      publish_dir: ${{ steps.build.outputs.publish_dir }}  # Define the job output
 
     steps:
       # Step 1: Check out the code
@@ -30,11 +44,10 @@ jobs:
 
       # Step 4: Build the application
       - name: Build Angular app
-        id: build
+        id: build  # Assign an ID to reference its outputs
         run: |
-          npm run build -- --configuration production --base-href /aphp-formbuilder/
-        outputs:
-          publish_dir: ./dist/aphp-formbuilder
+          npm run build -- --configuration production --base-href /formbuilder/
+
 
   # Job 2: Deploy the application to GitHub Pages
   deploy:
