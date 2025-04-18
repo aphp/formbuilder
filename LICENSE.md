@@ -3,8 +3,7 @@
 Licensing and Copyright Notice and Terms of Use
 
 **Owner Notice**: The AP-HP FormBuilder allows building (creating and editing) forms in FHIR - R4 format (Questionnaire).
-It is based on the <a href="https://lhcformbuilder.nlm.nih.gov/" target="_blank" rel="noopener noreferrer">NLM FormBuilder</a>
-version 9.1.6, an <a href="https://github.com/LHNCBC/formbuilder-lhcforms" target="_blank" rel="noopener noreferrer">open-source</a> project developed by the
+It is based on the <a href="https://lhcformbuilder.nlm.nih.gov/" target="_blank" rel="noopener noreferrer">NLM FormBuilder</a>, an <a href="https://github.com/LHNCBC/formbuilder-lhcforms" target="_blank" rel="noopener noreferrer">open-source</a> project developed by the
 <a href="https://lhncbc.nlm.nih.gov/" target="_blank" rel="noopener noreferrer">Lister Hill National Center for Biomedical Communication (LHNCBC)</a>.
 
 This software, including any associated website services or downloadable source code, was developed by AP-HP (Assistance Publique - Hôpitaux de Paris),

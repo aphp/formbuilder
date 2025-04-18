@@ -57,8 +57,8 @@ export class AnswerValueSetComponent extends StringComponent implements OnInit, 
       this.updateUI(this.formProperty.value);
     });
     this.subscriptions.push(sub);
-    this.formProperty.valueChanges.subscribe(() => {
-      this.setDefaultValue();
+    this.formProperty.valueChanges.subscribe(value => {
+      this.setDefaultValue(value);
     })
   }
 
@@ -235,10 +235,11 @@ export class AnswerValueSetComponent extends StringComponent implements OnInit, 
   }
 
 
-  private setDefaultValue() {
-    if (this.formProperty.value === '') {
-      this.formProperty.setValue('TO DO', true)
+  private setDefaultValue(value) {
+    if (value === '') {
+      this.formProperty.setValue('TO DO', true);
+      this.formProperty.searchProperty('__$initialExpressionYesNo').setValue('no', false);
     }
-    this.formProperty.searchProperty('__$initialExpressionYesNo').setValue('value', false);
+
   }
 }
