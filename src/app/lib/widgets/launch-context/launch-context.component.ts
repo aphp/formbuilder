@@ -117,8 +117,11 @@ class SingletonValueSetMap {
   public static async getInstance(fetchService: FetchService, valueSetUrl: string): Promise<Map<string, any>> {
     if (this.instance === null) {
       this.instance = new Map<string, any>();
-      const result = await this.getValueSetByUrl(fetchService, valueSetUrl).toPromise();
-      result.forEach(vc => this.instance.set(vc?.valueCoding?.code, vc.valueCoding))
+      const result = await this.getValueSetByUrl(fetchService, valueSetUrl).toPromise().catch(error => {
+        console.error("Error fetching ValueSet:", error);
+        return null;
+      });
+      result?.forEach(vc => this.instance.set(vc?.valueCoding?.code, vc.valueCoding))
     }
     return this.instance;
   }

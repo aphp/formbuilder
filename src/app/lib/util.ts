@@ -352,17 +352,14 @@ export class Util {
   }
 
   static setIdentifierType(node) {
-    if (node?.__$type?.length > 0) {
-      const split = node.__$type.split('-')
-      if (split && split.length > 1) {
-        node.type = {
-          coding: [{
-            system: Util.CODE_SYSTEM_IDENTIFIER_TYPE_URL,
-            code: split[0],
-            display: split[1]
-          }]
-        };
-      }
+    if (node?.__$type) {
+      node.type = {
+        coding: [{
+          system: node?.__$type.system,
+          code: node?.__$type.code,
+          display: node?.__$type.display
+        }]
+      };
     }
   }
 

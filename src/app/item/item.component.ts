@@ -253,7 +253,7 @@ export class ItemComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.treeComponent.treeModel.update();
       this.toggleTreeExpansion();
     });
-  //  this.formService.formChanged$.subscribe(() => this.handleTreeExpansion());
+    //  this.formService.formChanged$.subscribe(() => this.handleTreeExpansion());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -568,7 +568,7 @@ export class ItemComponent implements AfterViewInit, OnChanges, OnDestroy {
     newItem.text = 'Copy of ' + newItem.text;
     traverse(newItem).forEach(node => {
       if (node?.linkId) {
-        node.linkId = this.createLinkId();
+        node.linkId = this.createLinkId() + (node.linkId.includes('_intention') ? '_intention' : '');
       }
     });
     if (position === 'CHILD') {
@@ -589,11 +589,8 @@ export class ItemComponent implements AfterViewInit, OnChanges, OnDestroy {
    * @returns A randomized number converted to string.
    */
   private createLinkId() {
-    const array = new Uint8Array(6); // Generate a 48-bit value (6 bytes)
-    window.crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+    return Math.floor(100000000000 + Math.random() * 900000000000).toString();
   }
-
 
   private addNewItem(position: 'AFTER' | 'BEFORE' | 'CHILD', newItem, targetNode: ITreeNode) {
 

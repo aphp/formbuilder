@@ -1,4 +1,4 @@
-## Installation
+## 🛠 Installation
 
 ### Quick Start (For Non-Technical Users)
 
@@ -16,7 +16,7 @@ To configure your backend FHIR server, edit the hapiServerUrl parameter in the f
 
 By default, it is set to the public HAPI FHIR server: https://hapi.fhir.org/baseR4
 
-#### Running the application
+#### 🚀 Running the application
 
 ##### With docker
 
@@ -149,3 +149,7 @@ The configuration will be dynamically loaded at runtime using an environment loa
 This file is mounted into the container from the Kubernetes ConfigMap at the path ./config/config.json during [the application startup](src/main.ts)
 
 This strategy enables maintaining a single Docker image for multiple environments while adapting the application's behavior based on the environment parameters.
+
+## 📜 License
+
+This project is licensed under the [LICENSE](LICENSE.md) .

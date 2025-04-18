@@ -271,7 +271,7 @@ export class FetchService {
   }
 
   getValueSetByUrl(url: string): Observable<any> {
-    return this.callGetWithRetry(`${environment.hapiServerUrl}/ValueSet/$expand?url=${url}`, 0, 1);
+    return this.callGetWithRetry(`${environment.hapiServerUrl}/ValueSet/$expand?url=${url}`, 8, 5);
   }
 
   callGetWithRetry(url: string, nbRetries, delayInSeconds) {
@@ -296,13 +296,12 @@ export class FetchService {
         ),
         catchError((error) => {
           console.error('Error fetching:', error);
-          return throwError(() => error);
+          return of(null);
         })
       );
   }
 
   getCodeSystemByUrl(url: string): Observable<any> {
-
     return this.http.get<fhir.CodeSystem>(`${environment.hapiServerUrl}/CodeSystem?url=${url}`);
   }
 
@@ -318,8 +317,7 @@ export class FetchService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
-      console.error(
-        `${FetchService.snomedCodeSystemsUrl} returned code ${error.status}, body was: `, error.error);
+      console.error(`${FetchService.snomedCodeSystemsUrl} returned code ${error.status}, body was: `, error.error);
     }
     // Return an observable with a user-facing error message.
     return throwError(() => error.error);

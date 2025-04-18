@@ -41,6 +41,24 @@ export class SelectValueSetForAnswerOptionsComponent implements OnInit {
   ngOnInit(): void {
     this.setSelectValuesFromValueSet(this.valueSetUrl);
     this.updateIdentifierItem();
+    if (this.selectProperty?.schema?.description === 'transformation_type') {
+      this.selectProperty.errorsChanges.subscribe((errors) => {
+        this.errors = null;
+        if (errors?.length) {
+          // For some reason, errors have duplicates. Remove them.
+          const errorsObj = {};
+          errors.reduce((acc, error) => {
+            if (!acc[error.code]) {
+              acc[error.code] = error;
+            }
+            return acc;
+          }, errorsObj);
+          this.errors = Object.values(errorsObj).filter((e: any) => e.code === 'PATTERN').map((e: any) => {
+            return {code: e.code, message: 'This field is required if using mapping Orbis DL form extension'};
+          });
+        }
+      });
+    }
   }
 
   setSelectValuesFromValueSet(valueSetUrl: string) {
@@ -62,7 +80,10 @@ export class SelectValueSetForAnswerOptionsComponent implements OnInit {
     let cachedValue = this.codeSystemCache.get(codeSystemUrl);
 
     if (!cachedValue) {
-      cachedValue = await this.fetchService.getCodeSystemByUrl(codeSystemUrl).toPromise();
+      cachedValue = await this.fetchService.getCodeSystemByUrl(codeSystemUrl).toPromise().catch(error => {
+        console.error("Error fetching CodeSystem:", error);
+        return null;
+      });
       if (cachedValue) {
         this.codeSystemCache.set(codeSystemUrl, cachedValue);
       }
@@ -84,12 +105,12 @@ export class SelectValueSetForAnswerOptionsComponent implements OnInit {
     if (
       !this.selectProperty ||
       !this.selectProperty.__canonicalPathNotation.includes('identifier') ||
-      !this.selectProperty.__canonicalPathNotation.includes('system')
-    ) {
+      !this.selectProperty.__canonicalPathNotation.includes('system')) {
       return;
     }
 
     this.startSpinner();
+
     const type = this.selectProperty.searchProperty('__$type');
     type.setValue(null, false);
 
@@ -100,7 +121,12 @@ export class SelectValueSetForAnswerOptionsComponent implements OnInit {
     if (propertyType) {
       const typeCodeSystem = await this.getCodeSystem(Util.CODE_SYSTEM_IDENTIFIER_TYPE_URL, propertyType.valueCoding?.code);
       if (typeCodeSystem && type) {
-        type.setValue(`${typeCodeSystem.code}-${typeCodeSystem.display}`, false);
+        const valueType = {
+          system: Util.CODE_SYSTEM_IDENTIFIER_TYPE_URL,
+          code: typeCodeSystem.code,
+          display: typeCodeSystem.display
+        }
+        type.setValue(valueType, false);
       }
     }
     this.stopSpinner();
