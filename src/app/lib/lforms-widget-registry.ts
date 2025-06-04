@@ -52,6 +52,7 @@ import {DateComponent} from "./widgets/date/date.component";
 import {
   QuestionnaireItemSourceComponent
 } from "./widgets/questionnaire-item-source/questionnaire-item-source.component";
+import {TextAreaComponent} from "./widgets/textarea/textarea.component";
 
 
 @Injectable()
@@ -104,6 +105,7 @@ export class LformsWidgetRegistry extends DefaultWidgetRegistry {
     this.register('date', DateComponent);
     this.register('datetime', DatetimeComponent);
     this.register('questionnaire-item-source', QuestionnaireItemSourceComponent);
+    this.register('text-area', TextAreaComponent);
 
 
   }

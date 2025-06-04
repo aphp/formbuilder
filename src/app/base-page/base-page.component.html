@@ -6,27 +6,15 @@
     <nav class="navbar navbar-light bg-light ps-2" aria-label="Menu bar"
          *ngIf="guidingStep !== 'home' && guidingStep !== 'create-terminology-resources'">
 
-      <div class="btn-group-sm me-2" role="group" aria-label="Export">
-        <button class="btn btn-secondary me-2 menuButton" (click)="saveToFile()"
-                matTooltip="Export questionnaire JSON file">
-          <mat-icon class="menuIcon">save</mat-icon>
-        </button>
-        <button [disabled]="isReadOnly" class="btn btn-secondary me-2 menuButton" (click)="exportToServer('CREATE')"
-                matTooltip="Create questionnaire on the server">
-          <mat-icon class="menuIcon">call_split</mat-icon>
-        </button>
-        <button class="btn btn-secondary me-2 menuButton" matTooltip="Update current questionnaire on the server"
-                (click)="exportToServer('UPDATE')" [disabled]="isReadOnly ||!questionnaire || !questionnaire.id"
+      <div class="btn-group-sm me-2" role="group" aria-label="Export/Import form from server">
+        <button class="btn btn-secondary me-2 menuButton"
+                matTooltip="Save"
+                (click)="save()" [disabled]="isReadOnly ||!questionnaire "
         >
           <mat-icon class="menuIcon">cloud_upload</mat-icon>
         </button>
-      </div>
-      <div class="btn-group-sm me-2 " role="group" aria-label="Import">
-        <button type="button" class="btn btn-secondary me-2 menuButton" (click)="fileInput.click()"
-                matTooltip="Import questionnaire JSON file">
-          <mat-icon svgIcon="import-file" class="menuIcon">save_alt</mat-icon>
-        </button>
-        <button type="button" class="btn btn-secondary me-2 menuButton" matTooltip="Import questionnaire from server"
+
+        <button type="button" class="btn btn-secondary me-2 menuButton" matTooltip="Load"
                 (click)="importFromFHIRServer()">
           <mat-icon class="menuIcon">cloud_download</mat-icon>
         </button>
@@ -44,16 +32,16 @@
           questions
         </button>
       </div>
+
       <div class="btn-group-sm me-2" role="group" aria-label="Edit questions" *ngIf="isAdmin">
         <button type="button" class="btn btn-secondary" (click)="setStep('create-terminology-resources')">Terminological
           resources
         </button>
       </div>
 
-      <div class="btn-group-sm me-2 ms-auto" role="group" aria-label="Preview">
-        <button type="button" class="btn btn-secondary menuButton" matTooltip="Validate questionnaire"
-                (click)="validateQuestionnaire()">
-          <mat-icon class="menuIcon">verified_user</mat-icon>
+      <div class="btn-group-sm me-2 ms-auto" role="group" aria-label="Advanced options">
+        <button type="button" class="btn btn-secondary menuButton" matTooltip="Advanced options" [matMenuTriggerFor]="advancedMenu">
+          <mat-icon class="menuIcon">more_horiz</mat-icon>
         </button>
       </div>
 
@@ -63,13 +51,6 @@
           <mat-icon class="menuIcon">pageview</mat-icon>
         </button>
       </div>
-      <!--
-              <div class="btn-group-sm me-2" role="group" aria-label="Report">
-                <button type="button" class="btn btn-secondary menuButton" matTooltip="Report an issue"
-                        (click)="reportBug()">
-                  <mat-icon class="menuIcon">bug_report</mat-icon>
-                </button>
-              </div>-->
       <div class="btn-group-sm me-2" role="group" aria-label="Help" aria-label="Help">
         <button type="button" matTooltip="Help" class="btn btn-secondary menuButton" (click)="goToHelp()">
           <mat-icon class="menuIcon">help</mat-icon>
@@ -104,48 +85,44 @@
   <lfb-footer id="fixedBottom"></lfb-footer>
 </div>
 
+
+<mat-menu #advancedMenu="matMenu">
+  <button mat-menu-item (click)="onDuplicate()">
+    <mat-icon>content_copy</mat-icon>
+    <span>Duplicate the current form</span>
+  </button>
+  <button mat-menu-item (click)="fileInput.click()">
+    <mat-icon>save_alt</mat-icon>
+    <span>Import a form from local JSON file</span>
+  </button>
+  <button mat-menu-item (click)="saveToFile()">
+    <mat-icon>save</mat-icon>
+    <span>Export JSON file of the current form</span>
+  </button>
+  <button mat-menu-item (click)="validateQuestionnaire()">
+    <mat-icon class="menuIcon">verified_user</mat-icon>
+    <span>Validation (beta)</span>
+  </button>
+</mat-menu>
+
 <ng-template #home>
   <div class="card border-0 container">
     <div class="card-body">
-      <p class="lead" id="starting_header">How do you want to create your form?</p>
-      <ul class="list-unstyled ms-5" role="radiogroup" aria-labelledby="starting_header">
-        <li>
-          <label class="btn">
-            <input type="radio" name="startOption" value="fhirServer"
-                   [(ngModel)]="startOption" [ngModelOptions]="{standalone: true}">
-            Import from FHIR server
-          </label>
-        </li>
-        <li *ngIf="isAutoSaved() && !isDefaultForm()">
-          <label class="btn">
-            <input type="radio" name="startOption" value="from_autosave"
-                   [(ngModel)]="startOption" [ngModelOptions]="{standalone: true}">
-            Would you like to start from where you left off before (resume the last form)?
-          </label>
-        </li>
-        <li>
-          <label class="btn">
-            <input type="radio" name="startOption" value="local"
-                   [(ngModel)]="startOption" [ngModelOptions]="{standalone: true}">
-            Import from local file
-          </label>
-        </li>
-        <li>
-          <label class="btn">
-            <input type="radio" name="startOption" value="scratch"
-                   [(ngModel)]="startOption" [ngModelOptions]="{standalone: true}">
-            Start from scratch
-          </label>
-        </li>
-      </ul>
-      <hr>
-      <div class="btn-toolbar float-end mb-2" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group" role="group" aria-label="Last group">
-          <button type="button" class="btn btn-sm btn-primary" (click)="onContinue()">Continue</button>
-        </div>
-      </div>
+      <lfb-fhir-search-page [hasResumeFormOption]="isAutoSaved() && !isDefaultForm()"
+      (selectedQuestionnaire)="onQuestionnaireSelected($event)"
+      (resumeTheLastForm)="onResumeTheLastForm()"
+      (importFromLocalFile)="onImportQuestionnaireFromLocalFile()"></lfb-fhir-search-page>
     </div>
   </div>
+
+  <button
+    type="button"
+    class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center fab-center shadow"
+    (click)="createQuestionnaireFromScratch()"
+  >
+    +
+  </button>
+
 </ng-template>
 
 <ng-template #createTerminologyResources>
@@ -171,26 +148,6 @@
                       (itemChange)="itemComponentChanged($event)"
   ></lfb-item-component>
 </ng-template>
-<ng-template #loincSearchDlg let-modal>
-  <div class="modal-header btn-primary">
-    <h4 class="modal-title" id="loinc-search-dlg-title">Import a LOINC Form</h4>
-    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss()">
-    </button>
-  </div>
-  <div class="modal-body">
-    <form class="px-4 py-3">
-      <label for="loincSearch"><span class="p-1">Search LOINC form:</span></label>
-      <input type="text"
-             id="loincSearch"
-             placeholder="Search LOINC forms"
-             [ngbTypeahead]="acSearch"
-             (selectItem)="modal.close($event.item.id)"
-             [resultFormatter]="formatter"
-             [inputFormatter]="formatter"
-             [editable]='false'/>
-    </form>
-  </div>
-</ng-template>
 
 <ng-template #warnFormLoading let-modal>
   <div role="dialog" aria-labelledby="warningDlgTitle" class="modal-header bg-primary">
@@ -207,4 +164,17 @@
     <button type="button" class="btn btn-primary" (click)="modal.dismiss()">Cancel</button>
   </div>
 </ng-template>
+
+<ng-template #duplicateEntryDetectedForm let-modal>
+  <div role="dialog" aria-labelledby="warningDlgTitle" class="modal-header bg-danger">
+    <h4 id="warningDlgTitle" class="modal-title text-white">Duplicate Entry Detected</h4>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss()">
+    </button>
+  </div>
+  <div class="modal-body">
+    A questionnaire with the same URL and version already exists on the server. Please update the URL or version before saving.
+  </div>
+</ng-template>
+
+
 

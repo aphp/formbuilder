@@ -12,7 +12,7 @@
       </div>
     </div>
     <input id="filter" class="form-control" #filter (keyup)="filterNodes(filter.value, tree.treeModel)"
-           placeholder="Filtrer les items par label ou linkId"/>
+           placeholder="Filter items by label or linkId"/>
     <span (focusin)="treeInitialFocus($event)">
             <tree-root #tree
                        [nodes]="itemList"
@@ -60,29 +60,41 @@
   <mat-sidenav-content>
     <div class="sidenav-header p-1" aria-live="polite" aria-atomic="true" id="itemContent">Current Item <span
       *ngIf="focusNode?.data?.text">({{ focusNode.data.text }})</span></div>
-    <div class="mt-1">
-      <div>
-        <span>Edit item (question or header)</span>
-        <small *ngIf="devMode" class="float-end font-italic">{{ loadingTime }} seconds</small>
+    <div class="row me-0">
+      <div class="col col-sm align-content-center btn-group-sm" role="group" aria-label="Last group">
+        <button type="button" class="btn btn-primary"
+                (click)="addItem($event)"
+                aria-label="Add new item"
+                aria-controls="itemContent"
+        >Add new item
+        </button>
       </div>
-      <ul>
-        <li>
-          The questions are organized in hierarchical tree on the left side. Select the desired item to edit their
-          properties here.
-        </li>
-        <li *ngIf="errors$ | async" class="text-danger list-group-item-warning"
-            role="region" aria-live="assertive">{{ errorMessage }}
-        </li>
-        <div *ngIf="warnings$ | async as warnings">
-          <li class="text-warning list-group-item-warning" role="region" aria-live="assertive">
-            {{ warningEnableWhenMessage }}
-            <span
-              *ngFor="let warning of warnings; let last = last;">{{ warning.linkId + (last ? '' : ', ') }}</span>
-          </li>
+      <div class="col col-sm-10 mt-1">
+        <div class="btn-group-sm ms-2 ms-auto" role="group" aria-label="Last group">
+          <div>
+            <span>Edit item (question or header)</span>
+            <small *ngIf="devMode" class="float-end font-italic">{{ loadingTime }} seconds</small>
+          </div>
+          <ul>
+            <li>
+              The questions are organized in hierarchical tree on the left side. Select the desired item to edit their
+              properties here.
+            </li>
+            <li *ngIf="errors$ | async" class="text-danger list-group-item-warning"
+                role="region" aria-live="assertive">{{ errorMessage }}
+            </li>
+            <div *ngIf="warnings$ | async as warnings">
+              <li class="text-warning list-group-item-warning" role="region" aria-live="assertive">
+                {{ warningEnableWhenMessage }}
+                <span
+                  *ngFor="let warning of warnings; let last = last;">{{ warning.linkId + (last ? '' : ', ') }}</span>
+              </li>
+            </div>
+          </ul>
         </div>
-      </ul>
+      </div>
     </div>
-    <hr/>
+    <hr class="m-0"/>
     <ng-container *ngIf="editType === 'ui'">
       <lfb-spinner [show]="spinner$ | async"></lfb-spinner>
       <lfb-ngx-schema-form [isHiddenRadioItem]="hasHiddenRadio()" disabled="true" #uiEditor [model]="itemData"
@@ -102,17 +114,17 @@
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with item action buttons" appReadonly>
       <div class="btn-group-sm" role="group" aria-label="Last group">
         <button type="button" class="btn btn-primary"
-                [disabled]="!(focusNode && focusNode.parent)"
-                aria-label="Delete this item"
-                (click)="confirmItemDelete()">Delete this item
-        </button>
-      </div>
-      <div class="btn-group-sm ms-2 ms-auto" role="group" aria-label="Last group">
-        <button type="button" class="btn btn-primary"
                 (click)="addItem($event)"
                 aria-label="Add new item"
                 aria-controls="itemContent"
         >Add new item
+        </button>
+      </div>
+      <div class="btn-group-sm ms-2 ms-auto" role="group" aria-label="Last group">
+        <button type="button" class="btn btn-primary"
+                [disabled]="!(focusNode && focusNode.parent)"
+                aria-label="Delete this item"
+                (click)="confirmItemDelete()">Delete this item
         </button>
       </div>
     </div>
@@ -168,7 +180,8 @@
             (keydown.arrowDown)="preventEventPropagation($event)"
             (keydown.arrowUp)="preventEventPropagation($event)"
             (keydown.enter)="myDrop.toggle()"
-    ><fa-icon style="pointer-events: auto;" [icon]="nodeMenuIcon" (click)="closeDropDowns()"></fa-icon>
+    >
+      <fa-icon style="pointer-events: auto;" [icon]="nodeMenuIcon" (click)="closeDropDowns()"></fa-icon>
     </button>
     <div class="dropdown-menu" ngbDropdownMenu role="menu"
          (keydown.arrowDown)="preventEventPropagation($event)"

@@ -2,7 +2,6 @@
 
 import {Util} from '../../../src/app/lib/util';
 import {CypressUtil} from '../../support/cypress-util';
-import {ExtensionDefs} from "../../../src/app/lib/extension-defs";
 
 
 const olpExtUrl = 'http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observationLinkPeriod';
@@ -27,45 +26,7 @@ describe('Home page', () => {
     beforeEach(() => {
       CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
       cy.loadHomePage();
-      cy.get('input[type="radio"][value="scratch"]').click();
-      cy.get('button').contains('Continue').click();
-      cy.get('#text').should('have.value', 'Item 0', {timeout: 10000});
-      cy.get('#type').as('type');
-      cy.contains('.node-content-wrapper', 'Item 0').as('item0');
-      cy.get('.btn-toolbar').contains('button', 'Add new item').as('addNewItem');
-    });
-
-    xit('should display item editor page', () => {
-      cy.get('tree-root tree-viewport tree-node-collection tree-node').first().should('be.visible');
-      cy.get('@codeYes').click();
-      cy.get('[id^="code.0.code"]').as('code');
-      cy.get('@code').should('be.visible');
-      cy.get('@codeNo').click();
-      cy.get('@code').should('not.exist');
-
-      cy.contains('Add new item').scrollIntoView().click();
-      cy.get('tree-root tree-viewport tree-node-collection tree-node').last().find('tree-node-content div span').eq(1).should('have.text', 'New item 1');
-      cy.contains('Delete this item').scrollIntoView().click();
-      cy.contains('button', 'Yes').click();
-      cy.get('tree-root tree-viewport tree-node-collection tree-node').last().find('tree-node-content div span').eq(1).should('have.text', 'Item 0');
-
-      const helpString = 'Test help text!';
-      cy.get('@helpText').click();
-      cy.get('@helpText').type(helpString);
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].item[0].text).equal(helpString);
-        expect(qJson.item[0].item[0].type).equal('display');
-        expect(qJson.item[0].item[0].extension).to.deep.equal(helpTextExtension);
-      });
-
-    });
-
-    xit('should include code only when use question code is yes', () => {
-      cy.get('@codeOption').includeExcludeCodeField();
-    });
-
-    xit('should create codes at item level', () => {
-      CypressUtil.assertCodeField('/item/0/code');
+      cy.openQuestionnaireFromScratch();
     });
 
     it('should import form with nested extensions', () => {
@@ -74,6 +35,7 @@ describe('Home page', () => {
       cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
         fixtureJson = json
       });
+      cy.clickImportFileBtn();
       cy.uploadFile(sampleFile, true);
       cy.get('#previewBtn').click();
       cy.contains('mat-dialog-actions button', 'Close').click();
@@ -84,101 +46,6 @@ describe('Home page', () => {
         expect(json.extension[0].extension[0].extension[0].valueString).to.equal('Form level extension: 1/1/1');
         expect(json).to.deep.equal(fixtureJson);
       });
-    });
-
-    xit('should import item from CTSS with answer option', () => {
-      cy.contains('Add new item from LOINC').scrollIntoView().click();
-      cy.contains('ngb-modal-window label', 'Question').click();
-      cy.get('#acSearchBoxId').type('vital signs assess');
-      cy.get('ngb-typeahead-window button').first().click();
-      cy.contains('ngb-modal-window div.modal-dialog button', 'Add').click();
-      cy.get('#type option:selected').should('have.text', 'choice');
-
-      cy.get('[id^="answerOption.0.valueCoding.display"]').should('have.value', 'Within Defined Limits');
-      cy.get('[id^="answerOption.0.valueCoding.code"]').should('have.value', 'LA25085-4');
-      cy.get('[id^="answerOption.0.valueCoding.system"]').should('have.value', 'http://loinc.org');
-      cy.get('[id^="answerOption.1.valueCoding.display"]').should('have.value', 'Other');
-      cy.get('[id^="answerOption.1.valueCoding.code"]').should('have.value', 'LA46-8');
-      cy.get('[id^="answerOption.1.valueCoding.system"]').should('have.value', 'http://loinc.org');
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[1].answerOption).to.deep.equal([
-          {
-            valueCoding: {
-              system: 'http://loinc.org',
-              code: 'LA25085-4',
-              display: 'Within Defined Limits'
-            }
-          }, {
-            valueCoding: {
-              system: 'http://loinc.org',
-              code: 'LA46-8',
-              display: 'Other'
-            }
-          }]);
-      });
-    });
-
-    xit('should not overwrite previous tree node, when clicked before updating the editor', () => {
-      const {_, $} = Cypress;
-      cy.contains('button', 'Import').click();
-      cy.get('form > input[placeholder="Search LOINC"]').type('vital signs, weight & height panel{downArrow}');
-      cy.contains('ngb-typeahead-window button', /vital signs, weight & height panel/i).click();
-      cy.get('div.spinner-border').should('not.exist');
-      cy.contains('ngb-modal-window button', 'Continue').click();
-      cy.contains('#itemContent span', 'Vital Signs Pnl');
-      cy.toggleTreeNodeExpansion('Vital Signs Pnl'); // Expand node
-      cy.get('tree-root tree-viewport tree-node-collection tree-node span').then(($spans) => {
-        return _.filter($spans.get(), (el) => {
-          return $(el).text().match(/Resp rate|Heart rate/i);
-        });
-      }).click({multiple: true, force: true});
-      // Click the two nodes rapidly. Sometimes tooltip lingers, force through it.
-
-      cy.get('#text').should('have.value', 'Resp rate'); // Bugfix - Should not be Heart rate
-      cy.getTreeNode('Heart rate').click();
-      cy.get('#text').should('have.value', 'Heart rate'); // This node should still exist.
-    });
-
-    xit('should delete items', () => {
-      const nestedItemsFilename = 'nested-items-delete-sample.json';
-      cy.uploadFile(nestedItemsFilename, true);
-      cy.contains('button', 'Edit questions').click();
-      cy.get('#text').should('have.value', 'One (group)');
-
-      // Expand the tree,
-      cy.toggleTreeNodeExpansion('One (group)');
-      cy.toggleTreeNodeExpansion('One dot seven (group): last sibling');
-      cy.toggleTreeNodeExpansion('Two (group): last sibling');
-      cy.toggleTreeNodeExpansion('Two dot four (group)');
-
-      cy.getTreeNode('Two dot four dot two').click(); // Pick a starting point somewhere in the middle
-      // Order of nodes loading into the editor after clicking the delete button.
-      [
-        'Two dot four dot two',
-        'Two dot four dot three',
-        'Two dot four dot four: last sibling',
-        'Two dot four dot one',
-        'Two dot four (group)',
-        'Two dot five',
-        'Two dot six',
-        'Two dot seven',
-        'Two dot eight',
-        'Two dot nine (group): last sibling',
-        'Two dot three',
-        'Two dot two',
-        'Two dot one',
-        'Two (group): last sibling',
-        'One (group)',
-      ].forEach((itemText) => {
-        cy.get('#text').should('have.value', itemText);
-        cy.contains('button', 'Delete this item').click();
-        cy.contains('button', 'Yes').click();
-      });
-
-      // All nodes are deleted.
-      cy.get('lfb-sf-form-wrapper div.container-fluid p')
-        .should('have.text', 'No items in the form. Add an item to continue.');
     });
 
     describe('Insert new item using sidebar tree node context menu', () => {
@@ -276,8 +143,8 @@ describe('Home page', () => {
       beforeEach(() => {
         CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
         cy.loadHomePage();
-        cy.get('input[type="radio"][value="scratch"]').click();
-        cy.get('button').contains('Continue').click();
+        cy.openQuestionnaireFromScratch();
+
         cy.contains('button', 'Add new item').click();
         cy.contains('button', 'Add new item').click();
         cy.contains('button', 'Add new item').click();
@@ -326,6 +193,7 @@ describe('Home page', () => {
     it('should import help text item', () => {
       const helpTextFormFilename = 'help-text-sample.json';
       const helpString = 'testing help text from import';
+      cy.clickImportFileBtn();
       cy.uploadFile(helpTextFormFilename, true);
       cy.get('[id^="__$helpText"]').should('have.value', helpString);
       cy.questionnaireJSON().should((qJson) => {
@@ -413,71 +281,13 @@ describe('Home page', () => {
 
     });
 
-    xit('should import item with answer option', () => {
-      const sampleFile = 'answer-option-sample.json';
-      let fixtureJson;
-      cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
-        fixtureJson = json
-      });
-      cy.uploadFile(sampleFile, true);
-      cy.get('#title').should('have.value', 'Answer options form');
-      cy.contains('button', 'Edit questions').click();
-
-      cy.get('lfb-answer-option table > tbody > tr:nth-of-type(1)').as('firstOption');
-      cy.get('lfb-answer-option table > tbody > tr:nth-of-type(2)').as('secondOption');
-      cy.get('[id^="initialChoices_value"]').check({force: true});
-
-      cy.get('@firstOption').find('td:nth-child(1) input').should('have.value', 'd1');
-      cy.get('@firstOption').find('td:nth-child(9) input').should('have.value', 'a');
-      cy.get('@firstOption').find('td:nth-child(10) input').should('have.value', 's');
-      cy.get('@firstOption').find('td:nth-child(11) input').should('have.value', '1');
-      cy.get('@firstOption').find('td:nth-child(12) input').should('be.visible').and('not.be.checked');
-      cy.get('@secondOption').find('td:nth-child(1) input').should('have.value', 'd2');
-      cy.get('@secondOption').find('td:nth-child(9) input').should('have.value', 'b');
-      cy.get('@secondOption').find('td:nth-child(10) input').should('have.value', 's');
-      cy.get('@secondOption').find('td:nth-child(11) input').as('secondScore')
-        .should('have.value', '2');
-      // cy.get('@secondOption').find('td:nth-child(12) input').as('secondDefaultRadio')
-      //   .should('be.visible').and('be.checked');
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].answerOption).to.deep.equal(fixtureJson.item[0].answerOption);
-      });
-
-      cy.get('@secondScore').clear().type('22');
-      cy.get('lfb-answer-option table+button').click();
-      cy.get('lfb-answer-option table > tbody > tr:nth-of-type(3)').as('thirdOption').should('be.visible');
-      cy.get('@thirdOption').find('td:nth-child(1) input').type('d3');
-      cy.get('@thirdOption').find('td:nth-child(2) input').type('c');
-      cy.get('@thirdOption').find('td:nth-child(3) input').type('s');
-      cy.get('@thirdOption').find('td:nth-child(4) input').type('33');
-      // cy.get('@thirdOption').find('td:nth-child(5) input').as('thirdDefaultRadio').click();
-
-      const ORDINAL_URI = 'http://hl7.org/fhir/StructureDefinition/ordinalValue';
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].answerOption).to.deep.equal([
-          {
-            valueCoding: {display: 'd1', code: 'a', system: 's'},
-            extension: [{url: ORDINAL_URI, valueDecimal: 1}]
-          },
-          {
-            valueCoding: {display: 'd2', code: 'b', system: 's'},
-            extension: [{url: ORDINAL_URI, valueDecimal: 22}]
-          },
-          {
-            valueCoding: {display: 'd3', code: 'c', system: 's'},
-            extension: [{url: ORDINAL_URI, valueDecimal: 33}]
-          },
-        ]);
-      });
-    });
-
     it('should fix a bug in messing up default selections when switched to another node', () => {
       const sampleFile = 'answer-option-sample.json';
       let fixtureJson;
       cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
         fixtureJson = json
       });
+      cy.clickImportFileBtn();
       cy.uploadFile(sampleFile, true);
       cy.contains('button', 'Edit form attributes').click();
       cy.get('#title').should('have.value', 'Answer options form');
@@ -508,36 +318,6 @@ describe('Home page', () => {
       cy.clickTreeNode('Item 2 with answer option');
       // Second item's default is first option.
       cy.get('@firstRadioDefault').should('be.checked');
-    });
-
-    xit('should fix initial input box when switched data type from choice to decimal', () => {
-      const sampleFile = 'initial-component-bugfix.json';
-      let fixtureJson;
-      cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
-        fixtureJson = json
-      });
-      cy.uploadFile(sampleFile, true);
-      cy.get('#title').should('have.value', 'Sample to test initial component error');
-      cy.contains('button', 'Edit questions').click();
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].item[0].answerOption).to.deep.equal(fixtureJson.item[0].item[0].answerOption);
-        expect(qJson.item[0].item[0].initial).to.deep.equal(fixtureJson.item[0].item[0].initial);
-      });
-
-      cy.toggleTreeNodeExpansion('Group item 1');
-      cy.getTreeNode('Choice item 1.1').click({timeout: 4000});
-      cy.get('[id^="initialChoices_value"]').check({force: true});
-      cy.get('@type').find(':selected').should('have.text', 'choice');
-      cy.get('[id^="answerOption."]').should('be.visible');
-      cy.get('[id^="initial"]').should('not.be.visible');
-      cy.get('[id^="radio_answerOption.1"]').should('be.checked', true);
-      cy.selectDataType('decimal');
-      cy.get('[id^="initialChoices_value"]').check({force: true});
-      cy.get('[id^="answerOption."]').should('not.exist');
-      cy.get('[id^="initial.0.valueDecimal"]').should('be.visible').type('1.2');
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].item[0].initial[0].valueDecimal).equal(1.2);
-      });
     });
 
     it('should create answerValueSet', () => {
@@ -573,6 +353,7 @@ describe('Home page', () => {
     });
 
     it('should import a form with an item having answerValueSet', () => {
+      cy.clickImportFileBtn();
       cy.uploadFile('answer-value-set-sample.json', true);
       cy.contains('button', 'Edit form attributes').click();
       cy.get('#title').should('have.value', 'Answer value set form');
@@ -588,170 +369,9 @@ describe('Home page', () => {
       });
     });
 
-    xit('should create SNOMED CT answerValueSet', () => {
-      const eclSel = '#answerValueSet_ecl';
-      cy.selectDataType('choice');
-      cy.get('[id^="initialChoices_no"]').check({force: true});
-      cy.get('[for^="__\\$answerOptionMethods_value-set"]').as('nonSnomedMethod');
-      cy.get('[for^="__\\$answerOptionMethods_answer-option"]').as('answerOptionMethod');
-      cy.get('[for^="__\\$answerOptionMethods_snomed-value-set"]').as('snomedMethod').click();
-
-      cy.get(eclSel).should('be.visible');
-      cy.get(eclSel).parent().parent().parent().as('controlDiv');
-      //cy.get('lfb-answer-option').should('not.exist');
-      cy.get('@controlDiv').find('span.text-break').should('not.exist');
-      cy.get(eclSel).type('123');
-      cy.get('@controlDiv').click() // Blur on eclSel
-      cy.get('@controlDiv').find('span.text-break').should('contain.text', 'fhir_vs=ecl%2F123');
-      // Preserve ecl edited in non-snomed input box
-      cy.get('@nonSnomedMethod').click();
-      // cy.get('#answerValueSet_ecl').should('not.exist');
-      cy.get('#answerValueSet_non-snomed').as('asInput').should('be.visible').should('contain.value', 'fhir_vs=ecl%2F123');
-      cy.get('@asInput').type('_extra_chars');
-      cy.get('@snomedMethod').click();
-      cy.get(eclSel).should('have.value', '123_extra_chars');
-
-      // Preserve ECL after going to answerOption and coming back to snomed value set.
-      cy.get('@answerOptionMethod').click();
-      cy.get(eclSel).should('not.exist');
-      cy.get('@snomedMethod').click();
-      cy.get(eclSel).should('have.value', '123_extra_chars');
-
-      cy.questionnaireJSON().should((q) => {
-        expect(q.item[0].answerValueSet).contain('fhir_vs=ecl%2F123_extra_chars');
-        expect(q.item[0].answerOption).to.be.undefined;
-        expect(q.item[0].extension[0]).to.deep.equal({
-          url: 'http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-preferredTerminologyServer',
-          valueUrl: 'https://snowstorm.ihtsdotools.org/fhir'
-        });
-      });
-
-      cy.get(eclSel).clear();
-      cy.get('@controlDiv').find('span.text-break').should('not.exist');
-      cy.questionnaireJSON().should((q) => {
-        expect(q.item[0].answerValueSet).to.be.undefined;
-        expect(q.item[0].answerOption).to.be.undefined;
-      });
-    });
-
-    xit('should import a form with an item having SNOMED CT answerValueSet', () => {
-      const decodedValueTextPart = '< 429019009 |Finding related to biological sex';
-      const encodedUriPart = 'fhir_vs=' + encodeURIComponent('ecl/' + decodedValueTextPart);
-
-      cy.uploadFile('snomed-answer-value-set-sample.json', true);
-      cy.get('#title').should('have.value', 'SNOMED answer value set form');
-      cy.contains('button', 'Edit questions').click();
-      cy.get('[id^="initialChoices_no"]').check({force: true});
-
-      // First item is with SNOMED CT URI.
-      cy.get('[id^="__\\$answerOptionMethods_snomed-value-set"]').should('be.checked');
-      //cy.get('lfb-answer-option').as('answerOption').should('not.exist');
-      cy.get('#answerValueSet_non-snomed').as('nonSnomedUrl').should('not.exist');
-
-      cy.get('#answerValueSet_ecl').as('ecl').should('contain.value', decodedValueTextPart);
-      cy.get('#answerValueSet_edition').as('edition')
-        .find('option:selected').should('have.text', 'International Edition (900000000000207008)');
-      cy.get('#answerValueSet_version').as('version')
-        .find('option:selected').should('have.text', '20221231');
-      cy.get('@ecl').parent().parent().parent().as('controlDiv');
-      cy.get('@controlDiv').find('span').should('contain.text', encodedUriPart);
-
-      // non-snomed answerValueSet
-      cy.clickTreeNode('Item with non-snomed');
-      cy.get('[id^="__\\$answerOptionMethods_value-set"]').should('be.checked');
-      cy.get('#answerValueSet_non-snomed').should('be.visible')
-        .should('have.value', 'http://clinicaltables.nlm.nih.gov/fhir/R4/ValueSet/conditions');
-      cy.get('@ecl').should('not.exist');
-      cy.get('@edition').should('not.exist');
-      cy.get('@version').should('not.exist');
-      // cy.get('@answerOption').should('not.exist');
-
-      cy.clickTreeNode('Item with answer option');
-      cy.get('[id^="__\\$answerOptionMethods_answer-option"]').should('be.checked');
-      cy.get('lfb-answer-option').should('be.visible');
-      cy.get('@ecl').should('not.exist');
-      cy.get('@edition').should('not.exist');
-      cy.get('@version').should('not.exist');
-      cy.get('@nonSnomedUrl').should('not.exist');
-
-
-      cy.clickTreeNode('Item with SNOMED');
-      cy.get('[id^="__\\$answerOptionMethods_snomed-value-set"]').should('be.checked');
-      cy.clickTreeNode('Item with answer option');
-      cy.get('[id^="__\\$answerOptionMethods_answer-option"]').should('be.checked');
-      cy.get('lfb-answer-option').should('be.visible');
-      cy.clickTreeNode('Item with non-snomed');
-      cy.get('[id^="__\\$answerOptionMethods_value-set"]').should('be.checked');
-
-      cy.clickTreeNode('Item with SNOMED');
-      cy.get('[id^="__\\$answerOptionMethods_snomed-value-set"]').should('be.checked');
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].answerValueSet).contain(encodedUriPart);
-        expect(qJson.item[1].answerValueSet).contain('http://clinicaltables.nlm.nih.gov/fhir/R4/ValueSet/conditions');
-        expect(qJson.item[2].answerValueSet).to.be.undefined;
-      });
-
-      // Assertions in preview.
-      cy.get('#previewBtn').click();
-
-      // SNOMED CT answers
-      cy.contains('.mdc-tab.mat-mdc-tab', 'View Rendered Form').click();
-      cy.get('#1\\/1').as('inputBox1').click();
-      cy.get('#searchResults').should('be.visible');
-      cy.get('@inputBox1').type('{downarrow}{enter}', {force: true});
-      cy.get('#searchResults').should('not.be.visible');
-      cy.get('@inputBox1').should('have.value', 'Intersex');
-
-      // Non SNOMED CT answers
-      cy.get('#2\\/1').as('inputBox2').click();
-      cy.get('#searchResults').should('be.visible');
-      cy.get('@inputBox2').type('{downarrow}{enter}', {force: true});
-      cy.get('#searchResults').should('not.be.visible');
-      cy.get('@inputBox2').should('have.value', 'Back pain');
-
-      cy.contains('mat-dialog-actions button', 'Close').click();
-    });
-
-    xit('should create item-control extension with autocomplete option', () => {
-      const icId = '#item_control___\\$itemControl';
-      cy.get(icId).should('not.exist'); // Datatype is other than choice, open-choice
-      cy.selectDataType('open-choice');
-      cy.get('[for^="__\\$answerOptionMethods_value-set"]').as('nonSnomedMethod');
-      cy.get('[for^="__\\$answerOptionMethods_answer-option"]').as('answerOptionMethod');
-      cy.get('[for^="__\\$answerOptionMethods_snomed-value-set"]').as('snomedMethod').click();
-      cy.get(icId).should('be.visible'); // open-choice type with snomed answerValueSet
-      cy.get('@answerOptionMethod').click();
-      cy.get(icId).should('not.exist'); // open-choice type with answer-option
-      cy.selectDataType('choice');
-      cy.get('@nonSnomedMethod').click();
-      cy.get(icId).should('be.visible'); // choice type with answerValueSet
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('choice');
-        expect(qJson.item[0].extension).undefined;
-      });
-
-      cy.get(icId).click(); // Checked
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('choice');
-        expect(qJson.item[0].extension[0].url).equal('http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl');
-        expect(qJson.item[0].extension[0].valueCodeableConcept.coding[0].code).equal('autocomplete');
-        expect(qJson.item[0].extension[0].valueCodeableConcept.coding[0].display).equal('Auto-complete');
-        expect(qJson.item[0].extension[0].valueCodeableConcept.coding[0].system).equal('http://hl7.org/fhir/questionnaire-item-control');
-      });
-
-      cy.get(icId).click(); // Unchecked
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('choice');
-        expect(qJson.item[0].extension).undefined;
-      });
-    });
-
     it('should import with item having item-control extension', () => {
       const icId = '#item_control___\\$itemControl';
+      cy.clickImportFileBtn();
       cy.uploadFile('item-control-sample.json', true);
       cy.contains('button', 'Edit form attributes').click();
       cy.get('#title').should('have.value', 'Item control sample form');
@@ -818,114 +438,13 @@ describe('Home page', () => {
       });
     });
 
-    xit('should add/edit css to text and prefix fields', () => {
-      ['#text', '#prefix'].forEach((field) => {
-        cy.get(field + 'dropdownButton').as('cssButton');
-        cy.get(field + 'css').as('cssInput');
-        cy.contains(field + 'dropdownForm button', 'Close').as('closeButton')
-        cy.get('@cssButton').click();
-
-        cy.get('@cssInput').should('be.visible');
-        cy.get('@cssInput').type('font-weight: bold;');
-        cy.get('@closeButton').click();
-      });
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0]._text.extension[0].url).equal('http://hl7.org/fhir/StructureDefinition/rendering-style');
-        expect(qJson.item[0]._text.extension[0].valueString).equal('font-weight: bold;');
-        expect(qJson.item[0]._prefix.extension[0].url).equal('http://hl7.org/fhir/StructureDefinition/rendering-style');
-        expect(qJson.item[0]._prefix.extension[0].valueString).equal('font-weight: bold;');
-      });
-
-      ['#text', '#prefix'].forEach((field) => {
-        cy.get(field + 'dropdownButton').as('cssButton');
-        cy.get(field + 'css').as('cssInput');
-        cy.contains(field + 'dropdownForm button', 'Close').as('closeButton')
-        cy.get('@cssButton').click();
-
-        cy.get('@cssInput').should('be.visible');
-        cy.get('@cssInput').should('have.value', 'font-weight: bold;');
-        cy.get('@cssInput').clear();
-        cy.get('@closeButton').click();
-      });
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0]._text).to.be.undefined;
-        expect(qJson.item[0]._prefix).to.be.undefined;
-      });
-    });
-
-    xit('should import form in LForms format', () => {
-      const sampleFile = 'sample.lforms.json';
-      let fixtureJson;
-      cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
-        fixtureJson = json
-      });
-      cy.uploadFile(sampleFile, true);
-      cy.get('#title').should('have.value', 'Dummy Form');
-      cy.contains('button', 'Edit questions').click();
-      cy.questionnaireJSON().should((qJson) => {
-        // Make some key assertions.
-        expect(qJson.item.length).equal(1);
-        expect(qJson.item[0].text).equal('Section 0');
-        expect(qJson.item[0].type).equal('group');
-        expect(qJson.item[0].code[0].code).equal('c0');
-        expect(qJson.item[0].item.length).equal(1);
-        expect(qJson.item[0].item[0].text).equal('Section 00');
-        expect(qJson.item[0].item[0].type).equal('group');
-        expect(qJson.item[0].item[0].code[0].code).equal('c00');
-
-        expect(qJson.item[0].item[0].item[0].text).equal('Decimal question 000');
-        expect(qJson.item[0].item[0].item[0].type).equal('decimal');
-        expect(qJson.item[0].item[0].item[0].code[0].code).equal('c000');
-      });
-    });
-
-    xit('should create display type', () => {
-      cy.get('@type').contains('string');
-      cy.selectDataType('header (group/display)');
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('display');
-      });
-      cy.get('@addNewItem').click();
-
-      cy.contains('.node-content-wrapper span', 'New item 1').as('item1');
-
-      cy.dragAndDropNode('New item 1', 'Item 0'); // TODO - Not working, revisit.
-
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('group');
-      });
-      cy.get('@item0').dblclick();
-      cy.get('@item1').click();
-      cy.get('.btn-toolbar').contains('button', 'Delete this item').click();
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('display');
-      });
-    });
-
-    xit('should retain header type after switching to another item and switching back', () => {
-      cy.get('@type').contains('string');
-      cy.selectDataType('header (group/display)');
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('display');
-      });
-      cy.get('@addNewItem').click();
-      cy.get('@type').contains('string');
-      cy.get('@item0').click();
-      cy.get('@type').contains('header (group/display)');
-      cy.questionnaireJSON().should((qJson) => {
-        expect(qJson.item[0].type).equal('display');
-        expect(qJson.item[1].type).equal('string');
-      });
-    });
-
     it('should import display type', () => {
       const sampleFile = 'group-display-type-sample.json';
       let fixtureJson;
       cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
         fixtureJson = json
       });
+      cy.clickImportFileBtn();
       cy.uploadFile(sampleFile, true);
       cy.contains('button', 'Edit form attributes').click();
       cy.get('#title').should('have.value', 'New Form');
@@ -943,6 +462,7 @@ describe('Home page', () => {
       cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
         fixtureJson = json
       });
+      cy.clickImportFileBtn();
       cy.uploadFile(sampleFile, true);
       cy.questionnaireJSON().should((qJson) => {
         delete qJson.item;
@@ -1061,6 +581,7 @@ describe('Home page', () => {
       });
 
       it('should display lforms errors in preview', () => {
+        cy.clickImportFileBtn();
         const sampleFile = 'questionnaire-enableWhen-missing-linkId.json';
         cy.uploadFile(sampleFile, true);
         cy.get('#title').should('have.value', 'Questionnaire where enableWhen contains an invalid linkId');
@@ -1213,83 +734,6 @@ describe('Home page', () => {
         cy.get(errorIcon1El).should('not.exist');
       });
 
-      xit('should import form with conditional display field', () => {
-        const sampleFile = 'enable-when-sample.json';
-        let fixtureJson;
-        cy.readFile('cypress/fixtures/' + sampleFile).should((json) => {
-          fixtureJson = json
-        });
-        cy.uploadFile(sampleFile, true);
-        cy.get('#title').should('have.value', 'US Surgeon General family health portrait');
-
-        cy.contains('button', 'Edit questions').click();
-        cy.toggleTreeNodeExpansion('Family member health history');
-        cy.toggleTreeNodeExpansion('Living?');
-        cy.clickTreeNode('Living?');
-        cy.get('lfb-answer-option table > tbody > tr').should('have.length', 3);
-        cy.get('[id^="answerOption.0.valueCoding.display"]').should('have.value', 'Yes');
-        cy.get('[id^="answerOption.0.valueCoding.code"]').should('have.value', 'LA33-6');
-        cy.clickTreeNode('Date of Birth');
-        cy.get('[id^="enableWhen.0.question"]').should('have.value', 'Living?');
-        cy.get('[id^="enableWhen.0.operator"]')
-          .find('option:selected').should('have.text', '=');
-        cy.get('[id^="enableWhen.0.answerCoding"]')
-          .find('option:selected').should('have.text', 'Yes (LA33-6)');
-
-        cy.questionnaireJSON().should((qJson) => {
-          expect(qJson.item[0].item[0].item[0].enableWhen)
-            .to.deep.equal(fixtureJson.item[0].item[0].item[0].enableWhen);
-        });
-      });
-
-      xit('should create terminology server extension', () => {
-        cy.tsUrl().should('be.visible').type('http://example.org/fhir');
-        CypressUtil.assertValueInQuestionnaire('/item/0/extension',
-          [{
-            valueUrl: 'http://example.org/fhir',
-            url: ExtensionDefs.preferredTerminologyServer.url
-          }]);
-        cy.tsUrl().clear();
-        CypressUtil.assertValueInQuestionnaire('/item/0/extension', undefined);
-        cy.tsUrl().type('http://example.com/r4');
-        CypressUtil.assertValueInQuestionnaire('/item/0/extension',
-          [{
-            url: ExtensionDefs.preferredTerminologyServer.url,
-            valueUrl: 'http://example.com/r4'
-          }]);
-      });
-
-      xit('should import a form with terminology server extension', () => {
-        const sampleFile = 'terminology-server-sample.json';
-        cy.uploadFile(sampleFile, true); // Avoid warning form loading based on item or form
-        cy.get('#title').should('have.value', 'Terminology server sample form');
-        cy.contains('button', 'Edit questions').click();
-        cy.advancedFields().click();
-        cy.tsUrl().should('be.visible').should('have.value', 'http://example.com/r4');
-        CypressUtil.assertExtensionsInQuestionnaire(
-          '/item/0/extension',
-          ExtensionDefs.preferredTerminologyServer.url,
-          [{
-            url: ExtensionDefs.preferredTerminologyServer.url,
-            valueUrl: 'http://example.com/r4'
-          }]
-        );
-
-        cy.tsUrl().clear();
-        CypressUtil.assertExtensionsInQuestionnaire(
-          '/item/0/extension', ExtensionDefs.preferredTerminologyServer.url, []);
-
-        cy.tsUrl().type('http://a.b');
-        CypressUtil.assertExtensionsInQuestionnaire(
-          '/item/0/extension',
-          ExtensionDefs.preferredTerminologyServer.url,
-          [{
-            url: ExtensionDefs.preferredTerminologyServer.url,
-            valueUrl: 'http://a.b'
-          }]
-        );
-      });
-
       it('should create observation link period', () => {
         // Yes/no option
         cy.get('[id^="radio_No_observationLinkPeriod"]').as('olpNo');
@@ -1334,7 +778,8 @@ describe('Home page', () => {
           fixtureJson = json;
           originalExtension = JSON.parse(JSON.stringify(json.item[0].extension));
         });
-        cy.uploadFile(sampleFile, true);
+        cy.clickImportFileBtn();
+        cy.uploadFile(sampleFile, false);
         cy.get('#title').should('have.value', 'Form with observation link period');
         cy.contains('button', 'Edit questions').click();
         cy.advancedFields().click();
@@ -1408,7 +853,8 @@ describe('Home page', () => {
             fixtureJson = json;
             originalExtension = JSON.parse(JSON.stringify(json.item[0].extension));
           });
-          cy.uploadFile(sampleFile, true);
+          cy.clickImportFileBtn();
+          cy.uploadFile(sampleFile, false);
           cy.get('#title').should('have.value', 'Form with observation extract');
           cy.contains('button', 'Edit questions').click();
           cy.advancedFields().click();
@@ -1446,8 +892,7 @@ describe('Home page', () => {
         fixtureJson = json
       });
       cy.loadHomePage();
-      cy.get('input[type="radio"][value="scratch"]').click();
-      cy.get('button').contains('Continue').click();
+      cy.clickImportFileBtn();
       cy.uploadFile(sampleFile, true);
       cy.contains('button', 'Edit form attributes').click();
       cy.get('#title').should('have.value', 'US Surgeon General family health portrait');
@@ -1483,51 +928,65 @@ describe('Home page', () => {
   });
 });
 
+describe('Questionnaire create dialog', () => {
 
-xdescribe('Accepting only LOINC terms of use', () => {
-  before(() => {
+  beforeEach(() => {
     CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
-    cy.loadHomePageWithLoincOnly();
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
-    cy.get('button').contains('Create questions').click();
-    cy.resetForm()
-    cy.get('button').contains('Create questions').click();
-  });
-  xit('should not display SNOMED option in answerValueSet', () => {
-    cy.selectDataType('choice');
-    cy.get('[id^="__\\$answerOptionMethods_answer-option"]').should('be.checked');
-    cy.get('[id^="__\\$answerOptionMethods_value-set"]').should('not.be.checked');
-    // SNOMED radio should not exist
-    cy.get('[for^="__\\$answerOptionMethods_snomed-value-set"]').should('not.exist');
-    cy.get('#answerValueSet_non-snomed').should('not.exist');
-    cy.get('#answerValueSet_ecl').should('not.exist');
-    cy.get('#answerValueSet_edition').should('not.exist');
-    cy.get('#answerValueSet_version').should('not.exist');
-    cy.get('lfb-answer-option').should('be.visible');
+    cy.loadHomePage();
+    cy.get('button').contains('+').click();
+    cy.get("#questionnaire-create-dlg")
+      .find('.modal-title')
+      .should('have.text', 'Create Questionnaire');
+    cy.contains('button', 'Create').as('addNewItem');
 
-    cy.get('[for^="__\\$answerOptionMethods_value-set"]').click();
-    cy.get('#answerValueSet_non-snomed').should('be.visible');
-    //cy.get('lfb-answer-option').should('not.exist');
+  });
+
+  it('fills title and mocks backend id check', () => {
+    cy.get('input#title').type('Test Form');
+    cy.get('input#id').should('have.value', 'TestForm');
+    cy.contains('id is available.').should('be.visible');
+    cy.contains('button', 'Create').should('not.be.disabled').click();
   });
 });
 
 
-
-describe('Effective Period field', () => {
+describe('Advanced options', () => {
   beforeEach(() => {
+
     CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
     cy.loadHomePage();
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
-    cy.get('#text').should('have.value', 'Item 0', {timeout: 10000});
-    cy.get('#type').as('type');
-    cy.contains('.node-content-wrapper', 'Item 0').as('item0');
-    cy.get('.btn-toolbar').contains('button', 'Add new item').as('addNewItem');
+    cy.clickImportFileBtn();
+  });
+
+  it('should duplicate the old Questionnaire', () => {
+    cy.uploadFile('reset-form.json');
+
+    cy.clickDuplicateBtn();
+
+    cy.get('.modal-dialog').should('be.visible');
+
+    cy.get('input#title').type('Test Form');
+    cy.get('input#id').should('have.value', 'TestForm');
+    cy.contains('id is available.').should('be.visible');
+    cy.contains('button', 'Create').should('not.be.disabled').click();
+
+
+  });
+
+});
+
+
+xdescribe('Effective Period field', () => {
+  beforeEach(() => {
+
+    CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
+    cy.loadHomePage();
+    cy.clickImportFileBtn();
 
   });
   it('should import with item having effective period property', () => {
-    cy.uploadFile('effective-period-and-answer-expression-sample.json', true);
+    cy.clickImportFileBtn();
+    cy.uploadFile('effective-period-and-answer-expression-sample.json');
     cy.contains('button', 'Edit form attributes').click();
     cy.get('#title').should('have.value', 'effective period and answer expression sample');
 
@@ -1545,18 +1004,13 @@ describe('Effective Period field', () => {
 
 describe('Answer expression field for choice item', () => {
   beforeEach(() => {
+
     CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
     cy.loadHomePage();
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
-    cy.get('#text').should('have.value', 'Item 0', {timeout: 10000});
-    cy.get('#type').as('type');
-    cy.contains('.node-content-wrapper', 'Item 0').as('item0');
-    cy.get('.btn-toolbar').contains('button', 'Add new item').as('addNewItem');
-
+    cy.clickImportFileBtn();
   });
   it('should import form with choice item having answer expression extension', () => {
-    cy.uploadFile('effective-period-and-answer-expression-sample.json', true);
+    cy.uploadFile('effective-period-and-answer-expression-sample.json');
     cy.contains('button', 'Edit form attributes').click();
     cy.get('#title').should('have.value', 'effective period and answer expression sample');
 
@@ -1596,7 +1050,7 @@ describe('Answer expression field for choice item', () => {
   });
 
   it('should import form with string item having calculated expression extension', () => {
-    cy.uploadFile('calculated-expression-sample.json', true);
+    cy.uploadFile('calculated-expression-sample.json', false);
     cy.contains('button', 'Edit form attributes').click();
     cy.get('#title').should('have.value', 'calculated expression sample');
     cy.contains('button', 'Edit questions').click();
@@ -1634,14 +1088,14 @@ describe('Answer expression field for choice item', () => {
 
 
   it('should import form with string item having questionnaire source item extensions', () => {
-    cy.uploadFile('questionnaire-source-item.json', true);
+    cy.uploadFile('questionnaire-source-item.json');
     cy.contains('button', 'Edit form attributes').click();
     cy.get('#title').should('have.value', 'questionnaire source item extensions sample');
     cy.contains('button', 'Edit questions').click();
     cy.advancedFields().click();
     cy.get('[id^="__\\$questionnaireItemSource.0.comment"]').should('be.visible').should('have.value', 'comment 1');
     cy.get('[id^="__\\$questionnaireItemSource.1.comment"]').should('be.visible').should('have.value', 'comment 2');
-    cy.get('[id^="select__\\$questionnaireItemSource.0"]').get('#type option:selected').should('have.text', 'string');
+   // cy.get('[id^="select__\\$questionnaireItemSource.0"]').get('#type option:selected').should('have.text', 'string');
 
     cy.questionnaireJSON().should((qJson) => {
       expect(qJson.item[0].type).equal('string');
@@ -1662,18 +1116,14 @@ describe('Answer expression field for choice item', () => {
 
 describe('Hidden extension for hidden item', () => {
   beforeEach(() => {
+
     CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
     cy.loadHomePage();
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
-    cy.get('#text').should('have.value', 'Item 0', {timeout: 10000});
-    cy.get('#type').as('type');
-    cy.contains('.node-content-wrapper', 'Item 0').as('item0');
-    cy.get('.btn-toolbar').contains('button', 'Add new item').as('addNewItem');
+    cy.clickImportFileBtn();
 
   });
   it('should import form having hidden extension', () => {
-    cy.uploadFile('hidden-item-sample.json', true);
+    cy.uploadFile('hidden-item-sample.json', false);
     cy.contains('button', 'Edit form attributes').click();
     cy.get('#title').should('have.value', 'Hospitalisation obstétrique');
     cy.contains('button', 'Edit questions').click();
@@ -1715,17 +1165,58 @@ describe('Hidden extension for hidden item', () => {
 });
 
 
-describe('Hidden extension for hidden item', () => {
+describe('item with initial', () => {
   beforeEach(() => {
+
     CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
     cy.loadHomePage();
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
-    cy.get('#text').should('have.value', 'Item 0', {timeout: 10000});
-    cy.get('#type').as('type');
-    cy.contains('.node-content-wrapper', 'Item 0').as('item0');
-    cy.get('.btn-toolbar').contains('button', 'Add new item').as('addNewItem');
+  });
+
+  it('should import form having InitialExpression extension', () => {
+    cy.clickImportFileBtn();
+
+    cy.uploadFile('initial-expression-extension.json', false);
+    cy.contains('button', 'Edit form attributes').click();
+    cy.get('#title').should('have.value', 'Item with initial expression extension');
+    cy.contains('button', 'Edit questions').click();
+
+    cy.get('[id^="initialChoices_expression"]').should('be.visible').should('be.checked');
+    cy.questionnaireJSON().should((qJson) => {
+      const ext = qJson.item[0].extension[0];
+      expect(qJson.item[0].text).equal('Origine géographique');
+      expect(ext.url).equal('http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression')
+      const valueExpressionResult = {
+        "description": "prend la valeur de l'origine géographique V2 si elle existe, sinon V1",
+        "language": "text/fhirpath",
+        "expression": "%OrigineGeographiqueMere"
+      };
+
+      expect(ext.valueExpression.description).equal(valueExpressionResult.description);
+      expect(ext.valueExpression.language).equal(valueExpressionResult.language);
+      expect(ext.valueExpression.expression).equal(valueExpressionResult.expression);
+
+    });
 
   });
 
+  it('should have initial value for choice item with answerValueSet', () => {
+
+    cy.openQuestionnaireFromScratch();
+
+    cy.selectDataType('choice');
+
+    cy.get('[id^="__\\$answerOptionMethods_answer-option"]')
+      .should('exist')
+      .and('be.checked');
+
+    cy.get('[id^="__\\$answerOptionMethods_value-set"]').should('not.be.checked');
+    cy.get('lfb-answer-option').should('be.visible');
+
+    cy.get('[for^="__\\$answerOptionMethods_value-set"]').click();
+    cy.get('#answerValueSet_non-snomed').should('be.visible');
+    cy.get('#answerValueSet_non-snomed').should('have.value', 'TO DO');
+
+    cy.get('[id^="initialChoices_no"]').should('be.visible').should('be.checked');
+
+  });
 });

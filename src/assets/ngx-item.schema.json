@@ -29,7 +29,11 @@
           "description": {
             "description": "description",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           },
           "language": {
             "description": "language",
@@ -39,7 +43,11 @@
           "expression": {
             "description": "expression",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           }
         },
         "additionalProperties": false,
@@ -48,7 +56,9 @@
       "type": "array",
       "title": "Expression",
       "visibleIf": {
-        "/__$itemExtractionContextMethods": ["expression"]
+        "/__$itemExtractionContextMethods": [
+          "expression"
+        ]
       },
       "widget": {
         "id": "expression",
@@ -60,9 +70,22 @@
         "hideDefaultColumn": true,
         "singleItem": true,
         "showFields": [
-          {"field": "description", "title": "description", "nolabel": true},
-          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
-          {"field": "expression", "title": "expression", "nolabel": true}
+          {
+            "field": "description",
+            "title": "description",
+            "nolabel": true
+          },
+          {
+            "field": "language",
+            "title": "language",
+            "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language",
+            "nolabel": true
+          },
+          {
+            "field": "expression",
+            "title": "expression",
+            "nolabel": true
+          }
         ]
       }
     },
@@ -72,7 +95,9 @@
       "pattern": "^\\S*$",
       "type": "string",
       "visibleIf": {
-        "/__$itemExtractionContextMethods": ["value"]
+        "/__$itemExtractionContextMethods": [
+          "value"
+        ]
       },
       "widget": {
         "id": "select-value-set",
@@ -96,7 +121,9 @@
             "title": "Id",
             "pattern": "^[ \\r\\n\\t\\S]+$",
             "type": "string",
-            "widget": {"id": "hidden"}
+            "widget": {
+              "id": "hidden"
+            }
           },
           "part1": {
             "description": "url",
@@ -124,12 +151,22 @@
         "hideDefaultColumn": true,
         "singleItem": true,
         "showFields": [
-          {"field": "part1", "title": "Url structure de definition", "nolabel": true},
-          {"field": "part2", "title": "Fhirpath", "nolabel": true}
+          {
+            "field": "part1",
+            "title": "Url structure de definition",
+            "nolabel": true
+          },
+          {
+            "field": "part2",
+            "title": "Fhirpath",
+            "nolabel": true
+          }
         ]
       },
       "visibleIf": {
-        "/type": ["$EXP$ target.value != 'group' && target.value != 'display'"]
+        "/type": [
+          "$EXP$ target.value != 'group' && target.value != 'display'"
+        ]
       }
     },
     "__$valueExpression": {
@@ -150,7 +187,11 @@
           "expression": {
             "description": "expression",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           }
         },
         "additionalProperties": false,
@@ -168,9 +209,22 @@
         "hideDefaultColumn": true,
         "singleItem": false,
         "showFields": [
-          {"field": "name", "title": "Name", "nolabel": true},
-          {"field": "language", "title": "Language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
-          {"field": "expression", "title": "Expression", "nolabel": true}
+          {
+            "field": "name",
+            "title": "Name",
+            "nolabel": true
+          },
+          {
+            "field": "language",
+            "title": "Language",
+            "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language",
+            "nolabel": true
+          },
+          {
+            "field": "expression",
+            "title": "Expression",
+            "nolabel": true
+          }
         ]
       }
     },
@@ -184,12 +238,18 @@
             "title": "Id",
             "pattern": "^[ \\r\\n\\t\\S]+$",
             "type": "string",
-            "widget": {"id": "hidden"}
+            "widget": {
+              "id": "hidden"
+            }
           },
           "description": {
             "description": "description",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           },
           "language": {
             "description": "language",
@@ -199,7 +259,11 @@
           "expression": {
             "description": "expression",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           }
         },
         "additionalProperties": false,
@@ -208,7 +272,9 @@
       "type": "array",
       "title": "Answer expression",
       "visibleIf": {
-            "/__$answerOptionMethods": ["answer-expression"]
+        "/__$answerOptionMethods": [
+          "answer-expression"
+        ]
       },
       "widget": {
         "id": "expression",
@@ -220,9 +286,22 @@
         "hideDefaultColumn": true,
         "singleItem": true,
         "showFields": [
-          {"field": "description", "title": "description", "nolabel": true},
-          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
-          {"field": "expression", "title": "expression", "nolabel": true}
+          {
+            "field": "description",
+            "title": "description",
+            "nolabel": true
+          },
+          {
+            "field": "language",
+            "title": "language",
+            "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language",
+            "nolabel": true
+          },
+          {
+            "field": "expression",
+            "title": "expression",
+            "nolabel": true
+          }
         ]
       }
     },
@@ -239,7 +318,13 @@
           },
           "comment": {
             "description": "Any comment on the location of the information in the information system, e.g. the table in the application",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "labelPosition": "left",
+              "labelClasses": "col-sm-2 p-0 pe-1",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           }
         },
         "additionalProperties": false,
@@ -247,7 +332,10 @@
       },
       "widget": {
         "id": "questionnaire-item-source",
-        "innerExtensionUrls": ["source", "comment"],
+        "innerExtensionUrls": [
+          "source",
+          "comment"
+        ],
         "parentExtensionUrl": "https://aphp.fr/ig/fhir/formbuilder/StructureDefinition/QuestionnaireItemSource",
         "labelPosition": "left",
         "labelClasses": "col-2 ps-0 pe-1",
@@ -258,8 +346,6 @@
         "showFields": [
           {
             "field": "source",
-            "valueSetUrl": "https://aphp.fr/ig/fhir/eds/ValueSet/aphp-eds-source-code-vs",
-            "showOnlyDisplay": true,
             "title": "Source application",
             "nolabel": true
           },
@@ -317,7 +403,9 @@
         "controlClasses": "col-10 p-0",
         "addEmptyOption": true,
         "selectOptionsMap": {
-          "remove": ["display"],
+          "remove": [
+            "display"
+          ],
           "map": {
             "group": "header (group/display)"
           }
@@ -345,7 +433,9 @@
               "maxDecimalPlaces"
             ],
             "title": "Restriction",
-            "widget": {"id": "restrictions-operator"}
+            "widget": {
+              "id": "restrictions-operator"
+            }
           },
           "value": {
             "description": "Value to restrict the input",
@@ -357,7 +447,9 @@
         "type": "object"
       },
       "visibleIf": {
-        "type": ["$EXP$ target.value == 'decimal' || target.value == 'integer' || target.value == 'string' || target.value == 'text' || target.value == 'url' || target.value == 'reference' || target.value == 'quantity' || target.value == 'open-choice'" ]
+        "type": [
+          "$EXP$ target.value == 'decimal' || target.value == 'integer' || target.value == 'string' || target.value == 'text' || target.value == 'url' || target.value == 'reference' || target.value == 'quantity' || target.value == 'open-choice'"
+        ]
       },
       "widget": {
         "id": "restrictions",
@@ -371,10 +463,17 @@
         "booleanLabel": "Use restrictions?",
         "booleanControlledInitial": false,
         "showFields": [
-          {"field": "operator", "col": 7, "nolabel": true},
-          {"field": "value", "col": 4, "nolabel": true}
+          {
+            "field": "operator",
+            "col": 7,
+            "nolabel": true
+          },
+          {
+            "field": "value",
+            "col": 4,
+            "nolabel": true
+          }
         ]
-
       }
     },
     "maxLength": {
@@ -383,7 +482,9 @@
       "pattern": "^-?([0]|([1-9][0-9]*))$",
       "type": "number",
       "visibleIf": {
-        "type": ["$EXP$ target.value == 'boolean' || target.value == 'decimal' || target.value == 'integer' || target.value == 'string' || target.value == 'text' || target.value == 'url' || target.value == 'open-choice'"]
+        "type": [
+          "$EXP$ target.value == 'boolean' || target.value == 'decimal' || target.value == 'integer' || target.value == 'string' || target.value == 'text' || target.value == 'url' || target.value == 'open-choice'"
+        ]
       },
       "widget": {
         "id": "hidden",
@@ -443,7 +544,16 @@
       "title": "Question code",
       "widget": {
         "id": "boolean-radio",
-        "optionLabels": [[false, "No code"], [true, "Include code"]],
+        "optionLabels": [
+          [
+            false,
+            "No code"
+          ],
+          [
+            true,
+            "Include code"
+          ]
+        ],
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col-auto btn-group btn-group-sm ps-0"
       }
@@ -506,7 +616,9 @@
       "type": "array",
       "title": "Code",
       "visibleIf": {
-        "__$codeYesNo": [true]
+        "__$codeYesNo": [
+          true
+        ]
       },
       "widget": {
         "id": "table",
@@ -516,9 +628,21 @@
         "controlClasses": "col-sm-10",
         "addButtonLabel": "Add new code",
         "showFields": [
-          {"field": "code", "col": 3, "nolabel": true},
-          {"field": "system", "col": 4, "nolabel": true},
-          {"field": "display", "col": 4, "nolabel": true}
+          {
+            "field": "code",
+            "col": 3,
+            "nolabel": true
+          },
+          {
+            "field": "system",
+            "col": 4,
+            "nolabel": true
+          },
+          {
+            "field": "display",
+            "col": 4,
+            "nolabel": true
+          }
         ]
       }
     },
@@ -602,14 +726,18 @@
           "__$answerType": {
             "title": "Source question type",
             "type": "string",
-            "widget": {"id": "hidden"}
+            "widget": {
+              "id": "hidden"
+            }
           },
           "id": {
             "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
             "title": "Id",
             "pattern": "^[ \\r\\n\\t\\S]+$",
             "type": "string",
-            "widget": {"id": "hidden"}
+            "widget": {
+              "id": "hidden"
+            }
           },
           "extension": {
             "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
@@ -655,7 +783,9 @@
             ],
             "type": "string",
             "title": "Operator",
-            "widget": {"id": "enable-operator"}
+            "widget": {
+              "id": "enable-operator"
+            }
           },
           "answerBoolean": {
             "description": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
@@ -664,10 +794,14 @@
             "visibleIf": {
               "oneOf": [
                 {
-                  "__$answerType": ["boolean"]
+                  "__$answerType": [
+                    "boolean"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value == 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value == 'exists'"
+                  ]
                 }
               ]
             }
@@ -679,10 +813,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["decimal"]
+                  "__$answerType": [
+                    "decimal"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value != 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value != 'exists'"
+                  ]
                 }
               ]
             }
@@ -694,10 +832,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["integer"]
+                  "__$answerType": [
+                    "integer"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value != 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value != 'exists'"
+                  ]
                 }
               ]
             }
@@ -709,10 +851,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["date"]
+                  "__$answerType": [
+                    "date"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value != 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value != 'exists'"
+                  ]
                 }
               ]
             }
@@ -724,10 +870,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["dateTime"]
+                  "__$answerType": [
+                    "dateTime"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value != 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value != 'exists'"
+                  ]
                 }
               ]
             }
@@ -739,10 +889,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["time"]
+                  "__$answerType": [
+                    "time"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value != 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value != 'exists'"
+                  ]
                 }
               ]
             }
@@ -754,10 +908,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["$EXP$ target.value == 'string' || target.value == 'text' || target.value == 'url'"]
+                  "__$answerType": [
+                    "$EXP$ target.value == 'string' || target.value == 'text' || target.value == 'url'"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value != 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value != 'exists'"
+                  ]
                 }
               ]
             }
@@ -822,10 +980,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["$EXP$ target.value == 'choice' || target.value == 'open-choice'"]
+                  "__$answerType": [
+                    "$EXP$ target.value == 'choice' || target.value == 'open-choice'"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value == '=' || target.value == '!='"]
+                  "operator": [
+                    "$EXP$ target.value == '=' || target.value == '!='"
+                  ]
                 }
               ]
             },
@@ -887,10 +1049,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["quantity"]
+                  "__$answerType": [
+                    "quantity"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value != 'exists'"]
+                  "operator": [
+                    "$EXP$ target.value != 'exists'"
+                  ]
                 }
               ]
             },
@@ -900,7 +1066,10 @@
               "controlWidth": 8,
               "label": true,
               "showFields": [
-                { "field": "value", "col": 3 }
+                {
+                  "field": "value",
+                  "col": 3
+                }
               ]
             }
           },
@@ -943,10 +1112,14 @@
             "visibleIf": {
               "allOf": [
                 {
-                  "__$answerType": ["reference"]
+                  "__$answerType": [
+                    "reference"
+                  ]
                 },
                 {
-                  "operator": ["$EXP$ target.value == 'exists' || target.value == '='"]
+                  "operator": [
+                    "$EXP$ target.value == 'exists' || target.value == '='"
+                  ]
                 }
               ]
             },
@@ -956,9 +1129,18 @@
               "controlWidth": 8,
               "label": true,
               "showFields": [
-                { "field": "reference", "col": 4 },
-                { "field": "type", "col": 4 },
-                { "field": "display", "col": 4 }
+                {
+                  "field": "reference",
+                  "col": 4
+                },
+                {
+                  "field": "type",
+                  "col": 4
+                },
+                {
+                  "field": "display",
+                  "col": 4
+                }
               ]
             }
           }
@@ -976,17 +1158,72 @@
         "addButtonLabel": "Add another condition",
         "id": "enable-when",
         "showFields": [
-          {"field": "question",       "nolabel": true, "col": 5, "title": "Question"},
-          {"field": "operator",       "nolabel": true, "col": 2, "title": "Operator"},
-          {"field": "answerBoolean",  "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerDecimal",  "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerInteger",  "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerDate",     "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerDateTime", "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerTime",     "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerString",   "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerCoding",   "nolabel": true, "col": 4, "title": "Answer"},
-          {"field": "answerQuantity", "nolabel": true, "col": 4, "title": "Answer"}
+          {
+            "field": "question",
+            "nolabel": true,
+            "col": 5,
+            "title": "Question"
+          },
+          {
+            "field": "operator",
+            "nolabel": true,
+            "col": 2,
+            "title": "Operator"
+          },
+          {
+            "field": "answerBoolean",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerDecimal",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerInteger",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerDate",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerDateTime",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerTime",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerString",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerCoding",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          },
+          {
+            "field": "answerQuantity",
+            "nolabel": true,
+            "col": 4,
+            "title": "Answer"
+          }
         ]
       }
     },
@@ -1059,29 +1296,39 @@
       "oneOf": [
         {
           "type": "string",
-          "enum": ["answer-option"],
+          "enum": [
+            "answer-option"
+          ],
           "title": "Answer options"
         },
         {
           "type": "string",
-          "enum": ["snomed-value-set"],
+          "enum": [
+            "snomed-value-set"
+          ],
           "title": "SNOMED answer value set"
         },
         {
           "type": "string",
-          "enum": ["value-set"],
+          "enum": [
+            "value-set"
+          ],
           "title": "Answer value set URI"
         },
         {
           "type": "string",
-          "enum": ["answer-expression"],
+          "enum": [
+            "answer-expression"
+          ],
           "title": "Answer expression"
         }
       ],
       "default": "answer-option",
       "type": "string",
       "visibleIf": {
-        "type": ["$EXP$ target.value == 'open-choice' || target.value == 'choice'"]
+        "type": [
+          "$EXP$ target.value == 'open-choice' || target.value == 'choice'"
+        ]
       },
       "widget": {
         "id": "answer-option-methods",
@@ -1096,7 +1343,10 @@
       "pattern": "^\\S*$",
       "type": "string",
       "visibleIf": {
-        "/__$answerOptionMethods": ["value-set", "snomed-value-set"]
+        "/__$answerOptionMethods": [
+          "value-set",
+          "snomed-value-set"
+        ]
       },
       "widget": {
         "id": "answer-value-set",
@@ -1115,7 +1365,9 @@
             "title": "Id",
             "pattern": "^[ \\r\\n\\t\\S]+$",
             "type": "string",
-            "widget": {"id": "hidden"}
+            "widget": {
+              "id": "hidden"
+            }
           },
           "extension": {
             "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
@@ -1145,7 +1397,9 @@
             "type": "integer",
             "title": "Value integer",
             "visibleIf": {
-              "/type": ["integer"]
+              "/type": [
+                "integer"
+              ]
             }
           },
           "valueDate": {
@@ -1153,7 +1407,9 @@
             "type": "string",
             "title": "Value date",
             "visibleIf": {
-              "/type": ["date"]
+              "/type": [
+                "date"
+              ]
             }
           },
           "valueTime": {
@@ -1162,7 +1418,9 @@
             "type": "string",
             "title": "Value time",
             "visibleIf": {
-              "/type": ["time"]
+              "/type": [
+                "time"
+              ]
             }
           },
           "valueString": {
@@ -1171,7 +1429,9 @@
             "type": "string",
             "title": "Value string",
             "visibleIf": {
-              "/type": ["$EXP$ target.value == 'string' || target.value == 'text'"]
+              "/type": [
+                "$EXP$ target.value == 'string' || target.value == 'text'"
+              ]
             }
           },
           "valueCoding": {
@@ -1233,7 +1493,9 @@
             "additionalProperties": false,
             "type": "object",
             "visibleIf": {
-              "/type": ["$EXP$ target.value == 'choice' || target.value == 'open-choice'"]
+              "/type": [
+                "$EXP$ target.value == 'choice' || target.value == 'open-choice'"
+              ]
             }
           },
           "valueReference": {
@@ -1274,7 +1536,9 @@
             "additionalProperties": false,
             "type": "object",
             "visibleIf": {
-              "/type": ["reference"]
+              "/type": [
+                "reference"
+              ]
             }
           },
           "initialSelected": {
@@ -1290,7 +1554,9 @@
       "type": "array",
       "title": "Answer choices",
       "visibleIf": {
-            "/__$answerOptionMethods": ["answer-option"]
+        "/__$answerOptionMethods": [
+          "answer-option"
+        ]
       },
       "widget": {
         "id": "answer-option",
@@ -1298,7 +1564,7 @@
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col-10 ",
         "addButtonLabel": "Add another answer",
-        "createValueSetButtonLabel" : "Generate the corresponding ValueSet",
+        "createValueSetButtonLabel": "Generate the corresponding ValueSet",
         "rowSelection": true,
         "multipleSelectionEnableSource": "repeats",
         "tableCss": "with-scroll",
@@ -1320,13 +1586,19 @@
       "title": "Choice type",
       "type": "string",
       "visibleIf": {
-        "type": ["$EXP$ target.value == 'open-choice' || target.value == 'choice'"],
+        "type": [
+          "$EXP$ target.value == 'open-choice' || target.value == 'choice'"
+        ],
         "allOf": [
           {
-            "type": ["$EXP$ target.value == 'open-choice' || target.value == 'choice'"]
+            "type": [
+              "$EXP$ target.value == 'open-choice' || target.value == 'choice'"
+            ]
           },
           {
-            "__$answerOptionMethods": ["$EXP$ target.value != 'answer-option' && target.value != 'answer-expression'"]
+            "__$answerOptionMethods": [
+              "$EXP$ target.value != 'answer-option' && target.value != 'answer-expression'"
+            ]
           }
         ]
       },
@@ -1357,7 +1629,16 @@
       "title": "Hidden item",
       "widget": {
         "id": "radio-hidden",
-        "optionLabels": [[false, "No"], [true, "Yes"]],
+        "optionLabels": [
+          [
+            false,
+            "No"
+          ],
+          [
+            true,
+            "Yes"
+          ]
+        ],
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col-auto btn-group btn-group-sm ps-0"
       }
@@ -1369,12 +1650,23 @@
       "title": "Subject item",
       "widget": {
         "id": "radio-subject",
-        "optionLabels": [[false, "No"], [true, "Yes"]],
+        "optionLabels": [
+          [
+            false,
+            "No"
+          ],
+          [
+            true,
+            "Yes"
+          ]
+        ],
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col-auto btn-group btn-group-sm ps-0"
       },
       "visibleIf": {
-        "/type": ["reference"]
+        "/type": [
+          "reference"
+        ]
       }
     },
     "__$initialExpressionYesNo": {
@@ -1394,7 +1686,7 @@
         "controlClasses": "col-auto btn-group btn-group-sm m-auto p-0"
       }
     },
-      "__$initialExpression": {
+    "__$initialExpression": {
       "description": "Initial Expression choice for item extraction context",
       "items": {
         "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
@@ -1402,7 +1694,11 @@
           "description": {
             "description": "description",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           },
           "language": {
             "description": "language",
@@ -1412,7 +1708,13 @@
           "expression": {
             "description": "expression",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "labelPosition": "left",
+              "labelClasses": "col-sm-2 p-0 pe-1",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           }
         },
         "additionalProperties": false,
@@ -1435,9 +1737,22 @@
         "hideDefaultColumn": true,
         "singleItem": true,
         "showFields": [
-          {"field": "description", "title": "description", "nolabel": true},
-          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
-          {"field": "expression", "title": "expression", "nolabel": true}
+          {
+            "field": "description",
+            "title": "description",
+            "nolabel": true
+          },
+          {
+            "field": "language",
+            "title": "language",
+            "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language",
+            "nolabel": true
+          },
+          {
+            "field": "expression",
+            "title": "expression",
+            "nolabel": true
+          }
         ]
       }
     },
@@ -1453,7 +1768,16 @@
       "type": "boolean",
       "widget": {
         "id": "initial-choices",
-        "optionLabels": [[true, "Expression"], [false, "No"]],
+        "optionLabels": [
+          [
+            true,
+            "Expression"
+          ],
+          [
+            false,
+            "No"
+          ]
+        ],
         "labelPosition": "left",
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col-auto btn-group btn-group-sm m-auto p-0"
@@ -1467,7 +1791,11 @@
           "description": {
             "description": "description",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           },
           "language": {
             "description": "language",
@@ -1477,7 +1805,11 @@
           "expression": {
             "description": "expression",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           }
         },
         "additionalProperties": false,
@@ -1500,9 +1832,22 @@
         "hideDefaultColumn": true,
         "singleItem": true,
         "showFields": [
-          {"field": "description", "title": "description", "nolabel": true},
-          {"field": "language", "title": "language", "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language", "nolabel": true},
-          {"field": "expression", "title": "expression", "nolabel": true}
+          {
+            "field": "description",
+            "title": "description",
+            "nolabel": true
+          },
+          {
+            "field": "language",
+            "title": "language",
+            "valueSetUrl": "http://hl7.org/fhir/ValueSet/expression-language",
+            "nolabel": true
+          },
+          {
+            "field": "expression",
+            "title": "expression",
+            "nolabel": true
+          }
         ]
       }
     },
@@ -1516,7 +1861,9 @@
             "title": "Id",
             "pattern": "^[ \\r\\n\\t\\S]+$",
             "type": "string",
-            "widget": {"id": "hidden"}
+            "widget": {
+              "id": "hidden"
+            }
           },
           "extension": {
             "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
@@ -1546,7 +1893,9 @@
             "type": "boolean",
             "title": "Value boolean",
             "visibleIf": {
-              "/type": ["boolean"]
+              "/type": [
+                "boolean"
+              ]
             },
             "widget": {
               "id": "boolean-radio",
@@ -1560,7 +1909,9 @@
             "type": "number",
             "title": "Value decimal",
             "visibleIf": {
-              "/type": ["decimal"]
+              "/type": [
+                "decimal"
+              ]
             }
           },
           "valueInteger": {
@@ -1569,7 +1920,9 @@
             "type": "integer",
             "title": "Value integer",
             "visibleIf": {
-              "/type": ["integer"]
+              "/type": [
+                "integer"
+              ]
             }
           },
           "valueDate": {
@@ -1577,7 +1930,9 @@
             "type": "string",
             "title": "Value date",
             "visibleIf": {
-              "/type": ["date"]
+              "/type": [
+                "date"
+              ]
             },
             "widget": {
               "id": "date-picker",
@@ -1591,7 +1946,9 @@
             "type": "string",
             "title": "Value date time",
             "visibleIf": {
-              "/type": ["dateTime"]
+              "/type": [
+                "dateTime"
+              ]
             },
             "widget": {
               "id": "date-time-picker",
@@ -1606,7 +1963,9 @@
             "type": "string",
             "title": "Value time",
             "visibleIf": {
-              "/type": ["time"]
+              "/type": [
+                "time"
+              ]
             },
             "widget": {
               "id": "time-picker",
@@ -1621,7 +1980,9 @@
             "type": "string",
             "title": "Value string",
             "visibleIf": {
-              "/type": ["$EXP$ target.value == 'string' || target.value == 'text'"]
+              "/type": [
+                "$EXP$ target.value == 'string' || target.value == 'text'"
+              ]
             }
           },
           "valueUri": {
@@ -1630,7 +1991,9 @@
             "type": "string",
             "title": "Value uri",
             "visibleIf": {
-              "/type": ["$EXP$ target.value == 'uri' || target.value == 'url'"]
+              "/type": [
+                "$EXP$ target.value == 'uri' || target.value == 'url'"
+              ]
             }
           },
           "valueAttachment": {
@@ -1696,7 +2059,9 @@
             "additionalProperties": false,
             "type": "object",
             "visibleIf": {
-              "/type": ["attachment"]
+              "/type": [
+                "attachment"
+              ]
             }
           },
           "valueCoding": {
@@ -1818,9 +2183,10 @@
             "additionalProperties": false,
             "type": "object",
             "visibleIf": {
-              "/type": ["quantity"]
+              "/type": [
+                "quantity"
+              ]
             }
-
           },
           "valueReference": {
             "description": "The actual value to for an initial answer.",
@@ -1860,7 +2226,9 @@
             "additionalProperties": false,
             "type": "object",
             "visibleIf": {
-              "/type": ["reference"]
+              "/type": [
+                "reference"
+              ]
             }
           }
         },
@@ -1872,22 +2240,30 @@
       "visibleIf": {
         "allOf": [
           {
-            "/__$initialExpressionYesNo": ["value"]
+            "/__$initialExpressionYesNo": [
+              "value"
+            ]
           },
           {
             "oneOf": [
               {
                 "allOf": [
                   {
-                    "__$answerOptionMethods": ["$EXP$ target.value == 'value-set'"]
+                    "__$answerOptionMethods": [
+                      "$EXP$ target.value == 'value-set'"
+                    ]
                   },
                   {
-                    "answerValueSet": ["$EXP$ target.value != ''"]
+                    "answerValueSet": [
+                      "$EXP$ target.value != ''"
+                    ]
                   }
                 ]
               },
               {
-                "/type": ["$EXP$ target.value != 'choice' && target.value != 'open-choice'"]
+                "/type": [
+                  "$EXP$ target.value != 'choice' && target.value != 'open-choice'"
+                ]
               }
             ]
           }
@@ -1901,19 +2277,78 @@
         "addButtonLabel": "Add another value",
         "singleItemEnableSource": "repeats",
         "showFields": [
-          {"field": "valueAttachment", "noHeader": true, "title": "", "nolabel": true},
-          {"field": "valueBoolean", "noHeader": true, "title": "", "nolabel": true},
-          {"field": "valueDecimal", "noHeader": true, "title": "", "nolabel": true},
-          {"field": "valueInteger", "noHeader": true, "nolabel": true},
-          {"field": "valueDate", "noHeader": true, "nolabel": true},
-          {"field": "valueDateTime", "noHeader": true, "nolabel": true},
-          {"field": "valueTime", "noHeader": true, "nolabel": true},
-          {"field": "valueString", "noHeader": true, "title": "", "nolabel": true},
-          {"field": "valueUri", "noHeader": true, "nolabel": true},
-          {"field": "valueCoding.code", "noHeader": true, "nolabel": true, "valueSetUrl":  null},
-          {"field": "valueQuantity.value","title": "Value", "col": 4, "nolabel": true},
-          {"field": "valueQuantity.unit", "title": "Unit", "col": 7, "nolabel": true},
-          {"field": "valueReference", "noHeader": true, "nolabel": true}
+          {
+            "field": "valueAttachment",
+            "noHeader": true,
+            "title": "",
+            "nolabel": true
+          },
+          {
+            "field": "valueBoolean",
+            "noHeader": true,
+            "title": "",
+            "nolabel": true
+          },
+          {
+            "field": "valueDecimal",
+            "noHeader": true,
+            "title": "",
+            "nolabel": true
+          },
+          {
+            "field": "valueInteger",
+            "noHeader": true,
+            "nolabel": true
+          },
+          {
+            "field": "valueDate",
+            "noHeader": true,
+            "nolabel": true
+          },
+          {
+            "field": "valueDateTime",
+            "noHeader": true,
+            "nolabel": true
+          },
+          {
+            "field": "valueTime",
+            "noHeader": true,
+            "nolabel": true
+          },
+          {
+            "field": "valueString",
+            "noHeader": true,
+            "title": "",
+            "nolabel": true
+          },
+          {
+            "field": "valueUri",
+            "noHeader": true,
+            "nolabel": true
+          },
+          {
+            "field": "valueCoding.code",
+            "noHeader": true,
+            "nolabel": true,
+            "valueSetUrl": null
+          },
+          {
+            "field": "valueQuantity.value",
+            "title": "Value",
+            "col": 4,
+            "nolabel": true
+          },
+          {
+            "field": "valueQuantity.unit",
+            "title": "Unit",
+            "col": 7,
+            "nolabel": true
+          },
+          {
+            "field": "valueReference",
+            "noHeader": true,
+            "nolabel": true
+          }
         ]
       }
     },
@@ -1922,7 +2357,9 @@
       "type": "string",
       "title": "Reference resource",
       "visibleIf": {
-        "/type": ["reference"]
+        "/type": [
+          "reference"
+        ]
       },
       "widget": {
         "id": "reference-select-field",
@@ -1949,7 +2386,11 @@
           "description": {
             "description": "description",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           },
           "language": {
             "description": "language",
@@ -1959,7 +2400,11 @@
           "expression": {
             "description": "expression",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1"
+            }
           }
         },
         "additionalProperties": false,
@@ -2013,7 +2458,9 @@
         "controlClasses": "col p-0 m-auto ms-0"
       },
       "visibleIf": {
-        "type": ["$EXP$ target.value != 'display'"]
+        "type": [
+          "$EXP$ target.value != 'display'"
+        ]
       }
     },
     "__$observationExtract": {
@@ -2028,7 +2475,9 @@
         "controlClasses": "col p-0 m-auto ms-0"
       },
       "visibleIf": {
-        "type": ["$EXP$ target.value != 'display'"]
+        "type": [
+          "$EXP$ target.value != 'display'"
+        ]
       }
     },
     "__$units": {
@@ -2043,7 +2492,9 @@
         "controlWidthClass": "col-sm-10"
       },
       "visibleIf": {
-        "type": ["$EXP$ target.value == 'integer' || target.value == 'decimal' || target.value == 'quantity'"]
+        "type": [
+          "$EXP$ target.value == 'integer' || target.value == 'decimal' || target.value == 'quantity'"
+        ]
       }
     },
     "__$helpText": {
@@ -2075,7 +2526,7 @@
           "pattern": "^[ \\r\\n\\t\\S]+$",
           "type": "string",
           "widget": {
-            "id": "string",
+            "id": "text-area",
             "labelPosition": "left",
             "labelClasses": "col-sm-2 p-0 pe-1",
             "controlClasses": "col-sm form-control form-control-sm p-1"
@@ -2116,39 +2567,91 @@
       }
     }
   },
-  "required": ["text", "type", "linkId"],
+  "required": [
+    "text",
+    "type",
+    "linkId"
+  ],
   "additionalProperties": false,
   "definitions": {
   },
   "fieldsets": [
     {
-      "fields": ["type", "linkId", "maxLength", "__$start", "__$end"],
+      "fields": [
+        "type",
+        "linkId",
+        "maxLength",
+        "__$start",
+        "__$end"
+      ],
       "showFields": [
-        { "field": "linkId", "col": 3 },
-        { "field": "type", "col": 3 },
-        { "field": "maxLength", "col": 2 }
+        {
+          "field": "linkId",
+          "col": 3
+        },
+        {
+          "field": "type",
+          "col": 3
+        },
+        {
+          "field": "maxLength",
+          "col": 2
+        }
       ]
     },
     {
-      "fields": ["prefix", "text", "_text", "_prefix"],
+      "fields": [
+        "prefix",
+        "text",
+        "_text",
+        "_prefix"
+      ],
       "showFields": [
-        { "field": "prefix", "col": 1},
-        { "field": "text", "col": 11 }
+        {
+          "field": "prefix",
+          "col": 1
+        },
+        {
+          "field": "text",
+          "col": 11
+        }
       ]
     },
     {
-      "fields": ["required", "readOnly", "repeats"],
+      "fields": [
+        "required",
+        "readOnly",
+        "repeats"
+      ],
       "showFields": [
-        { "field": "repeats", "col": 4 },
-        { "field": "readOnly", "col": 4 },
-        { "field": "required", "col": 4 }
+        {
+          "field": "repeats",
+          "col": 4
+        },
+        {
+          "field": "readOnly",
+          "col": 4
+        },
+        {
+          "field": "required",
+          "col": 4
+        }
       ]
     },
     {
-      "fields": ["code", "__$codeYesNo"],
+      "fields": [
+        "code",
+        "__$codeYesNo"
+      ],
       "showFields": [
-        { "field": "__$codeYesNo", "col": 12 },
-        { "field": "code", "col": 12 }
+        {
+          "field": "__$codeYesNo",
+          "col": 12
+        },
+        {
+          "field": "code",
+          "col": 12
+        }
       ]
     },
     {
@@ -2163,21 +2666,36 @@
       ]
     },
     {
-      "fields": ["__$answerOptionMethods"],
+      "fields": [
+        "__$answerOptionMethods"
+      ],
       "showFields": [
-        { "field": "__$answerOptionMethods", "col": 12 }
+        {
+          "field": "__$answerOptionMethods",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["answerValueSet"],
+      "fields": [
+        "answerValueSet"
+      ],
       "showFields": [
-        { "field": "answerValueSet", "col": 12 }
+        {
+          "field": "answerValueSet",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["answerOption"],
+      "fields": [
+        "answerOption"
+      ],
       "showFields": [
-        { "field": "answerOption", "col": 12 }
+        {
+          "field": "answerOption",
+          "col": 12
+        }
       ]
     },
     {
@@ -2192,9 +2710,14 @@
       ]
     },
     {
-      "fields": ["__$itemControl"],
+      "fields": [
+        "__$itemControl"
+      ],
       "showFields": [
-        { "field": "__$itemControl", "col": 12 }
+        {
+          "field": "__$itemControl",
+          "col": 12
+        }
       ]
     },
 
@@ -2240,97 +2763,188 @@
       ]
     },
     {
-      "fields": ["__$units"],
+      "fields": [
+        "__$units"
+      ],
       "showFields": [
-        { "field": "__$units", "col": 12 }
+        {
+          "field": "__$units",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["initial"],
+      "fields": [
+        "initial"
+      ],
       "showFields": [
-        { "field": "initial", "col": 12 }
+        {
+          "field": "initial",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$hiddenItemYesNo"],
+      "fields": [
+        "__$hiddenItemYesNo"
+      ],
       "showFields": [
-        { "field": "__$hiddenItemYesNo", "col": 12 }
+        {
+          "field": "__$hiddenItemYesNo",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$subjectItemYesNo"],
+      "fields": [
+        "__$subjectItemYesNo"
+      ],
       "showFields": [
-        { "field": "__$subjectItemYesNo", "col": 12 }
+        {
+          "field": "__$subjectItemYesNo",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$initialExpressionYesNo"],
+      "fields": [
+        "__$initialExpressionYesNo"
+      ],
       "showFields": [
-        { "field": "__$initialExpressionYesNo", "col": 12 }
+        {
+          "field": "__$initialExpressionYesNo",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$initialExpression"],
+      "fields": [
+        "__$initialExpression"
+      ],
       "showFields": [
-        { "field": "__$initialExpression", "col": 12 }
+        {
+          "field": "__$initialExpression",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$calculatedExpressionYesNo"],
+      "fields": [
+        "__$calculatedExpressionYesNo"
+      ],
       "showFields": [
-        { "field": "__$calculatedExpressionYesNo", "col": 12 }
+        {
+          "field": "__$calculatedExpressionYesNo",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$calculatedExpression"],
+      "fields": [
+        "__$calculatedExpression"
+      ],
       "showFields": [
-        { "field": "__$calculatedExpression", "col": 12 }
+        {
+          "field": "__$calculatedExpression",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$referenceResource"],
+      "fields": [
+        "__$referenceResource"
+      ],
       "showFields": [
-        { "field": "__$referenceResource", "col": 12 }
+        {
+          "field": "__$referenceResource",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$referenceAnswerExpression"],
+      "fields": [
+        "__$referenceAnswerExpression"
+      ],
       "showFields": [
-        { "field": "__$referenceAnswerExpression", "col": 12 }
+        {
+          "field": "__$referenceAnswerExpression",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$answerExpression"],
+      "fields": [
+        "__$answerExpression"
+      ],
       "showFields": [
-        { "field": "__$answerExpression", "col": 12 }
+        {
+          "field": "__$answerExpression",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["__$restrictions"],
+      "fields": [
+        "__$restrictions"
+      ],
       "showFields": [
-        { "field": "__$restrictions", "col": 12 }
+        {
+          "field": "__$restrictions",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["enableWhen"],
+      "fields": [
+        "enableWhen"
+      ],
       "showFields": [
-        { "field": "enableWhen", "col": 12 }
+        {
+          "field": "enableWhen",
+          "col": 12
+        }
       ]
     },
     {
-      "fields": ["enableBehavior"],
-      "showFields": [{"field": "enableBehavior", "col": 3}]
+      "fields": [
+        "enableBehavior"
+      ],
+      "showFields": [
+        {
+          "field": "enableBehavior",
+          "col": 3
+        }
+      ]
     },
     {
-      "fields": ["__$observationLinkPeriod"],
-      "showFields": [{"field": "__$observationLinkPeriod", "col": 10}]
+      "fields": [
+        "__$observationLinkPeriod"
+      ],
+      "showFields": [
+        {
+          "field": "__$observationLinkPeriod",
+          "col": 10
+        }
+      ]
     },
     {
-      "fields": ["__$observationExtract"],
-      "showFields": [{"field": "__$observationExtract", "col": 10}]
+      "fields": [
+        "__$observationExtract"
+      ],
+      "showFields": [
+        {
+          "field": "__$observationExtract",
+          "col": 10
+        }
+      ]
     },
     {
-      "fields": ["id", "extension", "modifierExtension", "definition_hidden"]
+      "fields": [
+        "id",
+        "extension",
+        "modifierExtension",
+        "definition_hidden"
+      ]
     }
   ],
   "steps": [
@@ -2340,30 +2954,78 @@
       "rows": [
         {
           "showFields": [
-            { "field": "type", "col": 12 },
-            { "field": "linkId", "col": 12 }
+            {
+              "field": "type",
+              "col": 12
+            },
+            {
+              "field": "linkId",
+              "col": 12
+            }
           ]
         },
         {
           "showFields": [
-            { "field": "text", "col": 12 },
-            { "field": "__$codeYesNo", "col": 12 },
-            { "field": "code", "col": 12 },
-            { "field": "prefix", "col": 12}
+            {
+              "field": "text",
+              "col": 12
+            },
+            {
+              "field": "__$codeYesNo",
+              "col": 12
+            },
+            {
+              "field": "code",
+              "col": 12
+            },
+            {
+              "field": "prefix",
+              "col": 12
+            }
           ]
         },
         {
           "showFields": [
-            { "field": "repeats", "col": 12 },
-            { "field": "required", "col": 12 },
-            { "field": "readOnly", "col": 12 },
-            { "field": "maxLength", "col": 12 },
-            { "field": "answerValueSet", "col": 12 },
-            { "field": "answerOption", "title": "Answer choices", "col": 12 },
-            { "field": "__$answerExpression", "title": "Answer expression", "col": 12 },
-            { "field": "initial", "title": "Default value", "col": 12 },
-            { "field": "__$referenceResource", "title": "Reference resource", "col": 12 }
-
+            {
+              "field": "repeats",
+              "col": 12
+            },
+            {
+              "field": "required",
+              "col": 12
+            },
+            {
+              "field": "readOnly",
+              "col": 12
+            },
+            {
+              "field": "maxLength",
+              "col": 12
+            },
+            {
+              "field": "answerValueSet",
+              "col": 12
+            },
+            {
+              "field": "answerOption",
+              "title": "Answer choices",
+              "col": 12
+            },
+            {
+              "field": "__$answerExpression",
+              "title": "Answer expression",
+              "col": 12
+            },
+            {
+              "field": "initial",
+              "title": "Default value",
+              "col": 12
+            },
+            {
+              "field": "__$referenceResource",
+              "title": "Reference resource",
+              "col": 12
+            }
           ]
         }
       ]
@@ -2375,11 +3037,19 @@
       "rows": [
         {
           "showFields": [
-            { "field": "enableWhen", "col": 12 }
+            {
+              "field": "enableWhen",
+              "col": 12
+            }
           ]
         },
         {
-          "showFields": [{"field": "enableBehavior", "col": 3}]
+          "showFields": [
+            {
+              "field": "enableBehavior",
+              "col": 3
+            }
+          ]
         }
       ]
     }

@@ -8,7 +8,7 @@ export class CypressUtil {
    */
   static getBasePageComponent() {
     return cy.window()
-        .should('have.own.property', 'basePageComponent');
+      .should('have.own.property', 'basePageComponent');
   }
 
   /**
@@ -99,28 +99,62 @@ export class CypressUtil {
   }
 
   static mockSnomedEditionsAndHapiFhirRessources() {
-    const fixture = 'snomedEditions.json';
-    cy.intercept('https://snowstorm.ihtsdotools.org/fhir/*', (req) => {
+    // Snowstorm SNOMED mock
+    cy.intercept('https://snowstorm.ihtsdotools.org/fhir/*', {fixture: 'snomedEditions.json'});
+
+
+    cy.intercept('**/CodeSystem/**', {fixture: 'code-system-70.json'});
+
+    cy.intercept('**/ValueSet/**', {fixture: 'value-set-system.json'});
+
+    cy.intercept('GET', /\/Questionnaire(\?.*)?$/, (req) => {
+      if ('_id' in req.query) {
+        req.reply({
+          statusCode: 200,
+          body: {
+            resourceType: 'Bundle',
+            entry: []
+          }
+        });
+      } else {
+        req.reply({ fixture: 'fhir-server-mock-response-vital.json' });
+      }
+    });
+
+    cy.intercept('PUT', '**/Questionnaire/**', (req) => {
+      req.reply({
+        statusCode: 200,
+        body: {
+          resourceType: 'Questionnaire',
+          id: 'Test Form',
+          title: 'Test Form',
+          status: 'active'
+        }
+      });
+    });
+  }
+
+  static mockIdentifierFhirRessources() {
+
+    cy.intercept('**/CodeSystem?url=https://aphp.fr/ig/fhir/eds/CodeSystem/aphp-eds-name-space-cs', (req) => {
+      const fixture = 'aphp-eds-name-space-cs.json'
       console.log(`cy.intecept(): url = ${req.url}; query = ${JSON.stringify(req.query)}`);
       req.reply({fixture});
     });
 
-    cy.intercept('**/Questionnaire/**', (req) => {
-      const fixtureFile = 'fhir-server-mock-response-vital.json'
+    cy.intercept('**/CodeSystem?url=https://aphp.fr/ig/fhir/eds/CodeSystem/aphp-eds-identifier-type-cs', (req) => {
+      const fixture = 'aphp-eds-identifier-type-cs.json'
       console.log(`cy.intecept(): url = ${req.url}; query = ${JSON.stringify(req.query)}`);
-      req.reply({fixtureFile});
+      req.reply({fixture});
     });
 
-    cy.intercept('**/CodeSystem/**', (req) => {
-      const fixture = 'code-system-70.json'
+    cy.intercept('**/ValueSet/$expand?url=https://aphp.fr/ig/fhir/eds/ValueSet/aphp-eds-name-space-vs', (req) => {
+      const fixture = 'aphp-eds-name-space-vs.json'
       console.log(`cy.intecept(): url = ${req.url}; query = ${JSON.stringify(req.query)}`);
       req.reply({fixture});
     });
-    cy.intercept('**/ValueSet/**', (req) => {
-      const fixture = 'value-set-system.json'
-      console.log(`cy.intecept(): url = ${req.url}; query = ${JSON.stringify(req.query)}`);
-      req.reply({fixture});
-    });
+
+
 
   }
 }

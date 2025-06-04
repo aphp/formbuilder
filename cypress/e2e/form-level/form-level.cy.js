@@ -3,60 +3,6 @@
 import {CypressUtil} from '../../support/cypress-util'
 import {ExtensionDefs} from "../../../src/app/lib/extension-defs";
 
-xdescribe('Home page accept Terms of Use notices', () => {
-  before(() => {
-    cy.clearSession();
-  });
-  beforeEach(CypressUtil.mockSnomedEditionsAndHapiFhirRessources);
-  afterEach(() => {
-    cy.clearSession();
-  });
-
-  it('should make SNOMED CT available after accepting SNOMED notice', () => {
-    cy.goToHomePage();
-    cy.contains('lfb-loinc-notice button', 'Accept').as('accept').should('not.be.enabled');
-    cy.get('#acceptLoinc').as('loinc').click();
-    cy.get('@loinc').should('be.checked');
-    cy.get('@accept').should('be.enabled');
-    cy.get('#useSnomed').click();
-    cy.get('@accept').should('not.be.enabled');
-    cy.get('#acceptSnomed').as('snomed').click();
-    cy.get('@snomed').should('be.checked');
-    cy.get('@accept').should('be.enabled');
-    cy.get('@loinc').click();
-    cy.get('@accept').should('not.be.enabled');
-    cy.get('@loinc').click();
-    cy.get('@accept').should('be.enabled').click();
-
-    cy.loincAccepted().should('equal', 'true');
-    cy.snomedAccepted().should('equal', 'true');
-
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
-    cy.get('button').contains('Create questions').click();
-    cy.selectDataType('choice');
-    cy.get('[id^="__\\$answerOptionMethods_answer-option"]').should('be.checked');
-    cy.get('[id^="__\\$answerOptionMethods_value-set"]')
-      .should('be.visible').and('not.be.checked');
-    cy.get('[id^="__\\$answerOptionMethods_snomed-value-set"]')
-      .should('be.visible').and('not.be.checked');
-  });
-
-  xit('should not find SNOMED CT functionality after accepting only LOINC terms of use.', () => {
-    cy.goToHomePage();
-    cy.acceptLoincOnly();
-    cy.loincAccepted().should('equal', 'true');
-    cy.snomedAccepted().should('equal', 'false');
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
-    cy.get('button').contains('Create questions').click();
-    cy.selectDataType('choice');
-    cy.get('[id^="__\\$answerOptionMethods_answer-option"]').should('be.checked');
-    cy.get('[id^="__\\$answerOptionMethods_value-set"]').should('be.visible').and('not.be.checked');
-    cy.get('[id^="__\\$answerOptionMethods_snomed-value-set"]').should('not.exist');
-  });
-});
-
 describe('Home page', () => {
   beforeEach(() => {
     // Cypress starts out with a blank slate for each test
@@ -70,62 +16,33 @@ describe('Home page', () => {
   });
 
   it('display home page title', () => {
-    cy.get('.lead').first().should('have.text', 'How do you want to create your form?')
+    cy.get('.modal-title').first().should('have.text', 'Search your form')
   });
 
-  xit('should display version info', () => {
-    cy.get('.version-info').find('a').should('have.attr', 'href',
-      'https://github.com/lhncbc/aphp-formbuilder/blob/master/CHANGELOG.md').contains(/^\d+\.\d+\.\d+/);
-  });
 
   describe('Home page import options', () => {
     beforeEach(() => {
       CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
       cy.loadHomePage();
-      // cy.get('input[type="radio"][value="existing"]').click();
-    });
-    xit('should import form from FHIR server', () => {
-      const titleSearchTerm = 'vital';
-      cy.get('input[type="radio"][value="fhirServer"]').should('be.visible').click();
-      cy.contains('button', 'Continue').click();
-      cy.fhirSearch(titleSearchTerm);
-
-     // cy.get('#title').invoke('val').should('match', new RegExp(titleSearchTerm, 'i'));
-      cy.get('[id^="booleanRadio_false"]').should('be.checked');
-      //cy.get('[id^="code.0.code"]').should('have.value', '88121-9');
     });
   });
   it('should import local file', () => {
-    cy.get('input[type="radio"][value="local"]').should('be.visible').click();
+    CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
+    cy.clickImportFileBtn();
     cy.uploadFile('answer-option-sample.json');
     cy.contains('button', 'Edit form attributes').click();
-      cy.get('#title').should('have.value', 'Answer options form');
-      cy.questionnaireJSON().then((previewJson) => {
-        expect(previewJson).to.be.deep.equal(previewJson);
-      });
+    cy.get('#title').should('have.value', 'Answer options form');
+    cy.questionnaireJSON().then((previewJson) => {
+      expect(previewJson).to.be.deep.equal(previewJson);
+    });
   });
-
-  /* it('should import LOINC form', () => {
-     cy.get('input[type="radio"][value="loinc"]').should('be.visible').click();
-     cy.contains('button', 'Continue').click();
-     cy.get('#loincSearch').type('vital signs with');
-     cy.get('ngb-typeahead-window').should('be.visible');
-     cy.get('ngb-typeahead-window button').first().click();
-     cy.get('#title').should('have.value', 'Vital signs with method details panel');
-     cy.get('[id^="booleanRadio_true"]').should('be.checked');
-     cy.get('[id^="code.0.code"]').should('have.value', '34566-0');
-   });*/
-
-
 
   describe('Form level fields', () => {
 
     beforeEach(() => {
       CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
       cy.loadHomePage();
-      cy.get('input[type="radio"][value="scratch"]').click();
-      cy.get('button').contains('Continue').click();
-      cy.resetForm();
+      cy.openQuestionnaireFromScratch();
       cy.contains('button', 'Edit form attributes').click();
       cy.get('[id^="booleanRadio_true"]').as('codeYes');
       cy.get('[id^="booleanRadio_false"]').as('codeNo');
@@ -153,13 +70,12 @@ describe('Home page', () => {
     });
 
     it('should retain title edits', () => {
-
-      cy.get('#title').should('have.value', 'New Form').clear();
+      cy.get('#title').should('have.value', 'Test Form').clear();
       cy.get('#title').type('Dummy title');
       cy.questionnaireJSON().should((json) => {
         expect(json.title).equal('Dummy title');
       });
-      cy.get('#title').should('have.value','Dummy title');
+      cy.get('#title').should('have.value', 'Dummy title');
     });
 
     it('should move to form level fields', () => {
@@ -177,7 +93,7 @@ describe('Home page', () => {
     it('should display preview widget', () => {
       cy.uploadFile('answer-option-sample.json', true);
       cy.contains('button', 'Edit form attributes').click();
-      cy.get('#title').should('have.value', 'Answer options form', );
+      cy.get('#title').should('have.value', 'Answer options form',);
       cy.contains('button', 'Edit questions').click();
       cy.get('#previewBtn').scrollIntoView().click();
       cy.contains('div[role="tab"]', 'View Rendered Form').scrollIntoView().click();
@@ -229,9 +145,9 @@ describe('Home page', () => {
       cy.get('wc-lhc-form').should('exist', true, {timeout: 10000});
       cy.get('#\\/54126-8\\/54133-4\\/1\\/1').as('ethnicity');
       cy.get('@ethnicity').type('l');
-     // cy.get('#completionOptions').should('be.visible', true);
+      // cy.get('#completionOptions').should('be.visible', true);
       cy.get('@ethnicity').type('{downarrow}{enter}', {force: true});
-     // cy.get('span.autocomp_selected').contains('La Raza');
+      // cy.get('span.autocomp_selected').contains('La Raza');
       cy.contains('mat-dialog-actions > button', 'Close').click();
     });
 
@@ -313,7 +229,7 @@ describe('Home page', () => {
 
         cy.tsUrl().clear();
         CypressUtil.assertExtensionsInQuestionnaire(
-          '/extension', ExtensionDefs.preferredTerminologyServer.url,[]);
+          '/extension', ExtensionDefs.preferredTerminologyServer.url, []);
 
         cy.tsUrl().type('http://a.b');
         CypressUtil.assertExtensionsInQuestionnaire(
@@ -326,6 +242,53 @@ describe('Home page', () => {
         );
       });
     });
+
+    it('should include url and meta.source in the FHIR Questionnaire JSON', () => {
+      cy.contains('button', 'Advanced fields').click();
+
+      cy.get('input#url').clear().type('https://example.org/questionnaire');
+      cy.get('input#meta\\.source').clear().type('my-source-system');
+
+      cy.questionnaireJSON().should((json) => {
+        expect(json.url).to.equal('https://example.org/questionnaire');
+        expect(json.meta?.source).to.equal('my-source-system');
+      });
+    });
+
+    it('should have identical values for id and title in the FHIR Questionnaire JSON', () => {
+      cy.questionnaireJSON().should((json) => {
+        expect(json.id).to.equal(json.title);
+      });
+    });
+
+    it('should not include the profile property in the FHIR Questionnaire JSON', () => {
+      cy.questionnaireJSON().should((json) => {
+        expect(json.meta?.profile).to.be.undefined;
+      });
+    });
+
+    it('should display Advanced Fields in the correct order: Url, Source, Launch Context, Variables', () => {
+      cy.contains('button', 'Advanced fields')
+        .should('exist')
+        .click();
+
+      cy.get('#advancedFields').should('be.visible');
+
+      cy.get('#advancedFields')
+        .find('label')
+        .then(($labels) => {
+          const labelTexts = [...$labels].map((label) => label.textContent.trim());
+
+          const expectedOrder = ['Url', 'Source', 'Launch Context', 'Variables'];
+
+          const actualFiltered = labelTexts.filter((label) => expectedOrder.includes(label));
+
+          expect(actualFiltered).to.deep.equal(expectedOrder);
+        });
+    });
+
+
+
   });
 
 
@@ -334,9 +297,7 @@ describe('Home page', () => {
     beforeEach(() => {
       CypressUtil.mockSnomedEditionsAndHapiFhirRessources();
       cy.loadHomePage();
-      cy.get('input[type="radio"][value="scratch"]').click();
-      cy.contains('button', 'Continue').click();
-      cy.resetForm();
+      cy.openQuestionnaireFromScratch();
       cy.uploadFile('answer-option-sample.json');
     });
 
@@ -351,27 +312,6 @@ describe('Home page', () => {
       cy.uploadFile('decimal-type-sample.json', true);
       cy.contains('button', 'Edit form attributes').click();
       cy.get('#title').should('have.value', 'Decimal type form');
-    });
-
-    xit('should display warning dialog when replacing form from LOINC', () => {
-      cy.get('#title').should('have.value', 'Answer options form');
-
-      cy.contains('nav.navbar button.dropdown-toggle', 'Import ').click();
-      cy.get('form > input[placeholder="Search LOINC"]').type('Vital signs with method details panel');
-      cy.get('ngb-typeahead-window').should('be.visible');
-      cy.get('ngb-typeahead-window button').first().click();
-      cy.contains('.modal-title', 'Replace existing form?').should('be.visible');
-      cy.contains('div.modal-footer button', 'Cancel').click();
-      cy.get('#title').should('have.value', 'Answer options form');
-
-      cy.contains('nav.navbar button.dropdown-toggle', 'Import ').click();
-      cy.get('form > input[placeholder="Search LOINC"]').type('Vital signs with method details panel');
-      cy.get('ngb-typeahead-window').should('be.visible');
-      cy.get('ngb-typeahead-window button').first().click();
-      cy.contains('.modal-title', 'Replace existing form?').should('be.visible');
-      cy.contains('div.modal-footer button', 'Continue').click();
-
-      cy.get('#title').should('have.value', 'Vital signs with method details panel');
     });
 
     xit('should display warning dialog when replacing form from FHIR server', () => {

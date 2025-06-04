@@ -70,8 +70,7 @@ export class FhirService {
     let res = typeof resource === 'string' ? JSON.parse(resource) : resource;
 
     if (resource?.resourceType === 'Questionnaire') {
-      res.id = uuidv4();
-      res.url = `${Util.IG_ROOT_URL}/Questionnaire/${res.id}`
+      res.id = Util.sanitizeString(res.name);
     }
     this.assignPublisher(res, userProfile);
     res = JSON.stringify(resource);
@@ -159,17 +158,6 @@ export class FhirService {
     if (typeof resource !== 'string') {
       options = {...options, url: `${resource?.resourceType}/${resource?.id}`};
     }
-    const request = this.prepareAndExecuteRequest(options);
-    return this.promiseToObservable(request);
-  };
-
-  lookupOnCodeSystem(codeSystemUrl: string, code: string): Observable<fhir.Resource> {
-
-    const options = {
-      method: 'GET',
-      url: `${environment.hapiServerUrl}/CodeSystem/$lookup?system=${codeSystemUrl}&code=${code}`
-    };
-
     const request = this.prepareAndExecuteRequest(options);
     return this.promiseToObservable(request);
   };

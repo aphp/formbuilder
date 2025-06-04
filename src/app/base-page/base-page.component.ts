@@ -1,8 +1,8 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {FormService} from '../services/form.service';
-import fhir from 'fhir/r4';
-import {from, Observable, of, Subject} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap, takeUntil} from 'rxjs/operators';
+import fhir, {Questionnaire} from 'fhir/r4';
+import {Observable, of, Subject} from 'rxjs';
+import {catchError, debounceTime, finalize, switchMap, takeUntil} from 'rxjs/operators';
 import {MessageType} from '../lib/widgets/message-dlg/message-dlg.component';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AutoCompleteResult} from '../lib/widgets/auto-complete/auto-complete.component';
@@ -18,8 +18,8 @@ import {SharedObjectService} from '../services/shared-object.service';
 import {ValidateDlgComponent} from '../lib/widgets/validate-dlg/validate-dlg.component';
 import {environment} from '../../environments/environment';
 import {AuthService} from "../services/auth.service";
-
-type ExportType = 'CREATE' | 'UPDATE';
+import {QuestionnaireCreateDlgComponent} from "../questionnaire-create-dialog/questionnaire-create-dlg.component";
+import copy from "fast-copy";
 
 @Component({
   selector: 'lfb-base-page',
@@ -44,6 +44,7 @@ export class BasePageComponent implements OnInit {
   @ViewChild('fileInput') fileInputEl: ElementRef;
   @ViewChild('loincSearchDlg') loincSearchDlg: TemplateRef<any>;
   @ViewChild('warnFormLoading') warnFormLoadingDlg: TemplateRef<any>;
+  @ViewChild('duplicateEntryDetectedForm') duplicateEntryDetectedDlg: TemplateRef<any>;
   acceptedTermsOfUse = false;
   acceptedSnomed = false;
   lformsErrorMessage = null;
@@ -54,7 +55,7 @@ export class BasePageComponent implements OnInit {
   constructor(private formService: FormService,
               private modelService: SharedObjectService,
               private modalService: NgbModal,
-              private dataSrv: FetchService,
+              private fetchService: FetchService,
               public fhirService: FhirService,
               private appJsonPipe: AppJsonPipe,
               private matDlg: MatDialog,
@@ -230,12 +231,9 @@ export class BasePageComponent implements OnInit {
   }
 
   private updateQuestionnaireWithCustomProperties(questionnaire) {
-    Util.addProfiles(questionnaire);
     Util.setQuestionnaireVariableAndLaunchContextItems(questionnaire);
     Util.setUseContext(questionnaire);
     Util.addHiddenItemYesNoProperty(questionnaire.item, false);
-    Util.setUrl(questionnaire);
-    Util.setMetaSource(questionnaire);
   }
 
   /**
@@ -252,38 +250,6 @@ export class BasePageComponent implements OnInit {
    */
   isAutoSaved() {
     return this.formService.isAutoSaved();
-  }
-
-  /**
-   * Handle continue button.
-   */
-  onContinue() {
-    if (this.startOption === 'from_autosave') {
-      let state = this.formService.autoLoad('state');
-      state = state === 'home' ? 'item-editor' : state;
-      this.formService.setGuidingStep(state);
-      this.setQuestionnaire(this.formService.autoLoadForm());
-    } else if (this.startOption === 'scratch') {
-      this.setStep('item-editor');
-      this.setQuestionnaire(Util.createDefaultForm());
-    } else if (this.startOption === 'local') {
-      this.fileInputEl.nativeElement.click();
-    } else if (this.startOption === 'fhirServer') {
-      this.fetchFormFromFHIRServer$().subscribe((form) => {
-        if (form) {
-          this.setQuestionnaire(form);
-          this.setStep('item-editor');
-        }
-      });
-    } else if (this.startOption === 'loinc') {
-      this.modalService.open(this.loincSearchDlg).result.then((qId) => {
-        this.dataSrv.getLoincFormData(qId).subscribe((data) => {
-          this.setQuestionnaire(data);
-          this.setStep('item-editor');
-        });
-      }, () => {
-      });
-    }
   }
 
 /////////////////////////////////////////
@@ -312,7 +278,10 @@ export class BasePageComponent implements OnInit {
         setTimeout(() => {
           this.setStep('item-editor');
           try {
-            this.setQuestionnaire(this.formService.parseQuestionnaire(fileReader.result as string));
+            const questionnaire = this.formService.parseQuestionnaire(fileReader.result as string);
+            delete questionnaire.id;
+            console.log(questionnaire);
+            this.setQuestionnaire(questionnaire);
           } catch (e) {
             this.showError(`${e.message}: ${selectedFile.name}`);
           }
@@ -373,11 +342,6 @@ export class BasePageComponent implements OnInit {
     window.open(url, '_blank', "noopener");
   }
 
-  reportBug() {
-    const url = 'https://gitlab.eds.aphp.fr/interop/aphp-formbuilder/-/issues/new?issuable_template=bug&issue[issue_type]=incident';
-    window.open(url, '_blank', "noopener");
-  }
-
   /**
    * Format result item for auto complete.
    * @param acResult - Result item.
@@ -413,47 +377,6 @@ export class BasePageComponent implements OnInit {
   }
 
   /**
-   * Call back to auto complete search.
-   * @param term$ - Search term
-   */
-  acSearch = (term$: Observable<string>): Observable<AutoCompleteResult []> => {
-    return term$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap((term) => term.length < 2 ? [] : this.dataSrv.searchLoincForms(term)));
-  }
-
-  /**
-   * Get LOINC form in questionnaire format using LOINC number.
-   * @param LOINCNumber - LOINC number of the form to fetch. If empty, return empty questionnaire.
-   */
-  getLoincForm(LOINCNumber: string) {
-    const func = () => {
-      if (!LOINCNumber) {
-        this.setQuestionnaire(Util.createDefaultForm());
-      } else {
-        this.dataSrv.getLoincFormData(LOINCNumber).subscribe((data) => {
-          this.setQuestionnaire(data);
-          this.acResult = null;
-        });
-      }
-    };
-
-    if (this.questionnaire) {
-      this.warnFormLoading((load) => {
-        if (load) {
-          func();
-        }
-        this.acResult = null;
-      }, () => {
-        this.acResult = null;
-      });
-    } else {
-      func();
-    }
-  }
-
-  /**
    * Close menu handler.
    */
   close() {
@@ -478,17 +401,6 @@ export class BasePageComponent implements OnInit {
     return ret;
   }
 
-
-  /**
-   * Close menu handler.
-   */
-  newStart() {
-    this.setStep('home');
-    if (!this.isDefaultForm()) {
-      this.startOption = 'from_autosave';
-    }
-  }
-
   /**
    * Import FHIR server menu handler.
    */
@@ -510,49 +422,27 @@ export class BasePageComponent implements OnInit {
     });
   }
 
-  /**
-   * Fetch form from FHIR server invoking dialogs for server selection and search for forms.
-   */
-  fetchFormFromFHIRServer$(): Observable<any> {
-    return from(of(true))
-      .pipe(switchMap((result) => {
-        if (result) {
-          return from(this.modalService.open(FhirSearchDlgComponent, {size: 'lg', scrollable: true}).result);
-        } else {
-          return of(false);
-        }
-      }), switchMap((selected) => {
-        if (selected !== false) {
-          return this.fhirService.read(selected);
-        } else {
-          return of(null);
-        }
-      }));
-  }
-
-
-  /**
-   * Create/Update questionnaire on the FHIR server.
-   * @param type - 'CREATE' | 'UPDATE'
-   */
-  async exportToServer(type: ExportType) {
+  async save() {
 
     const questionnaire = Util.convertToQuestionnaireJSON(this.formValue);
-    let observer: Observable<any>;
-    if (type === 'CREATE') {
-      observer = this.fhirService.create(questionnaire, null);
-    } else if (type === 'UPDATE') {
-      observer = this.fhirService.update(questionnaire, null);
-    }
-    this.handleServerResponse(observer, type);
 
+    const isUrlUnique = await this.fetchService.checkUrlUnique(questionnaire?.url, questionnaire?.version, questionnaire?.id);
+
+    if (!isUrlUnique) {
+      this.modalService.open(this.duplicateEntryDetectedDlg);
+      return;
+    }
+
+    if (questionnaire.id) {
+      const observer: Observable<any> = this.fhirService.update(questionnaire, null);
+      this.handleServerResponse(observer, 'UPDATE');
+    } else {
+      const newQuestionnaire = copy(this.questionnaire);
+      this.openQuestionnaireCreateDlgComponent(newQuestionnaire);
+    }
   }
 
 
-  /**
-   * Handle FHIR server response after create/update.
-   * @param serverResponse - An observable yielding fhir resource.
-   */
   handleServerResponse(serverResponse: Observable<fhir.Resource>, type) {
     serverResponse.pipe(
       catchError((err) => {
@@ -583,19 +473,6 @@ export class BasePageComponent implements OnInit {
     return this.questionnaire.id === response.id &&
       this.questionnaire.meta &&
       this.questionnaire.meta.versionId === response.meta.versionId;
-  }
-
-  /**
-   * Set the fields to questionnaire and invoke change detection on child components.
-   * @param fieldsObj: Object with new fields.
-   */
-  setFieldsAndInvokeChangeDetection(fieldsObj: any) {
-    // Set the fields to a shallow copy of the questionnaire to invoke change detection on <sf-form>
-    const q = Object.assign({}, this.questionnaire);
-    Object.keys(fieldsObj).forEach((f) => {
-      q[f] = fieldsObj[f];
-    });
-    this.setQuestionnaire(q);
   }
 
   /**
@@ -638,5 +515,51 @@ export class BasePageComponent implements OnInit {
       storedQ.item = storedQ.item || [];
     }
     return Util.isDefaultForm(storedQ);
+  }
+
+  onQuestionnaireSelected(questionnaireId: any) {
+    this.fhirService.read(questionnaireId).subscribe(questionnaire => {
+      this.setQuestionnaire(questionnaire);
+      this.setStep('item-editor');
+    });
+
+  }
+
+  onImportQuestionnaireFromLocalFile() {
+    this.fileInputEl.nativeElement.click();
+  }
+
+  onResumeTheLastForm() {
+    let state = this.formService.autoLoad('state');
+    state = state === 'home' ? 'item-editor' : state;
+    this.formService.setGuidingStep(state);
+    this.setQuestionnaire(this.formService.autoLoadForm());
+  }
+
+  onDuplicate() {
+    const newQuestionnaire = copy(this.questionnaire);
+    delete newQuestionnaire.url;
+    this.openQuestionnaireCreateDlgComponent(newQuestionnaire);
+  }
+
+  createQuestionnaireFromScratch() {
+    this.openQuestionnaireCreateDlgComponent(Util.createDefaultForm());
+  }
+
+  private openQuestionnaireCreateDlgComponent(questionnaire: Questionnaire) {
+    const modalRef = this.modalService.open(QuestionnaireCreateDlgComponent);
+
+    modalRef.componentInstance.questionnaire = questionnaire;
+
+    modalRef.result.then(questionnaire => {
+      if (!questionnaire) {
+        return;
+      }
+      if (!questionnaire.item) {
+        questionnaire.item = [];
+      }
+      this.setStep('item-editor');
+      this.setQuestionnaire(questionnaire);
+    });
   }
 }

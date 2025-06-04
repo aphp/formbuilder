@@ -14,22 +14,28 @@
       }
     },
     "id": {
-      "description": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.",
+      "description": "Unique and fixed identifier of the questionnaire in the backend.",
       "title": "Id",
       "pattern": "^[A-Za-z0-9\\-\\.]{1,64}$",
       "type": "string",
+      "readOnly": true,
       "widget": {
-        "id": "hidden"
+        "id": "string",
+        "labelPosition": "left",
+        "labelClasses": "col-2 ps-0 pe-1",
+        "controlClasses": "col textline-widget form-control form-control-sm"
       }
     },
     "meta": {
-      "description": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
-      "title": "Meta",
+      "description": "Meta",
       "properties": {
         "id": {
           "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
           "pattern": "^[ \\r\\n\\t\\S]+$",
-          "type": "string"
+          "type": "string",
+          "widget": {
+            "id": "hidden"
+          }
         },
         "extension": {
           "description": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
@@ -44,17 +50,24 @@
         "versionId": {
           "description": "The version specific identifier, as it appears in the version portion of the URL. This value changes when the resource is created, updated, or deleted.",
           "pattern": "^[A-Za-z0-9\\-\\.]{1,64}$",
-          "type": "string"
+          "type": "string",
+          "widget": {
+            "id": "hidden"
+          }
         },
         "lastUpdated": {
           "description": "When the resource last changed - e.g. when the version changed.",
           "pattern": "^([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))$",
-          "type": "string"
+          "type": "string",
+          "widget": {
+            "id": "hidden"
+          }
         },
         "source": {
-          "description": "A uri that identifies the source system of the resource. This provides a minimal amount of [[[Provenance]]] information that can be used to track or differentiate the source of information in the resource. The source may identify another FHIR server, document, message, database, etc.",
+          "description": "A uri that identifies the source system of the resource.",
           "pattern": "^\\S*$",
-          "type": "string"
+          "type": "string",
+          "title": "Source"
         },
         "profile": {
           "description": "A list of profiles (references to [[[StructureDefinition]]] resources) that this resource claims to conform to. The URL is a reference to [[[StructureDefinition.url]]].",
@@ -63,7 +76,10 @@
             "type": "string",
             "description": "A URI that is a reference to a canonical URL on a FHIR resource"
           },
-          "type": "array"
+          "type": "array",
+          "widget": {
+            "id": "hidden"
+          }
         },
         "security": {
           "description": "Security labels applied to this resource. These tags connect specific resources to the overall security policy and infrastructure.",
@@ -120,7 +136,10 @@
             "additionalProperties": false,
             "type": "object"
           },
-          "type": "array"
+          "type": "array",
+          "widget": {
+            "id": "hidden"
+          }
         },
         "tag": {
           "description": "Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, and applications are not required to consider the tags when interpreting the meaning of a resource.",
@@ -177,14 +196,14 @@
             "additionalProperties": false,
             "type": "object"
           },
-          "type": "array"
+          "type": "array",
+          "widget": {
+            "id": "hidden"
+          }
         }
       },
       "additionalProperties": false,
-      "type": "object",
-      "widget": {
-        "id": "hidden"
-      }
+      "type": "object"
     },
     "implicitRules": {
       "description": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc.",
@@ -268,8 +287,8 @@
       }
     },
     "url": {
-      "description": "An absolute URI that is used to identify this questionnaire when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this questionnaire is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the questionnaire is stored on different servers.",
-      "title": "URL",
+      "description": "Canonical identifier for this questionnaire. Often, the url is build as follow : 'base url of an implementation guide' +  '/' + 'resource type, here Questionnaire' + '/' + 'id (in the formbuilder, id = name)'",
+      "title": "Url",
       "type": "string",
       "pattern": "^\\S*$",
       "widget": {
@@ -338,19 +357,6 @@
       "title": "Version",
       "pattern": "^[ \\r\\n\\t\\S]+$",
       "type": "string",
-      "widget": {
-        "id": "string",
-        "labelPosition": "left",
-        "labelClasses": "col-2 ps-0 pe-1",
-        "controlClasses": "col textline-widget form-control form-control-sm"
-      }
-    },
-    "name": {
-      "description": "A natural language name identifying the questionnaire. This name should be usable as an identifier for the module by machine processing applications such as code generation.",
-      "title": "Name",
-      "pattern": "[A-Z]([A-Za-z0-9_]){0,254}",
-      "type": "string",
-      "isRequired": true,
       "widget": {
         "id": "string",
         "labelPosition": "left",
@@ -556,7 +562,7 @@
       "pattern": "^[ \\r\\n\\t\\S]+$",
       "type": "string",
       "widget": {
-        "id": "string",
+        "id": "text-area",
         "labelPosition": "left",
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col textline-widget form-control form-control-sm"
@@ -1050,7 +1056,7 @@
       "pattern": "^[ \\r\\n\\t\\S]+$",
       "type": "string",
       "widget": {
-        "id": "string",
+        "id": "text-area",
         "labelPosition": "left",
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col textline-widget form-control form-control-sm"
@@ -1279,7 +1285,11 @@
           },
           "description": {
             "description": "description",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1 h-30px"
+            }
           },
           "value": {
             "description": "Establishes the namespace for the value - that is, a URL that describes a set values that are unique.",
@@ -1337,7 +1347,11 @@
           "expression": {
             "description": "expression",
             "pattern": "^[ \\r\\n\\t\\S]+$",
-            "type": "string"
+            "type": "string",
+            "widget": {
+              "id": "text-area",
+              "controlClasses": "col-sm form-control form-control-sm p-1 h-30px"
+            }
           }
         },
         "additionalProperties": false,
@@ -1416,7 +1430,7 @@
       "fields": [
         "resourceType",
         "title",
-        "name",
+        "id",
         "__$useContext",
         "__$codeYesNo",
         "code",
@@ -1431,6 +1445,7 @@
     {
       "fields": [
         "url",
+        "meta",
         "identifier",
         "version",
         "derivedFrom",
@@ -1446,8 +1461,6 @@
     },
     {
       "fields": [
-        "id",
-        "meta",
         "implicitRules",
         "language",
         "text",

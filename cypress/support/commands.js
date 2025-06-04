@@ -71,6 +71,33 @@ Cypress.Commands.add('acceptLoincOnly', () => {
     cy.contains('lfb-loinc-notice button', 'Accept').click();
 });
 
+Cypress.Commands.add('clickImportFileBtn', () => {
+  cy.get('button[mattooltip="Advanced options"]').click();
+  cy.contains('.cdk-overlay-container button', 'Import a form from local JSON file')
+    .should('be.visible')
+    .click();
+});
+
+Cypress.Commands.add('clickDuplicateBtn', () => {
+  cy.get('button[mattooltip="Advanced options"]').click();
+  cy.contains('.cdk-overlay-container button', 'Duplicate the current form')
+    .should('be.visible')
+    .click();
+});
+
+Cypress.Commands.add('openQuestionnaireFromScratch', () => {
+  cy.get('button').contains('+').click();
+  cy.get("#questionnaire-create-dlg")
+    .find('.modal-title')
+    .should('have.text', 'Create Questionnaire');
+  cy.contains('button', 'Create').as('addNewItem');
+
+  cy.get('input#title').type('Test Form');
+  cy.get('input#id').should('have.value', 'TestForm');
+  cy.contains('id is available.').should('be.visible');
+  cy.contains('button', 'Create').should('not.be.disabled').click();
+
+});
 
 /**
  * Clear session storage. Used to test LOINC notice.
@@ -127,7 +154,13 @@ Cypress.Commands.add('questionnaireJSON', () => {
  * Command to select data type in item editor.
  */
 Cypress.Commands.add('selectDataType', (type) => {
-    cy.get('#type').select(type);
+  cy.contains('label', 'Data type')
+    .parents('.row')
+    .find('select#type')
+    .should('be.visible')
+    .as('typeSelect');
+
+  cy.get('@typeSelect').select(type);
 });
 
 /**
@@ -402,8 +435,7 @@ Cypress.Commands.add('getLocalStorageItem', (itemName) => {
  */
 Cypress.Commands.add('resetForm', () => {
     cy.get('#closeBtn').click({force: true});
-    cy.get('input[type="radio"][value="scratch"]').click();
-    cy.get('button').contains('Continue').click();
+    cy.openQuestionnaireFromScratch();
 });
 
 

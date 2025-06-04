@@ -150,6 +150,9 @@ import {DatePickerFormatDirective} from "./directives/date-picker-format.directi
 import {provideMomentDateAdapter} from "@angular/material-moment-adapter";
 import {ValueSetCreateDlgComponent} from "./value-set-create-dialog/value-set-create-dlg.component";
 import {AlertComponent} from "./alert/alert.component";
+import {FhirSearchPageComponent} from "./lib/widgets/fhir-search-page/fhir-search-page.component";
+import {QuestionnaireCreateDlgComponent} from "./questionnaire-create-dialog/questionnaire-create-dlg.component";
+import {TextAreaComponent} from "./lib/widgets/textarea/textarea.component";
 
 registerLocaleData(localeFr);
 
@@ -272,7 +275,10 @@ function getProviders() {
     CodeSystemSearchComponent,
     PreviewResourceDlgComponent,
     QuestionnaireItemSourceComponent,
-    AlertComponent
+    AlertComponent,
+    FhirSearchPageComponent,
+    QuestionnaireCreateDlgComponent,
+    TextAreaComponent
   ],
   imports: [
     BrowserModule,
