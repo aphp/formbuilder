@@ -951,7 +951,10 @@
     "__$useContext": {
       "description": "Use Context",
       "type": "string",
-      "title": "Use context"
+      "title": "Use context",
+      "widget": {
+        "id": "hidden"
+      }
     },
     "jurisdiction": {
       "description": "A legal or geographic region in which the questionnaire is intended to be used.",
