@@ -1,0 +1,71 @@
+<div id="questionnaire-create-dlg" class="modal-header bg-primary">
+  <h4 class="modal-title text-white">Create Questionnaire</h4>
+  <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="dismiss('close')">
+  </button>
+</div>
+<div>
+  <ng-container *ngTemplateOutlet="formTemplate"></ng-container>
+</div>
+<ng-template #formTemplate>
+  <form [formGroup]="formGroup">
+
+    <div class="mt-4 mb-4" style="min-width: 35px">
+      <span *ngIf="loading$ | async" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+      <span *ngIf="loading$ | async">checking id availability...</span>
+      <ng-container *ngIf="!(loading$ | async)">
+        <div class="text-danger error-message" *ngFor="let errorMessage of errorMessages ">
+          {{ errorMessage }}
+        </div>
+        <div class="text-info info-message" *ngFor="let infoMessage of infoMessages ">
+          {{ infoMessage }}
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="m-4 vertical-form">
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput id="title" formControlName="title" (input)="onTitleInput()">
+        <mat-error *ngIf="title?.invalid">
+          <span *ngIf="title?.errors?.noLetter">title should contain at least one letters (a to z, A to Z)</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-card class="disclaimer-card">
+        <mat-card-content>
+          <strong>Disclaimer:</strong><br>
+          The <strong>'id'</strong> field is <u>REQUIRED</u> as soon as the form is created. It <u>CANNOT</u> be changed
+          afterward!<br>
+          Forms being knowledge resources, the id <u>SHOULD</u> provide information on the content of the form.<br><br>
+          The id <strong>MUST</strong>:
+          <ul>
+            <li>Start with an upper case letter</li>
+            <li>Contain no more than 64 characters</li>
+            <li>Contain only letters (lower or upper case) or digits</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      <mat-form-field>
+        <mat-label>Id</mat-label>
+        <input matInput id="id" formControlName="id" (input)="checkQuestionnaireId()">
+        <mat-error *ngIf="id?.errors">
+          <span *ngIf="id.errors?.noUppercaseStart">Must start with an uppercase letter.</span>
+          <span *ngIf="id.errors?.invalidCharacters">Only letters and digits allowed.</span>
+          <span *ngIf="id.errors?.tooLong">Must be 64 characters or fewer.</span>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+    <div class="m-4">
+
+      <button [disabled]="!formGroup.valid || errorMessages?.length > 0 && !(loading$ | async)"
+              class="btn btn-primary me-2" type="submit"
+              (click)="create()">
+        Create
+      </button>
+      <button class="btn btn-secondary me-2" (click)="dismiss('close')">Close</button>
+    </div>
+
+  </form>
+
+</ng-template>
+

@@ -42,3 +42,20 @@
 .menuIcon{
   vertical-align: middle;
 }
+
+.fab-center {
+  position: fixed;
+  top: 50%;
+  right: 25%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  font-size: 40px;
+  z-index: 1000;
+}
+@media (max-width: 768px) {
+  .fab-center {
+    top: 60%;
+    right: 10%;
+  }
+}

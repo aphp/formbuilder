@@ -3,7 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import {delay, mergeMap, Observable, of, retry, retryWhen, throwError} from 'rxjs';
+import {delay, lastValueFrom, mergeMap, Observable, of, retry, retryWhen, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {AutoCompleteResult} from '../lib/widgets/auto-complete/auto-complete.component';
 import {Util} from '../lib/util';
@@ -305,6 +305,53 @@ export class FetchService {
     return this.http.get<fhir.CodeSystem>(`${environment.hapiServerUrl}/CodeSystem?url=${url}`);
   }
 
+   async checkUrlUnique(url: string, version: string, currentId: string): Promise<boolean> {
+    if (!url?.trim()) return true;
+
+    try {
+      const result = await lastValueFrom(
+        this.searchQuestionnaireByUrlAndVersion(url.trim(), version?.trim()).pipe(
+          map(bundle => {
+            const entries = bundle?.entry || [];
+            return !entries.some((e: any) => {
+              const resource = e.resource;
+              return resource?.id && resource.id !== currentId;
+            });
+          }),
+          catchError(err => {
+            console.error('Error fetching questionnaire by url and version', err);
+            return of(true);
+          })
+        )
+      );
+      return result;
+    } catch (err) {
+      console.error('Unexpected error checking url uniqueness', err);
+      return true;
+    }
+  }
+
+  searchQuestionnaireByUrlAndVersion(url: string, version: string): Observable<any> {
+    if (!url?.trim()) {
+      throwError(() => new Error('URL is required'));
+    }
+
+    const endpoint = `${environment.hapiServerUrl}/Questionnaire/_search`;
+
+    let params = new HttpParams().set('url', url.trim());
+
+    if (version?.trim()) {
+      params = params.set('version', version.trim());
+    }
+
+    const headers = new HttpHeaders({
+      'Accept': 'application/fhir+json',
+      'Cache-Control': 'no-cache'
+    });
+
+    return this.http.get(endpoint, { headers, params });
+  }
+
   /**
    * Handle errors with SNOMED Code System API
    * @param error
@@ -317,7 +364,8 @@ export class FetchService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
-      console.error(`${FetchService.snomedCodeSystemsUrl} returned code ${error.status}, body was: `, error.error);
+      console.error(
+        `${FetchService.snomedCodeSystemsUrl} returned code ${error.status}, body was: `, error.error);
     }
     // Return an observable with a user-facing error message.
     return throwError(() => error.error);

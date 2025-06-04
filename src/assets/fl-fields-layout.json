@@ -4,7 +4,7 @@
       {
         "showFields": [
           { "field": "title", "col": 12 },
-          { "field": "name", "col": 12 },
+          { "field": "id", "col": 12 },
           { "field": "__$useContext", "col": 12 },
           { "field": "__$codeYesNo", "col": 12 },
           { "field": "code", "col": 12 },
@@ -23,6 +23,8 @@
     "advanced": [
       {
         "showFields": [
+          { "field": "url", "col": 12},
+          { "field": "meta", "col": 12},
           { "field": "__$launchContext", "col": 12},
           { "field":  "__$valueExpressionQuestionnaire", "col": 12}
         ]
@@ -32,6 +34,7 @@
   },
   "propertyLabels": {
     "title": "Title",
+    "id": "Id",
     "code": "Code",
     "Status": "Status",
     "description": "Description",

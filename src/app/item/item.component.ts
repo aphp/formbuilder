@@ -178,7 +178,7 @@ export class ItemComponent implements AfterViewInit, OnChanges, OnDestroy {
   };
   errorMessage = 'Error(s) exist in this item. The resultant form may not render properly.';
   warningEnableWhenMessage = 'Warning: Displayed item is referenced in the enableWhen.question attribute of the item:';
-  warningMessage = ''
+  warningMessage = 'Required attribute for transformation_type or enableWhen is missing!'
   @Input()
   questionnaire: fhir.Questionnaire = {resourceType: 'Questionnaire', status: 'draft', item: []};
   itemList: any [];
@@ -253,7 +253,7 @@ export class ItemComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.treeComponent.treeModel.update();
       this.toggleTreeExpansion();
     });
-    //  this.formService.formChanged$.subscribe(() => this.handleTreeExpansion());
+  //  this.formService.formChanged$.subscribe(() => this.handleTreeExpansion());
   }
 
   ngOnChanges(changes: SimpleChanges) {

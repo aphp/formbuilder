@@ -1,0 +1,15 @@
+
+.vertical-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Optional spacing between fields */
+}
+.actions-panel {
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+.error-message, .info-message {
+  margin: 4px 45px 0px;
+  display: list-item;
+  list-style-type: disc;
+}
