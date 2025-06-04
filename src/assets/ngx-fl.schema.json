@@ -341,9 +341,7 @@
         "showFields": [
           {
             "field": "system",
-            "nolabel": true,
-            "valueSetUrl": "https://aphp.fr/ig/fhir/eds/ValueSet/aphp-eds-name-space-vs",
-            "showOnlyDisplay": true
+            "nolabel": true
           },
           {
             "field": "value",
@@ -953,14 +951,7 @@
     "__$useContext": {
       "description": "Use Context",
       "type": "string",
-      "title": "Use context",
-      "widget": {
-        "id": "use-context",
-        "valueSetUrl": "https://aphp.fr/ig/fhir/eds/ValueSet/aphp-eds-domain-usage-context-vs",
-        "labelPosition": "left",
-        "labelClasses": "col-2 ps-0 pe-1",
-        "controlClasses": "col-10 p-0"
-      }
+      "title": "Use context"
     },
     "jurisdiction": {
       "description": "A legal or geographic region in which the questionnaire is intended to be used.",
