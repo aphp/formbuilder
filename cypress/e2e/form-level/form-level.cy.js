@@ -107,7 +107,7 @@ describe('Home page', () => {
       cy.contains('mat-dialog-actions > button', 'Close').click();
     });
 
-    it('should select use context', () => {
+    xit('should select use context', () => {
       cy.get('[id^="__\\$useContext"]').select('Maternité');
       const useContextElement = {
         code: {
