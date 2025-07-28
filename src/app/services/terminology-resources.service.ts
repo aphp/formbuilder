@@ -44,7 +44,7 @@ export class TerminologyResourcesService {
       valueSet.id = `${Util.sanitizeString(codeSystemConcept.code)}`;
       valueSet.name = valueSet.id;
       valueSet.title = codeSystemConcept.display;
-      valueSet.description = 'ValueSet généré avec le FormBuilder';
+      valueSet.description = 'ValueSet generated with AP-HP FormBuilder';
       valueSet.url = Util.buildUrl(fhirIg, 'ValueSet', valueSet.id);
       if (useContext) {
         valueSet.useContext = useContext;

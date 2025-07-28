@@ -56,6 +56,12 @@
           <mat-icon class="menuIcon">help</mat-icon>
         </button>
       </div>
+      <div class="btn-group-sm me-2" role="group" aria-label="Help" aria-label="Help">
+        <button type="button" class="btn btn-secondary menuButton" matTooltip="Report an issue"
+                (click)="reportBug()">
+          <mat-icon class="menuIcon">bug_report</mat-icon>
+        </button>
+      </div>
       <div class="btn-group-sm me-2" role="group" aria-label="Close editor">
         <button id="closeBtn" type="button" matTooltip="Close" class="btn btn-secondary menuButton" (click)="close()">
           <mat-icon class="menuIcon">close</mat-icon>
