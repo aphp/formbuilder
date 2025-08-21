@@ -3,7 +3,7 @@ name: Build, Test, and Deploy Angular App
 on:
   push:
     branches:
-      - release-1.0.0
+      - main
   workflow_dispatch:
 
 permissions:
