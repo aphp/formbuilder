@@ -11,7 +11,7 @@ import {environment} from '../../environments/environment';
   template: `
     <div role="contentinfo" id="fine-print">
       <div class="m-2">
-        <a href="/" target="_blank" rel="noopener noreferrer"><img width="300" src="../../assets/images/aphpLogo.svg"
+        <a href="/" target="_blank" rel="noopener noreferrer"><img width="300" src="assets/images/aphpLogo.svg"
                                         alt="Assistance publique Hôpitaux de Paris"></a>
       </div>
 

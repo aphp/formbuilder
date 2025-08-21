@@ -41,11 +41,11 @@ export class HeaderComponent implements OnInit {
               private sanitizer: DomSanitizer) {
     // Register our icon(s)
     this.iconRegistry.addSvgIcon('logo-formbuilder',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/images/logo.svg'));
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo.svg'));
     this.iconRegistry.addSvgIcon('logo-aphp',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/images/aphpLogo.svg'));
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/aphpLogo.svg'));
     this.iconRegistry.addSvgIcon('import-file',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/images/import-file-icon.svg'));
+      this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/import-file-icon.svg'));
   }
 
   ngOnInit(): void {

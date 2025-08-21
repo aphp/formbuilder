@@ -645,7 +645,7 @@ export class Util {
   }
 
   static setQuestionnaireVariableAndLaunchContextItems(questionnaire) {
-    const exts = questionnaire.extension;
+    const exts = questionnaire?.extension;
     if (Util.isIterable(exts)) {
       const variableValue = [];
       const launchCtxValue = [];
