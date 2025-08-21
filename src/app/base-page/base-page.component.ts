@@ -506,6 +506,11 @@ export class BasePageComponent implements OnInit {
     }
   }
 
+  reportBug() {
+    const url = 'https://github.com/aphp/formbuilder/issues/new';
+    window.open(url, '_blank');
+  }
+
   /**
    * Compare if a stored form is equal to default form.
    */
