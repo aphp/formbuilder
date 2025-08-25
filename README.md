@@ -1,3 +1,13 @@
+## What is AP-HP FormBuilder?
+
+The AP-HP FormBuilder is an open source web application that allows the creation/edition of forms. It was forked from [NLM Form Builder](https://github.com/LHNCBC/formbuilder-lhcforms/tree/master) but embeds some advanced features to manage lists of answer.
+
+The FormBuilder does not allow form filling but provide standardized FHIR (R4) files that can be loaded in any FHIR server and used by any FHIR form filler.
+
+## Demo
+
+A demo environment for the application is available on GitHub at: https://aphp.github.io/formbuilder/
+
 ## 🛠 Installation
 
 ### Quick Start (For Non-Technical Users)
