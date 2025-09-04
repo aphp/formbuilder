@@ -48,20 +48,10 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Advanced search</mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="m-0 mb-2 row align-items-center">
+        <div class="m-0 mb-2 row align-items-center statusList">
           <label for="searchField1" class="p-0 me-2  col-auto col-form-label text-nowrap">Status: </label>
           <ngx-bootstrap-multiselect class="col w-auto" id="searchField1"
                                      [options]="statusList" [(ngModel)]="status" [ngModelOptions]="{standalone: true}" ></ngx-bootstrap-multiselect>
-        </div>
-        <div class="m-0 mb-2 align-items-center userContextContainer">
-          <mat-checkbox [(ngModel)]="isShared" [ngModelOptions]="{standalone: true}" color="primary">dans les valueset
-            <b>Commun</b>
-          </mat-checkbox>
-          <mat-checkbox *ngIf="useContextCheckBoxLabel && (useContextCheckBoxLabel !== 'Commun') "
-                        [(ngModel)]="useContext" [ngModelOptions]="{standalone: true}"
-                        color="primary">dans les valueset <b>{{ useContextCheckBoxLabel }}</b>
-          </mat-checkbox>
-
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -93,14 +83,6 @@
               <div *ngIf="vs.title"><span>Title: </span> {{ vs.title }}</div>
               <div *ngIf="!vs.title">(No title assigned)</div>
               <div>Status: {{ vs.status }}</div>
-              <div *ngIf="vs.useContext && vs.useContext.length > 0" style="display: flex">
-                <span class="useContextLabel">Use context: </span>
-                <mat-chip-listbox aria-label="User context">
-                  <mat-chip-option *ngFor="let usageContext of vs.useContext">
-                    {{ this.getUsageContextLabel(usageContext) }}
-                  </mat-chip-option>
-                </mat-chip-listbox>
-              </div>
               <div *ngIf="vs.meta && vs.meta.lastUpdated">Last updated: {{ vs.meta.lastUpdated | date: 'medium' }}</div>
             </div>
           </div>

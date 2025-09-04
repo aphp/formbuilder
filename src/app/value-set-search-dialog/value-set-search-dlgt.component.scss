@@ -5,14 +5,8 @@
 .result-item:hover {
   background-color: lightgrey;
 }
-
-.useContextLabel {
-  align-content: center;
-  padding-right: 12px;
-}
-
-.userContextContainer {
-  display: grid;
+.statusList{
+  min-height: 100px;
 }
 
 .searchFieldContainer {
