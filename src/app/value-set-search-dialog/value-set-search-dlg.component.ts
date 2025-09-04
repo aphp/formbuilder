@@ -13,9 +13,6 @@ interface State {
   searchTerm: string;
   searchField: string;
   status: IMultiSelectOption [];
-  isShared: boolean;
-  useContext: boolean;
-  contained: boolean;
   fhirServer: FHIRServer;
 }
 
@@ -41,8 +38,6 @@ export class ValueSetSearchDlgComponent implements OnInit {
   panelOpenState = false;
 
   questionnaireUseContext: UsageContext [];
-  useContextCheckBoxLabel = '';
-  sharedContextTypeValue = 'shared';
 
   /**
    * Define a structure to associate search parameters on the page.
@@ -52,9 +47,6 @@ export class ValueSetSearchDlgComponent implements OnInit {
     searchTerm: '',
     searchField: 'title:contains',
     status: [],
-    isShared: false,
-    useContext: true,
-    contained: false,
     fhirServer: this.fhirService.getFhirServer()
   };
 
@@ -153,29 +145,6 @@ export class ValueSetSearchDlgComponent implements OnInit {
     this._set({status});
   }
 
-  get isShared() {
-    return this._state.isShared;
-  }
-
-  set isShared(isShared: boolean) {
-    this._set({isShared});
-  }
-
-  get useContext() {
-    return this._state.useContext;
-  }
-
-  set useContext(useContext: boolean) {
-    this._set({useContext});
-  }
-
-  get contained() {
-    return this._state.contained;
-  }
-
-  set contained(contained: boolean) {
-    this._set({contained});
-  }
 
   /**
    * Set partial properties of search state.
@@ -198,20 +167,7 @@ export class ValueSetSearchDlgComponent implements OnInit {
         othersParams = {...othersParams, status}
       }
     }
-    if (this.isShared) {
-      othersParams = {...othersParams, 'context-type-value': this.sharedContextTypeValue};
-    }
-    const contextTypeValue = this.getUsageContextLabelFromCurrentQuestionnaire();
-    if (this.useContext && contextTypeValue && contextTypeValue !== this.sharedContextTypeValue) {
-      if (this.isShared) {
-        othersParams = {...othersParams, 'context-type-value': this.sharedContextTypeValue + ',' + contextTypeValue}
-      } else {
-        othersParams = {...othersParams, 'context-type-value': contextTypeValue}
-      }
-    }
-    if (this.contained) {
-      othersParams = {...othersParams, _contained: 'true', _containedType: 'contained '}
-    }
+
     return this.fhirService.search('ValueSet', this.searchTerm, this.searchField, othersParams);
   }
 
@@ -222,8 +178,6 @@ export class ValueSetSearchDlgComponent implements OnInit {
       {id: 'retired', name: 'Retired'},
       {id: 'unknown', name: 'Unknown'}
     ];
-    this.useContextCheckBoxLabel = this.getUsageContextLabelFromCurrentQuestionnaire(false);
-    this._state.isShared = this.useContextCheckBoxLabel === 'Commun';
     this.searchTerm = this.inputTerm;
     this._search$.next();
   }
@@ -286,66 +240,6 @@ export class ValueSetSearchDlgComponent implements OnInit {
    */
   close(value: any): void {
     this.activeModal.close(value);
-  }
-
-
-  getUsageContextLabel(usageContext: UsageContext) {
-    if (!usageContext) {
-      return '';
-    }
-    if (usageContext.valueRange) {
-      return usageContext.valueRange.low + ' - ' + usageContext.valueRange.high;
-    }
-    if (usageContext.valueReference) {
-      return usageContext.valueReference.display;
-    }
-    if (usageContext.valueQuantity) {
-      return usageContext.valueQuantity.value;
-    }
-    if (usageContext.valueCodeableConcept && usageContext.valueCodeableConcept.coding) {
-      const result = [];
-      usageContext.valueCodeableConcept?.coding?.forEach(value => result.push(value.display ? value.display : value.code));
-      return result.join(' - ');
-    }
-  }
-
-  getUsageContextCode(usageContext: UsageContext) {
-    if (!usageContext) {
-      return '';
-    }
-    if (usageContext.valueRange) {
-      return usageContext.valueRange.low + ' - ' + usageContext.valueRange.high;
-    }
-    if (usageContext.valueReference) {
-      return usageContext.valueReference.display;
-    }
-    if (usageContext.valueQuantity) {
-      return usageContext.valueQuantity.value;
-    }
-    if (usageContext.valueCodeableConcept && usageContext.valueCodeableConcept.coding) {
-      const result = [];
-      usageContext.valueCodeableConcept?.coding?.forEach(value => result.push(value.code));
-      return result.join(',');
-    }
-  }
-
-  getUsageContextLabelFromCurrentQuestionnaire(searchForCode = true) {
-    let result = '';
-    if (!this.questionnaireUseContext || this.questionnaireUseContext.length === 0) {
-      return result;
-    }
-    let index = 0;
-    for (const value of this.questionnaireUseContext) {
-      const usageContextLabel = searchForCode ? this.getUsageContextCode(value) : this.getUsageContextLabel(value);
-      if (usageContextLabel) {
-        result += usageContextLabel;
-        if (index < this.questionnaireUseContext.length - 1) {
-          result += ',';
-        }
-      }
-      index++;
-    }
-    return result;
   }
 
 }

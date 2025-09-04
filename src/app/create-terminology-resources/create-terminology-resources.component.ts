@@ -226,22 +226,29 @@ export class CreateTerminologyResourcesComponent {
     this.stepper.next();
   }
 
-  async exportToFiles() {
+  async exportToFiles(): Promise<void> {
     this.verifyFormat();
+
     if (this.errorMessages?.length > 0 || !this.resourceFormGroup?.valid) {
       return;
     }
 
-    this.codeSystem = await this.createCodeSystem();
-    this.saveToFile(JSON.stringify(this.codeSystem), `${this.codeSystem.name}-cs`)
-    const delay = 100;
-    if (this.firstFormGroup.value.onlyCodeSystem === 'false') {
-      const valueSets = this.createOrFetchValueSets();
-      valueSets.forEach((vs, index) => {
-        setTimeout(() => {
-          this.saveToFile(JSON.stringify(vs), `${index}-${vs.name}-vs`);
-        }, index * delay);
-      })
+    try {
+      this.codeSystem = await this.createCodeSystem();
+      await this.saveToFile(JSON.stringify(this.codeSystem), `${this.codeSystem.name}-cs`);
+
+      const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+      if (this.firstFormGroup.value.onlyCodeSystem === 'false') {
+        const valueSets = this.createOrFetchValueSets();
+        for (let i = 0; i < valueSets.length; i++) {
+          const vs = valueSets[i];
+          await delay(200);
+          await this.saveToFile(JSON.stringify(vs), `${i}-${vs.name}-vs`);
+        }
+      }
+    } catch (error) {
+      console.error('Export failed:', error);
     }
   }
 

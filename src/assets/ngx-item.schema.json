@@ -1564,7 +1564,6 @@
         "labelClasses": "col-2 ps-0 pe-1",
         "controlClasses": "col-10 ",
         "addButtonLabel": "Add another answer",
-        "createValueSetButtonLabel": "Generate the corresponding ValueSet",
         "rowSelection": true,
         "multipleSelectionEnableSource": "repeats",
         "tableCss": "with-scroll",
