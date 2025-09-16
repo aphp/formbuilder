@@ -31,8 +31,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Angular app
-        run: npm run build -- --configuration production --base-href /formbuilder/
+      - name: Build Angular app (with retry)
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 30
+          command: npm run build -- --configuration production --base-href /formbuilder/
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
